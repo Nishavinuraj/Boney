@@ -1,0 +1,179 @@
+<div class="container">
+  <form [formGroup]="tmForm">
+    <div class="card">
+      <div class="card-header">Add Tyre Master</div>
+      <div class="card-body">
+        <div class="form-group row">
+        <div class="mt-3">
+          <div class="form-group row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="required">Tyre No</label>
+                <input type="text" class="form-control" formControlName="tyre_no" />
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <label class="required">Purchase Type</label>
+              <select class="form-control" formControlName="purchase_type" >
+                <option value="">Please Select</option>
+                <option value="New Vehicle">New Vehicle</option>
+                <option value="Dealer Purchased">Dealer Purchased</option>
+                <option value="Retread">Retread</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label>Bill Date</label>
+              <div class="input-group">
+                <input type="text" #bd="bsDatepicker" [bsConfig]="{ containerClass: 'theme-blue', 'dateInputFormat': 'DD-MM-YYYY', 'showWeekNumbers': false, 'minDate': currentDate }" bsDatepicker formControlName="bill_date"
+                  class="form-control">
+                <div class="input-group-prepend" (click)="bd.toggle()">
+                  <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </div>
+
+    
+            <div class="col-md-3">
+              <label class="required">Vendor</label>
+              <ng-select [items]="vendor_option" placeholder="Type and search vendor" bindLabel="name" bindValue="name"
+                formControlName="dealer_name">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Price</label>
+                <input type="number" class="form-control" formControlName="price" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Tyre Type</label>
+              <select class="form-control" formControlName="tyre_type" >
+                <option value="">Please Select</option>
+                <option value="New Nylon">New Nylon</option>
+                <option value="New Radial">New Radial</option>
+                <option value="Retread Nylon">Retread Nylon</option>
+                <option value="Retread Radial">Retread Radial</option>
+                <option value="Khol">Khol</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Tyre Size</label>
+              <select class="form-control" formControlName="tyre_size" >
+                <option value="">Tyre Size</option>
+                <option value="1000 x 20">1000 x 20</option>
+                <option value="8.25 x 20">8.25 x 20</option>
+                <option value="11.00 x 20">11.00 x 20</option>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <label class="required">Date of Fitment</label>
+              <div class="input-group">
+                <input type="text" #dof="bsDatepicker" [bsConfig]="{ containerClass: 'theme-blue', 'dateInputFormat': 'DD-MM-YYYY', 'showWeekNumbers': false, 'minDate': currentDate }" bsDatepicker formControlName="date_of_fitment"
+                  class="form-control">
+                <div class="input-group-prepend" (click)="dof.toggle()">
+                  <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </div>
+
+           <!-- <div class="col-md-3"> -->
+            <!-- <div class="col-md-3">
+              <label class="required">Date of Fitment</label>
+              <div class="form-inline">
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="dp"
+                    formControlName="date_of_fitment"
+                    ngbDatepicker
+                    #d2="ngbDatepicker"
+                  />
+                  <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div> -->
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Fitment Km</label>
+                <input type="number" class="form-control" formControlName="fitment_km" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Truck No</label>
+              <ng-select [items]="truckno_option" placeholder="Type and search Truck No" bindLabel="truckno" bindValue="truckno"
+                formControlName="vehicle_no">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Tyre Position</label>
+              <ng-select [items]="tyrepositions_option" placeholder="Tyre Position" bindLabel="positionname" bindValue="positionname"
+                formControlName="tyreposition">
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Company Name</label>
+              <ng-select  [items]="companyname_option" placeholder="Company Name" bindLabel="coname" bindValue="coname"
+                formControlName="company_name"  >
+              </ng-select>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Brand</label>
+              <ng-select [items]="brand_option" placeholder="Brand" bindLabel="brand" bindValue="brand"
+                formControlName="brand">
+            </ng-select>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label class="required">NSD</label>
+                <input type="text" class="form-control" formControlName="nsd" disabled/>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>RTD</label>
+                <input type="text" class="form-control" formControlName="rtd" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="required">Tyre Status</label>
+              <select class="form-control" formControlName="tyrestatus" >
+                <option value="">Please Select</option>
+                <option value="Vehicle Running">Vehicle Running</option>
+                <option value="Scrap">Scrap</option>
+                <option value="Remold">Remold</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label>Remold / Scrap Date</label>
+              <div class="input-group">
+                <input type="text" #rs="bsDatepicker" [bsConfig]="{ containerClass: 'theme-blue', 'dateInputFormat': 'DD-MM-YYYY', 'showWeekNumbers': false, 'minDate': currentDate }" bsDatepicker formControlName="rs_date"
+                  class="form-control">
+                <div class="input-group-prepend" (click)="rs.toggle()">
+                  <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Tyre Remove KM </label>
+                <input type="number" class="form-control" formControlName="removekm" />
+              </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveitems()" [disabled]="!tmForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>

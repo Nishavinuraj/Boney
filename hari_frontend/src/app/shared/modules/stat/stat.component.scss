@@ -1,0 +1,9 @@
+.d-label {font-weight: 900}
+.huge {font-size: 30px; font-weight: 100}
+.medium-huge {font-size: 25px; font-weight: 100}
+
+@media screen and (max-width: 992px) {
+    .mg-top-10 {
+        margin-top: 10px;
+    }
+}

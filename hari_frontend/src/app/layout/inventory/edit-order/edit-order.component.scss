@@ -1,0 +1,23 @@
+table {
+    overflow-x: scroll;
+    width: 100%;
+    display: block;
+    select {
+        width: 150px
+    }
+    .qty {
+        width: 70px
+    }
+    .price{
+        width: 120px
+    }
+    .discount{
+        width: 70px
+    }
+    .total{
+        width: 170px
+    }
+  }
+  ::ng-deep .ng-dropdown-panel {
+    margin-top : 40px !important;
+}

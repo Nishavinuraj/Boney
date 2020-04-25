@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      Truck Observation And Recommendation
+      <button class="btn btn-primary float-right" (click)="gotoEdit()"  type="button">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="form-group row">
+       <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">TruckNo</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.truck_no}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Date</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.idate | date}}</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Km Reading</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.km_reading}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">Material Receipt items</div>
+            <div class="card-body">
+              <div style="width: 100%; display: table;">
+                <div style="display: table-row">
+                    <div style="width: 50%; display: table-cell;"> 
+                      <table class="table table-bordered">
+                        <tr>
+                          <th>Observations</th>
+                        </tr>
+                        <tr *ngFor="let o of tiDetails.observations"> 
+                          <td>
+                              {{o}}
+                          </td>
+                        </tr>
+                      </table>
+                    
+                    </div>
+                    <div style="width: 50%; display: table-cell;"> 
+                      <table class="table table-bordered">
+                        <tr>
+                          <th>Recommendations</th>
+                        </tr>
+                        <tr *ngFor="let r of tiDetails.recommendations"> 
+                          <td>
+                            {{r}}
+                          </td>
+                        </tr>
+                      </table>     
+                    </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group row mt-3">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Narration</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.narration}}</label>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Net Amt(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.net_amount}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Rounded off(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.rounded_off}}</label>
+          </div>
+        </div>
+      </div> -->
+      <!-- <div class="form-group row">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Round of Type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.round_off_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Total(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{tiDetails?.total_amount}}</label>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>

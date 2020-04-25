@@ -1,0 +1,301 @@
+<div class="container">
+  <form [formGroup]="vmForm">
+    <div class="card">
+      <div class="card-header">Add Vehicle Master</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+              <ngb-tabset>
+                <ngb-tab title="Data Entry">
+                  <ng-template ngbTabContent>
+                    <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h4><i class="fa fa-truck"></i> Vehicle Master</h4>
+                          <hr />
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required" >Vehicle Type</label>
+                          <select class="form-control manual-entry" formControlName="vtype">
+                            <option value="Attached">Attached</option>
+                            <option value="Company">Company</option>
+                          </select>
+                        </div>
+                       
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="required">Vehicle No</label>
+                            <input type="text" formControlName="truckno"  class="form-control manual-entry" placeholder="Truck No">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label  class="required">SPI</label>
+                            <input type="text" formControlName="spi" class="form-control manual-entry" placeholder="SPI">
+                          </div>
+                        </div>
+
+                        <div class="col-md-4">
+                          <label>Traffic Agent Name</label>
+                          <ng-select [items]="ta_options" placeholder="Type and search Consignee" bindLabel="name" bindValue="name"
+                            formControlName="taname" class="manual-entry">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-4">
+                          <label>Driver Name</label>
+                          <ng-select [items]="driver_options" placeholder="Type and search Consignee" bindLabel="name" bindValue="name"
+                            formControlName="drivername" class="manual-entry">
+                          </ng-select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                          <label class="required">GPS</label>
+                          <select class="form-control manual-entry" formControlName="gps">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required">Status</label>
+                          <select class="form-control manual-entry" formControlName="status">
+                            <option value="Active">Active</option>
+                            <option value="Not-Active">Non-Active</option>
+                          </select>
+                        </div>
+
+
+                      </div>
+
+                  </ng-template>
+                </ngb-tab>
+                  
+                  <ngb-tab title="Owner Details">
+                    <ng-template ngbTabContent>
+                      <br>
+
+                      <div class="row">
+                        <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                  <label class="required">Owner Name</label>
+                                  <input type="text" formControlName="ownername" class="form-control manual-entry" placeholder="Owner Name">
+                                </div>
+                              </div>
+
+
+                              <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" formControlName="newaddress" class="form-control manual-entry" placeholder="Address">
+                                  </div>
+                                </div>
+  
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Pan Number</label>
+                                    <input type="text" formControlName="newpan" class="form-control manual-entry" placeholder="Pan Number">
+                                  </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Aadhar Card No.</label>
+                                    <input type="text" formControlName="newaadhar" class="form-control manual-entry" placeholder="Aadhar Card Number">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Owner Mobile No.</label>
+                                    <input type="text" formControlName="newmobile" class="form-control manual-entry" placeholder="Mobile No.">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Contact Person</label>
+                                    <input type="text" formControlName="newcontactp" class="form-control manual-entry" placeholder="Contact Person">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Contact Person Mobile No</label>
+                                    <input type="text" formControlName="newcmobile" class="form-control manual-entry" placeholder="Mobile No">
+                                  </div>
+                                </div>
+
+                              </div> 
+                            </div>
+                          <hr>
+                        </div>
+                        <br>
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Vehicle Details">
+                    <ng-template ngbTabContent>
+                      <br>
+                      <div class="row">
+                        <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Vehicle Specifications</h4>
+                              <hr />
+                            </div>
+    
+                            <div class="row">
+
+                              <div class="col-md-4">
+                                <label class="required">Tyre</label>
+                                <ng-select [items]="tyre_options" placeholder="Type and search Consignee" bindLabel="name" bindValue="name"
+                                  formControlName="type" class="manual-entry">
+                                </ng-select>
+                              </div>
+              
+                 
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label class="required">Carrying Capacity</label>
+                                  <input type="text" formControlName="newcarring" class="form-control manual-entry" placeholder="CC">
+                                </div>
+                              </div>
+        
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Engine No</label>
+                                  <input type="text" formControlName="newengine" class="form-control manual-entry" placeholder="Engine No">
+                                </div>
+                              </div>
+
+
+                              <div class="col-md-3">
+                                <label class="required">Engine Type</label>
+                                <select class="form-control manual-entry" formControlName="enginetype">
+                                  <option value="">Engine Type</option>
+                                  <option value="BS III">BS III</option>
+                                  <option value="BS IV">BS IV</option>
+                                  <option value="BS V">BS V</option>
+                                  <option value="BS VI">BS VI</option>
+                                </select>
+                              </div>
+      
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Chasis No</label>
+                                  <input type="text" formControlName="newchasis" class="form-control manual-entry" placeholder="Chasis No">
+                                </div>
+                              </div>
+
+                              <div class="col-md-12">
+                                <h4><i class="fa fa-truck"></i> Purchase and Sales Date Details</h4>
+                                <hr />
+                              </div>
+  
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Purchase Date</label>
+                                  <div class="input-group datepicker-input">
+                                    <input
+                                      class="form-control manual-entry"
+                                      placeholder="dd/mm/yyyy"
+                                      formControlName="purchasedate"
+                                      name="dp"
+                                      ngbDatepicker
+                                      #dd="ngbDatepicker"
+                                    />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Sales Date</label>
+                                  <div class="input-group datepicker-input">
+                                    <input
+                                      class="form-control manual-entry"
+                                      placeholder="dd/mm/yyyy"
+                                      formControlName="salesdate"
+                                      name="dp"
+                                      ngbDatepicker
+                                      #dds="ngbDatepicker"
+                                    />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary calendar" (click)="dds.toggle()" type="button">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                            </div>
+
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Commission Details</h4>
+                              <hr />
+                            </div>
+                            <div class="row">
+                              <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <label >Commission to be Charged</label>
+                                      <select class="form-control manual-entry" formControlName="newcommision">
+                                        <option value="">Select Commission Type</option>
+                                        <option value="Percentage">Percentage</option>
+                                        <option value="Weight">Weight</option>
+                                      </select>
+                                    </div>
+      
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Rates</label>
+                                        <input type="number" formControlName="newrates" class="form-control manual-entry" placeholder="Rates">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Payment Charge</label>
+                                        <input type="number" formControlName="newpaymentcharge" class="form-control manual-entry" placeholder="Payment Charge">
+                                      </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Billty Charge</label>
+                                        <input type="number" formControlName="newbilltycharge" class="form-control manual-entry" placeholder="Billty Charge">
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                <hr>
+                              </div>
+                            </div>
+                            <br>
+                          <hr>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+        
+                </ngb-tabset>
+          </div>
+        </div>
+ 
+        </div>
+      </div>
+      <div class="card-footer">
+<!--         [disabled]="!vmForm.valid || process == 'saving'"
+ -->        <button class="btn btn-success float-right" [disabled]="!vmForm.valid || process == 'saving'" (click)="save()"  type="button">
+          Save <i *ngIf="process == 'saving'"  class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+  </form>
+</div>

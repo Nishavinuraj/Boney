@@ -1,0 +1,21 @@
+<div class="container">
+  <form [formGroup]="itemsForm">
+    <div class="card">
+      <div class="card-header">Add Job Work Master</div>
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="col-md-8">
+            <label class="required">Job Work Name</label>
+            <input type="text" formControlName="jobworkname" class="form-control manual-entry"
+              placeholder="Job Work Name">
+          </div>
+        </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveitems()" [disabled]="!itemsForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>

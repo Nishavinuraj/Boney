@@ -1,0 +1,159 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      View Material Receipt`
+      <button class="btn btn-primary float-right" (click)="gotoEdit()"  type="button">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="form-group row">
+       <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Site</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.site}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">MR type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.mr_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Mr no</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.mr_number}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Mr date</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.mr_date | date}}</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Vendor</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.vendor}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Department</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.department}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Invoice No</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.invno}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Invoice Date</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.invdate}}</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Godown</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.godown}}</label>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Receipt type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.rec_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Po No. / Job No.</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.pjno}}</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">Material Receipt items</div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th>Item</th>
+                  <th>Unit</th>
+                  <th>Qty</th>
+                  <th>Price(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                  <th>Dis(%)</th>
+                  <th>CGST(%)</th>
+                  <th>SGST(%)</th>
+                  <th>IGST(%)</th>
+                  <th>Amount(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                </tr>
+                <tr *ngFor="let items of mrDetails.materialr_items; let i=index">
+                  <td>{{items?.name}}</td>
+                  <td>{{items?.unit}}</td>
+                  <td>{{items?.qty}}</td>
+                  <td>{{items?.price}}</td>
+                  <td>{{items?.discount}}</td>
+                  <td>{{items?.cgst}}</td>
+                  <td>{{items?.sgst}}</td>
+                  <td>{{items?.igst}}</td>
+                  <td>{{items?.total}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mt-3">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Narration</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.narration}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Net Amt(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.net_amount}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Rounded off(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.rounded_off}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Round of Type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.round_off_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Total(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{mrDetails?.total_amount}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

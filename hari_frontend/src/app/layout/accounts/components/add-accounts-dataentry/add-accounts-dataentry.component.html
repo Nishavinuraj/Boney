@@ -1,0 +1,124 @@
+<div class="container">
+  <form [formGroup]="adeForm">
+    <div class="card">
+      <div class="card-header">Accounts Data Entry</div>
+      <div class="card-body">
+        <div class="form-group row">
+
+          <!-- <div class="col-lg-3 col-md-3"> -->
+          <div class="col-md-3">
+            <label class="required">Site</label>
+          <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+            formControlName="site">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Voucher type</label>
+          <select class="form-control" formControlName="ade_type" (change)="generateAdeNumber()">
+            <option value="">Select type</option>
+            <option value="Receipt">Receipt</option>
+            <option value="Payment">Payment</option>
+            <option value="Contra">Contra</option>
+            <option value="Journal">Journal</option>
+            <option value="Debit Note">Debit Note</option>
+            <option value="Credit Note">Credit Note</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Voucher no</label>
+          <input disabled type="text" formControlName="ade_number" class="form-control" placeholder="">
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Voucher date</label>
+          <div class="input-group datepicker-input">
+            <input
+              class="form-control"
+              placeholder="dd-mm-yyyy"
+              name="dp2"
+              formControlName="ade_date"
+              ngbDatepicker
+              #d2="ngbDatepicker" 
+              [minDate]="minDate" 
+              required
+            />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Payment type</label>
+          <select class="form-control" formControlName="payment_type">
+            <option value="">Select type</option>
+            <option value="Bank to Bank">Bank to Bank</option>
+            <option value="Cash">Cash</option>
+            <option value="Cheque">Cheque</option>
+            <option value="Credit">Credit</option>
+            <option value="Imps">Imps</option>
+            <option value="Internal Transfer">Internal Transfer</option>
+            <option value="Neft">Neft</option>
+            <option value="Rtgs">Rtgs</option>
+          </select>
+        </div>
+ 
+        <div class="col-md-3">
+          <label class="required">Against</label>
+          <select class="form-control" formControlName="against">
+            <option value="">Select type</option>
+            <option value="Document">Document</option>
+            <option value="Investment">Investment</option>
+            <option value="Maintenance">Maintenance</option>
+            <option value="Salary">Salary</option>
+            <option value="Site Advance">Site Advance</option>
+            <option value="Tyre">Tyre</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Department</label>
+          <ng-select [items]="dept_option" placeholder="Type and search Department" bindLabel="deptname" bindValue="deptname"
+            formControlName="department">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Debit Account Name</label>
+          <ng-select [items]="draccname_option" placeholder="Type and search Account" bindLabel="accountname" bindValue="accountname"
+            formControlName="draccount_name">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Credit Account Name</label>
+          <ng-select [items]="craccname_option" placeholder="Type and search Account" bindLabel="accountname" bindValue="accountname"
+            formControlName="craccount_name">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+          <label class="required">Amount</label>
+          <input type="number" formControlName="amount" class="form-control" placeholder="Amount">
+        </div>
+        
+        <div class="col-lg-6 col-md-6">
+          <label>Remarks</label>
+          <input type="text" formControlName="remarks" class="form-control" placeholder="Remarks">
+        </div>
+
+      </div>
+
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="save()" [disabled]="!adeForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-md-12">
+          <h4><i class="fa fa-truck"></i> Import Site Truck Expenses</h4>
+          <hr />
+        </div>
+        <div class="col-md-2 pull-right">
+            <label>Choose file to import</label>
+            <br>
+          <input type="file" accept=".xlsx, .xls, .csv" class="inputfile" name="file1" id="file1"
+              multiple (change)="onSelectCSV($event)">
+            <label class="btn btn-success" for="file1"><i class="fa fa-file" aria-hidden="true"></i>
+              Select file</label>
+              {{file ? file.name : ''}}
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Site</label>
+            <select formControlName="site" class="form-control">
+              <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                {{ s.branch_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Status</label>
+            <select formControlName="status" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Non Active">Non Active</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-1 pull-right">
+          <label>Import</label>
+          <button [disabled]="shown" (click)="startImport()" class="btn btn-primary"><i class="fa fa-get-pocket" aria-hidden="true"></i> Import</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Loader -->
+<div class="showbox" [hidden]="!shown">
+  <div class="loader">
+    <svg class="circular" viewBox="25 25 50 50">
+      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+    </svg>
+  </div>
+</div>

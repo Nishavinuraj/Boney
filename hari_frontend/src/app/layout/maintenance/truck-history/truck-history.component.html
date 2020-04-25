@@ -1,0 +1,73 @@
+
+
+<div class="card">
+    <div class="card-header">
+      <strong>Truck History</strong>
+    </div>
+    <br>
+    <b>&nbsp;Truck NO : #{{ truckno }}</b>
+    <br>
+    <div class="animated fadeIn">
+      <div class="row">
+        <div class="col-lg">
+          <div class="card">
+              <div class="card-body">
+                  <!-- tableFixHead mytable -->
+                  <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Job No</th>
+                          <th width="15%">Date</th>
+                          <th>Sr No</th>
+                          <th>KM Reading</th>
+                          <th>Work Be Done</th>
+                          <th>Remarks</th>
+                          <th>Qty</th>
+                          <th>Scrap Qty</th>
+                          <th>Next Due KM</th>
+                          <th>Rate</th>
+                          <th>GST</th>
+                          <th>Amount</th>
+                          <th>Vendor Name</th>
+                        
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor= "let truck of truckHistory; let i = index">
+                            <!-- <a [routerLink]="['/admin-privileges/plants-rate-multiple-destination', truck.site]"> -->
+                          <td>{{truck.jobno ? truck.jobno : '--'}}</td>
+                          <td>{{truck.date ? truck.date : '--'}}</td>
+                          <td>{{truck.srno ? truck.srno : '--'}}</td>
+                          <td>{{truck.km_reading ? truck.km_reading : '--'}}</td>
+                          <td>{{truck.work_be_done ? truck.work_be_done : '--'}}</td>
+                          <td>{{truck.remarks ? truck.remarks : '--'}}</td>
+                          <td>{{truck.qty ? truck.qty : '--'}}</td>
+                          <td>{{truck.scrap_qty ? truck.scrap_qty : '--'}}</td>
+                          <td>{{truck.next_due_km ? truck.next_due_km : '--'}}</td>
+                          <td>{{truck.rate ? truck.rate : '--'}}</td>
+                          <td>{{truck.gst ? truck.gst : '--'}}</td>
+                          <td>{{truck.amount ? truck.amount : '--'}}</td>
+                          <td>{{truck.vendor_name ? truck.vendor_name : '--'}}</td>
+
+
+
+                          <!-- <td><button class="btn btn-primary" (click)="edit(user)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>&nbsp;</td>
+                          <td>
+                            <button class="btn btn-danger" (click)="delete(user, i)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                          </td> -->
+                        </tr>
+                      </tbody>
+                      <tbody>
+                          <tr>
+                              <td [colSpan]=10></td>
+                              <td><b>Total</b></td>
+                              <td>{{ total_amount ? total_amount : "0" }}</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>

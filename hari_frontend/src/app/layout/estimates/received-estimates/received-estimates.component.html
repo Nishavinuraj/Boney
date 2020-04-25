@@ -1,0 +1,194 @@
+<div>
+    <div class="row">
+      <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+          <div class="row">
+              <div class="col-md-12">
+                <h4><i class="fa fa-book"></i> Received Estimates From Vendor</h4>
+                <p class="text-muted"></p>
+                <hr />
+              </div></div>
+        <!-- <form [formGroup]="filterForm">
+          
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Expiry Date (From:) </label>
+                <div class="input-group datepicker-input">
+                  <input
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="dp"
+                    formControlName="start_date"
+                    ngbDatepicker
+                    #d="ngbDatepicker"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Expiry Date (Till)</label>
+                <div class="input-group datepicker-input">
+                  <input
+                    class="form-control"
+                    placeholder="dd/mm/yyyy"
+                    name="dp2"
+                    formControlName="end_date"
+                    ngbDatepicker
+                    #d1="ngbDatepicker"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Select Product</label>
+                <select formControlName="site_name" class="form-control">
+                    <option value="">All</option>
+                  <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                    {{ s.branch_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+  
+            
+            <div class="col-md-3">
+              <label class="required">Product</label>
+              <ng-select [items]="items_option" placeholder="Type and search items" bindLabel="itemname" bindValue="itemname"
+                formControlName="item_name">
+              </ng-select>
+            </div>
+  
+  
+            <div class="col-md-4 wrapper-right">
+              <button (click)="fetchReport()" class="btn btn-primary" >
+                <i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch
+              </button>&nbsp;
+              <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+            </div>
+          </div>
+        </form> -->
+  <!--       <hr />
+   -->      
+        <table class="table table-hover table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th class="cell-align">S No</th>
+<!--         <th class="cell-align">Estimate ID</th>
+ -->        <th class="cell-align">Product Name</th>
+        <th class="cell-align">Vendor Name</th>
+        <th class="cell-align">Estimate Rate</th>
+<!--         <th class="cell-align">Remark</th>
+ -->        <th class="cell-align">Estimate Date</th>
+        <th class="cell-align">Received Date</th>
+        <th align="center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="loading">
+        <td colspan="10">
+          <div class="showbox">
+            <div class="loader">
+              <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+              </svg>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let t of estimates; let i = index">
+  
+        <!-- <td *ngIf="t.editing">
+          <input type="text">
+        </td> -->
+  
+        <td class="cell-align">{{ i+1 }}</td>
+        
+<!--         <td  class="cell-align">{{ t.estimateId}}</td>
+ -->        
+        <td class="cell-align">
+          {{t.product}}
+        </td>
+        <td class="cell-align">
+            {{t.vendor}}
+          </td>
+
+          <td class="cell-align">
+              {{t.totalPrice | currency : 'INR' : true : '1.2-2'}}
+            </td>
+        
+        <!-- <td class="cell-align">
+          {{t.remark}}
+        </td> -->
+        <td class="cell-align">
+          {{t.estimateDate | date:'longDate'}}
+        </td>
+        <td class="cell-align">
+          {{t.receivedDate | date:'longDate'}}
+        </td>
+        <td>
+          <button class="btn btn-primary" *ngIf="!estimateInstances.length" (click)="getEstimateDetails(t._id)">View Details</button>&nbsp;&nbsp;
+          <button class="btn btn-primary" *ngIf="estimateInstances.length" (click)="hideDetails()">Hide Details</button>&nbsp;&nbsp;
+
+          <!--           <button  class="btn btn-danger">Reject</button>
+ -->        </td>
+      </tr>
+      <tr *ngIf="loaded && estimates.length === 0">
+          <td align="center" colspan="9">No data available</td>
+      </tr>
+    </tbody>
+  </table></div>
+
+  </div>
+  <div class="row" *ngIf="estimateInstances.length">
+      <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+          <div class="form-group">
+              <table class="table table-bordered">
+                <tr>   
+                    <th>Product</th>                   
+                    <th>Qty</th>  
+                  <th>Amount(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+             </tr>
+                
+                <tr *ngFor="let p of estimateInstances;let i = index;">
+                    <td>
+                        <input type="text" disabled [(ngModel)]="estimateInstances[i].product"
+                         [ngModelOptions]="{standalone: true}"
+                          class="form-control price">
+  
+                      </td>
+                      <td>
+                          <input type="number" min="0" disabled 
+                          [(ngModel)]="estimateInstances[i].productQty"
+                          [ngModelOptions]="{standalone: true}"
+                          class="form-control price">
+    
+                        </td>
+                  <td>
+                    <input type="number" min="0"
+                    [(ngModel)]="estimateInstances[i].total"
+                    [ngModelOptions]="{standalone: true}"
+                     class="form-control total" disabled>
+
+                  </td>
+                </tr>
+              </table>
+            </div>
+      </div>
+      <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+        <button (click)="purchaseOrder()" class="btn btn-primary">PO</button>&nbsp;&nbsp;
+        <button  (click)="reject()" class="btn btn-danger">Reject</button>
+      </div>
+    </div>
+
+</div>

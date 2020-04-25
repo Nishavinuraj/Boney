@@ -1,0 +1,56 @@
+<div class="container">
+  <form [formGroup]="drmForm">
+    <div class="card">
+      <div class="card-header">Add Diesal Rate Master</div>
+      <div class="card-body">
+        <div class="form-group row">
+
+          <div class="col-lg-3 col-md-3">
+          <label class="required">Site</label>
+          <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+            formControlName="site">
+          </ng-select>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+            <label class="required">Pump Name</label>
+            <ng-select [items]="vendername_options" placeholder="Type and search Pump Owner" bindLabel="vendername" bindValue="vendername"
+              formControlName="vendername">
+            </ng-select>
+          </div>
+
+          <div class="col-md-3">
+            <label class="required">Date</label>
+            <div class="input-group datepicker-input">
+              <input
+                class="form-control"
+                placeholder="dd-mm-yyyy"
+                name="dp2"
+                formControlName="date"
+                ngbDatepicker
+                #d2="ngbDatepicker" 
+                [minDate]="minDate" 
+                required
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        <div class="col-lg-3 col-md-3">
+          <label>Rate</label>
+          <input type="number" formControlName="rate" class="form-control" placeholder="Diesal Rate">
+        </div>
+      </div>
+
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="save()" [disabled]="!drmForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,250 @@
+<div class="card">
+  <div class="card-header">
+    <strong>
+      <i class="fa fa-compass"></i> Plants Truck Position
+    </strong>
+
+    <!-- <div class="col-md-2 pull-right">
+      <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success" (click)="addData()">
+        <i class="fa fa-floppy-o"></i> ADD</button>
+    </div> -->
+  </div>
+  <form [formGroup]="addForm" (ngSubmit)="addData()" novalidate>
+    <div class="card-body">
+      <p>Notes</p>
+      <ul>
+        <li>In order to fetch truck position list, Site name is required.</li>
+        <li>In order to add plant truck position, Site name, truck number and destination is required.</li>
+      </ul>  
+      <hr>
+      <div class=" form-group row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="required">Site</label>
+            <select formControlName="site" class="form-control auto-entry" required>
+              <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                {{ s.branch_name }}
+              </option>
+            </select>
+            <span class="text-danger" *ngIf="addForm.controls['site'].hasError('required') && addForm.controls['site'].touched">This field is required</span>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="required">Lr. No</label>
+            <input type="text" formControlName="lrno" class="form-control auto-entry" placeholder="Lr.No">
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="required">Truck No.</label>
+            <input  class="form-control manual-entry" ng2-auto-complete
+            formControlName="truck_no"
+            [source]="truckPosition.bind(this)" list-formatter="truckno" (valueChanged)="getDocumentStatus()" />
+            <span class="text-danger" *ngIf="submitted || addForm.controls['truck_no'].hasError('required') && addForm.controls['truck_no'].touched">This field is required</span>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-3">
+          <div class="form-group">
+            <label>Current Destination*</label>
+            <input  class="form-control manual-entry" ng2-auto-complete
+            formControlName="destination"
+            [source]="observableSource.bind(this)" list-formatter="name" />
+            <span class="text-danger" *ngIf="submitted || addForm.controls['destination'].hasError('required') && addForm.controls['destination'].touched">This field is required</span>
+          </div>
+        </div> -->
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label class="required">Current Destination</label>
+            <input type="text" class="form-control auto-entry" formControlName="destination" />
+          </div>
+        </div>
+
+
+        <div class="col-md-6">
+          <label>Preferred Destination</label>
+          <ng-select [multiple]="true" [items]="destination_option" placeholder="Type and search Destination" bindLabel="name" bindValue="name"
+            formControlName="prefdestination" class="manual-entry">
+          </ng-select>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Manual </label>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" formControlName="mannualtodest" >
+                    Display All Destination?
+                </label>
+            </div>
+              </div>
+        </div>
+
+        <div class="col-md-3">
+          <label class="required">Product</label>
+          <select class="form-control manual-entry" formControlName="product">
+            <option value="">Select Product</option>
+            <option value="Bag">Bag</option>
+            <option value="Bulk">Bulk</option>
+            <option value="Clinker">Clinker</option>
+            <option value="Gypsum">Gypsum</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Last KM Reading</label>
+            <input type="text" class="form-control auto-entry" formControlName="lastkm_reading" />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Last Destination Km</label>
+            <input type="text" class="form-control auto-entry" formControlName="lastdestinationkm" />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Google Km</label>
+            <input type="text" class="form-control auto-entry" formControlName="googlekm" />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Current KM Reading</label>
+            <input type="text" class="form-control manual-entry" formControlName="km_reading" />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>Excess KM</label>
+            <input type="text" class="form-control auto-entry" formControlName="excesskm" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Remarks</label>
+            <input type="text" class="form-control manual-entry" formControlName="remarks" />
+          </div>
+        </div>
+
+        <div class="col-md-9">
+            <table class="table table-bordered">
+              <tr>  
+                <td *ngFor= "let data of dataList; let i = index" >{{data.name ? data.name : '--'}}</td>
+              </tr>
+              <tr>  
+                <td *ngFor="let data of dataList; let i = index" 
+                    [ngClass]="{'expired': data.expired, 'twenty_days': data['20_days'], 'forty_days': data['40_days']}">
+                  </td>
+              </tr>
+            </table>
+        </div>
+
+
+        
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="button" style="margin-right: 10px" class="btn btn-sm btn-info" (click)="fetchData()">
+          <i class="fa fa-download"></i> Fetch</button>
+      <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success">
+        <i class="fa fa-floppy-o"></i> Save</button>
+      <button type="button" style="margin-right: 10px" class="btn btn-sm btn-warning" (click)="resetFilters()">
+              <i class="fa fa-refresh"></i> Refresh</button>
+    </div>
+  </form>
+</div>
+
+<br>
+<ngb-pagination
+[(page)]="pagination.currenPage"
+[pageSize]="pagination.pageSize"
+[collectionSize]="pagination.total"
+[maxSize]="pagination.maxSize"
+(pageChange)="getTruckData()"
+></ngb-pagination>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-compass"></i> Plants Truck Position List
+        </div>
+        <div class="card-body">
+
+          <div class="clearfix"></div>
+          <br>
+          <form [formGroup]="editForm">
+            <table id="table_one" class="table mytable">
+              <thead>
+                <tr>
+                  <th class="text-center">Date</th>
+                  <th class="text-center">Lrno.</th>
+                  <th class="text-center">Srno.</th>
+                  <th class="text-center">Truck No.</th>
+                  <th class="text-center">CC</th>
+                  <th class="text-center">Destination</th>
+                  <th class="text-center">Time In</th>
+                  <th class="text-center">Placed Time</th>
+                  <th class="text-center">Billty Time</th>
+                  <th class="text-center">Actions</th>
+                  <!-- <th class="text-center">Delete</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of truckDetails; let i = index">
+                  <td class="text-center">{{detail.pdate ? detail.pdate : '--'}}</td>
+                  <td class="text-center">{{detail.lrno ? detail.lrno : '--'}}</td>
+                  <td class="text-center">{{detail.srno ? detail.srno : '--'}}</td>
+                  <td class="text-center">{{detail.truckno ? detail.truckno : '--'}}</td>
+                  <td class="text-center">{{detail.cc ? detail.cc : '0'}}</td>
+                  <td class="text-center">{{detail.destination ? detail.destination : '--'}}</td>
+                  <td class="text-center">{{detail.timein ? detail.timein : '--'}}</td>
+
+                  <td class="text-center">
+                    {{detail.placedtime ? detail.placedtime : '--'}}
+                  </td>
+                  <td class="text-center" *ngIf="detail.updated">
+                    <ngb-timepicker formControlName="place_time"></ngb-timepicker>
+                  </td>
+                  
+                  <td class="text-center" *ngIf="detail.billtytime">{{detail.billtytime}}</td>
+                  <td class="text-center" *ngIf="!detail.billtytime"><button class="btn btn-warning" (click)="openBiltyModal(detail)">Add Billty</button></td>
+
+                  <td class="text-center">
+                    <p>
+                      <button *ngIf="!detail.placedtime" class="btn btn-primary" (click)="updatePlacedTime(detail)">Update Placed Time</button>&nbsp;
+                      <button *ngIf="detail.status === 'Active'" class="btn btn-danger" (click)="cancelEntry(detail)">Cancel</button>&nbsp;
+                    </p>
+                    <p *ngIf="detail.placedtime"> -- </p>
+
+                    <!-- <button class="btn btn-success" (click)="update(detail)">Update</button> -->
+                  </td>
+                  <!-- <td>
+                    <button class="btn btn-danger" (click)="delete(detail, i)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                  </td> -->
+                </tr>
+                <tr *ngIf="truckDetails.length === 0">
+                  <td class="text-center" colspan="8">No data available</td>
+                </tr>
+              </tbody>
+            </table>
+        </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

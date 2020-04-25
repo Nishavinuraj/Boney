@@ -1,0 +1,119 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Plants Rate List</strong>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="filterForm">
+      <div class=" form-group row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>*Site</label>
+            <select formControlName="site" class="form-control" required>
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select>
+            <!-- <div class="input-group datepicker-input">
+                      <input
+                        class="form-control"
+                        placeholder="dd/mm/yyyy"
+                        name="dp"
+                        formControlName="start_date"
+                        ngbDatepicker
+                        #d="ngbDatepicker"
+                      />
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div> -->
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" [formGroup]="filterForm">
+      <div class=" form-group row">
+        <div class="col-sm-3">
+          <label for="city">*Site</label>
+          <select id="select1" name="site" required class="form-control">
+            <option value="0">Please select</option>
+            <option *ngFor="let s of all_site?.results" value="{{ s._id }}">
+              {{ s._id }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form> -->
+  </div>
+  <div class="card-footer">
+    <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success" (click)="getDestinationBySite()">
+      <i class="fa fa-get-pocket"></i> fetch</button>
+    <button type="reset" style="margin-right: 10px" class="btn btn-sm btn-warning">
+      <i class="fa fa-refresh"></i> Refresh</button>
+
+  </div>
+</div>
+
+
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Prepared By Administrator
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Destination</th>
+                <th>Spi</th>
+                <th>km</th>
+                <th>rate</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let dest of rate_list_data">
+                <td>{{ dest.destination }}</td>
+                <td>{{ dest.spi }}</td>
+                <td>{{ dest.km ? dest.km : 0 }}</td>
+                <td>{{ dest.freight }}</td>
+                <td>
+                  <a class="badge badge-success" href="#"><i class="fa fa-pencil"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Prev</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">3</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">4</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>

@@ -1,0 +1,311 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+      <form [formGroup]="filterForm" novalidate>
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-truck"></i> Truck Inspection</h4>
+            <hr />
+          </div>
+          <div class="col-md-2">
+            <label class="required">Truck No</label>
+            <ng-select [items]="truckno_option" placeholder="Type and search Truck No" bindLabel="truckno" bindValue="truckno"
+              formControlName="truck_no">
+            </ng-select>
+          </div>
+
+          <div class="col-md-2">
+            <label class="required">Entry Type</label>
+            <select class="form-control" formControlName="type" >
+              <option *ngFor="let t of types">{{t.name}}</option>
+            </select>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="required">Date</label>
+              <div class="input-group datepicker-input">
+                <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="idate" ngbDatepicker #d="ngbDatepicker" />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label>Km Reading</label>
+            <input type="number" class="form-control" formControlName="km_reading">
+          </div>
+
+          <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3">
+            <button [disabled]="loading" (click)="fetch()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination> -->
+      <!-- <p>
+        <strong>Total:</strong> {{ pagination.total }}, <strong>Records per page:</strong> {{ pagination.pageSize }},
+        <strong>Showing:</strong> {{ (pagination.currenPage - 1) * pagination.pageSize }} -
+        {{ (pagination.currenPage - 1) * pagination.pageSize + 50 }}
+      </p> -->
+
+      <div *ngIf="activeTab === 'New'" >
+        <form [formGroup]="addForm" (ngSubmit)="addInspection(addForm.valid)" novalidate>
+          <label>Selected Truck No:</label>
+          <p><strong>{{truckNo}}</strong></p>
+          <div class="table-scroll">
+            <div class="table-scroll-inner" formArrayName="items" *ngFor="let item of addForm.get('items').controls; let i = index">
+              <div [formGroupName]="i">
+                
+                <!-- <div class="row">
+
+                  <div class="col-md-1">                      
+                    <label>Position No.</label>
+                    <input class="form-control" type="number" formControlName="pno" [attr.disabled]="true"> 
+                  </div>
+
+                  <div class="col-md-2">                      
+                    <label>Position Name</label>
+                    <input class="form-control" type="text" formControlName="positionname" [attr.disabled]="true"> 
+                  </div>
+
+                  <div class="col-md-2">                      
+                    <label>Tyre no.</label>
+                    <input class="form-control" type="text" formControlName="tyre_no" [attr.disabled]="true"> 
+                  </div>
+     
+                  <div class="col-md-2">                      
+                    <label>Fitment Date</label>
+                    <input class="form-control" type="text" formControlName="date_of_fitment" [attr.disabled]="true"> 
+                  </div>
+                
+                  <div class="col-md-2">                      
+                    <label>Fitment Km</label>
+                    <input class="form-control" type="Number" formControlName="fitment_km" [attr.disabled]="true"> 
+                  </div>
+                
+                  <div class="col-md-1">                      
+                    <label>NSD</label>
+                    <input class="form-control" type="number" formControlName="nsd" [attr.disabled]="true"> 
+                  </div>
+
+                  <div class="col-md-1">                      
+                    <label>RTD</label>
+                    <input class="form-control" type="number" formControlName="rtd" required>
+                    <span class="text-danger" *ngIf="(multipleFormControls[i].controls['rtd'].dirty || submitted) && multipleFormControls[i].controls['rtd'].hasError('required')">Field is required</span>
+                  </div>
+      
+                  <div class="col-md-3">
+                    <button [disabled]="loading" class="btn btn-success mg-top-26" type="button" (click)="addItem(i)">+</button>&nbsp;&nbsp;
+                    <button [disabled]="loading" class="btn btn-danger mg-top-26" type="button" (click)="removeItem(i)">-</button>
+                  </div>
+                  <hr>
+                </div> -->
+
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>Position No</label>
+                        <input class="form-control" type="text" formControlName="pno" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Position Name</label>
+                        <input class="form-control" type="text" formControlName="positionname" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Tyre No</label>
+                        <input class="form-control" type="text" formControlName="tyre_no" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Fitment Date</label>
+                        <input class="form-control" type="date" formControlName="date_of_fitment" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Fitment Km</label>
+                        <input class="form-control" type="Number" formControlName="fitment_km" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Nsd</label>
+                        <input class="form-control" type="text" formControlName="nsd" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Rtd</label>
+                        <input class="form-control" type="text" formControlName="rtd" required>
+                        <span class="text-danger" *ngIf="(multipleFormControls[i].controls['rtd'].dirty || submitted) && multipleFormControls[i].controls['rtd'].hasError('required')">Field is required</span>
+                      </td>
+
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <label>Add Observations</label>
+              <ng-select [multiple]="true" [items]="observations" placeholder="Type and search observations"
+                formControlName="observations">
+              </ng-select>
+            </div>
+            <div class="col-md-6">
+              <label >Add Recommendations</label>
+              <ng-select [multiple]="true" [items]="recommendations" placeholder="Type and search recommendations"
+                formControlName="recommendations">
+              </ng-select>
+            </div>
+            <div class="col-md-6">                      
+              <label>Remarks</label>
+              <textarea class="form-control" formControlName="remarks" ></textarea>
+            </div>
+          </div>
+          <br>
+          <div >
+            <button class="btn btn-success" type="submit">Save</button>
+          </div>
+
+        </form>
+      </div>
+
+      <form *ngIf="activeTab === 'Inspection'" [formGroup]="editForm" class="table-overflow" novalidate>
+       
+        <div class="table-scroll">
+          <div class="table-scroll-inner" formArrayName="inspArr" *ngFor="let inspItem of editForm.get('inspArr').controls; let k = index">
+          <div [formGroupName]="k">
+
+              <!-- <div class="row">
+
+                <div class="col-md-1">
+                  <label>Pos. No.</label>
+                    <input type="number" class="form-control" formControlName="pno" [attr.disabled]="true">
+                </div>
+
+                <div class="col-md-2">
+                  <label>Position Name</label>
+                  <input type="text" class="form-control" formControlName="positionname" [attr.disabled]="true">
+                </div>
+    
+                <div class="col-md-2">                      
+                    <label>Tyre no.</label>
+                    <input class="form-control" type="text" formControlName="tyre_no" [attr.disabled]="true"> 
+                  </div>
+     
+                  <div class="col-md-2">                      
+                    <label>Fitment Date</label>
+                    <input class="form-control" type="text" formControlName="date_of_fitment" [attr.disabled]="true"> 
+                  </div>
+                
+                  <div class="col-md-2">                      
+                    <label>Fitment Km</label>
+                    <input class="form-control" type="Number" formControlName="fitment_km" [attr.disabled]="true"> 
+                  </div>
+              
+                <div class="col-md-2">                      
+                  <label>NSD</label>
+                  <input class="form-control" type="text" formControlName="nsd" [attr.disabled]="true"> 
+                </div>
+
+                <div class="col-md-2">                      
+                  <label>RTD</label>
+                  <input class="form-control" type="text" formControlName="rtd" >
+                </div>
+    
+                <div class="col-md-1">
+                  <button (click)="delete(k)" class="btn btn-danger mg-top-26"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                </div>
+
+                <hr>
+              </div> -->
+
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>Position No</label>
+                      <input type="number" class="form-control" formControlName="pno" [attr.disabled]="true">
+                    </td>
+
+                    <td>
+                      <label>Position Name</label>
+                      <input type="text" class="form-control" formControlName="positionname" [attr.disabled]="true">
+                    </td>
+
+                    <td>
+                        <label>Tyre No</label>
+                        <input class="form-control" type="text" formControlName="tyre_no" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Fitment Date</label>
+                        <input class="form-control" type="date" formControlName="date_of_fitment" [attr.disabled]="true">
+                      </td>
+
+                      <td>
+                        <label>Fitment Km</label>
+                        <input class="form-control" type="Number" formControlName="fitment_km" [attr.disabled]="true">
+                      </td>
+
+                    <td>
+                      <label>Nsd</label>
+                      <input class="form-control" type="text" formControlName="nsd" [attr.disabled]="true">
+                    </td>
+
+                    <td>
+                      <label>Rtd</label>
+                      <input class="form-control" type="text" formControlName="rtd">
+                    </td>
+
+                    <td>
+                      <label>Actions</label>
+                      <br>
+                      <button (click)="delete(k)" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                    </td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div> 
+          </div>
+        </div>
+
+        <span *ngIf="inspectionReport">
+          <span class="row">
+            <span class="col-md-3">
+              <label>Remarks</label>
+              <textarea class="form-control" formControlName="remarks"></textarea>
+            </span>
+          </span>
+          <br>
+          <span>
+            <button [disabled]="loading" class="btn btn-success" (click)="update()">Update</button>
+          </span>
+        </span>
+
+      </form>
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="modal-body">
+      <form [formGroup]="addExpenseForm">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Select Permissions</label>
+                <select formControlName="permissions" class="form-control" multiple>
+                  <option value="">Select Permissions</option>
+                  <option *ngFor="let p of permissions" value="{{ p.value }}">
+                    {{ p.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" formControlName="name" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Password</label>
+                <input type="text" class="form-control" formControlName="password" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>T Password</label>
+                <input type="text" class="form-control" formControlName="tpassword" />
+              </div>
+            </div>
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label>Site</label>
+                <input type="text" class="form-control" formControlName="site" />
+              </div>
+            </div> -->
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Site</label>
+                  <select formControlName="site" class="form-control" required>
+                    <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                      {{ s.branch_name }}
+                    </option>
+                  </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Role</label>
+                <select formControlName="role" class="form-control" required>
+                  <option value="">Select Role</option>
+                  <option *ngFor="let r of roles" value="{{ r.role_name }}">
+                    {{ r.role_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="save()"> Save </button>
+    <!-- (click)="saveSiteTruckExpense()"> -->
+  </div>

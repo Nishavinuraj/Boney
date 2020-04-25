@@ -1,0 +1,172 @@
+<div>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+        <div class="row">
+            <div class="col-md-12">
+              <h4><i class="fa fa-book"></i> Estimate Details</h4>
+              <p class="text-muted"></p>
+              <hr />
+            </div></div>
+      <!-- <form [formGroup]="filterForm">
+        
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Expiry Date (From:) </label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp"
+                  formControlName="start_date"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Expiry Date (Till)</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp2"
+                  formControlName="end_date"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Select Product</label>
+              <select formControlName="site_name" class="form-control">
+                  <option value="">All</option>
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          
+          <div class="col-md-3">
+            <label class="required">Product</label>
+            <ng-select [items]="items_option" placeholder="Type and search items" bindLabel="itemname" bindValue="itemname"
+              formControlName="item_name">
+            </ng-select>
+          </div>
+
+
+          <div class="col-md-4 wrapper-right">
+            <button (click)="fetchReport()" class="btn btn-primary" >
+              <i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch
+            </button>&nbsp;
+            <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+          </div>
+        </div>
+      </form> -->
+<!--       <hr />
+ -->      
+      <table class="table table-hover table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th class="cell-align">S No</th>
+<!--       <th class="cell-align">Estimate ID</th>
+ -->      <th class="cell-align">Product Name</th>
+      <th class="cell-align">Quantity</th>
+      <th class="cell-align">Created On</th>
+      <th class="cell-align">Expiry Date</th>
+      <th align="center">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="loading">
+      <td colspan="10">
+        <div class="showbox">
+          <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+              <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+            </svg>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let t of estimates; let i = index">
+
+      <!-- <td *ngIf="t.editing">
+        <input type="text">
+      </td> -->
+
+      <td class="cell-align">{{ i + 1}}</td>
+      
+<!--       <td  class="cell-align">{{ t._id}}</td>
+ -->      
+      <td class="cell-align" *ngIf="!isEdit ||  t._id!=editId">
+        {{t.product}}
+      </td>
+      <td class="cell-align" *ngIf="isEdit && t._id==editId">
+        <!-- <ng-select [multiple]="true" [items]="items_option" placeholder="Type and search items" bindLabel="itemname" bindValue="itemname"
+            [(ngModel)]="t.product">
+          </ng-select> -->
+          {{t.product}}
+      </td>
+      
+      <td class="cell-align" *ngIf="!isEdit ||  t._id!=editId"> 
+        {{t.productQty}}
+      </td>
+      <td class="cell-align" *ngIf="isEdit && t._id==editId">
+       <!--  <input type="text" class="form-control" style="width: 50px !important; text-align: center !important;"
+         [(ngModel)]="t.productQty" /> -->
+         {{t.productQty}}
+      </td>
+
+      <td class="cell-align">
+        {{t.creationDate | date:'longDate'}}
+      </td>
+      <td class="cell-align" *ngIf="!isEdit ||  t._id!=editId">
+        {{t.expiryDate | date:'longDate'}}
+      </td>
+      <td class="cell-align" *ngIf="isEdit && t._id==editId">
+          <div class="input-group datepicker-input">
+            <input
+            class="form-control"
+            placeholder="dd/mm/yyyy"
+            name="dp3"
+            style="width: 80px !important; text-align: center !important;"
+            [(ngModel)]="t.ngbExpiry"
+            ngbDatepicker
+            #d3="ngbDatepicker" [minDate]="minDate"  required
+          />
+          <div class="input-group-append">
+              <button class="btn btn-outline-secondary calendar" 
+               (click)="d3.toggle()" type="button">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+      </td>
+      <td>
+        <button class="btn btn-primary" *ngIf="!isEdit ||  t._id!=editId" (click)="edit(t)">Edit</button>&nbsp;&nbsp;
+        <button  class="btn btn-danger"  *ngIf="!isEdit ||  t._id!=editId" (click)="delete(t)">Delete</button>
+        <button class="btn btn-primary" *ngIf="isEdit && t._id==editId" (click)="save(t)" >Save</button>&nbsp;&nbsp;
+        <button  class="btn btn-danger"  *ngIf="isEdit && t._id==editId" (click)="isEdit=false;">Cancel</button>
+      </td>
+    </tr>
+    <tr *ngIf="loaded && estimates.length === 0">
+        <td align="center" colspan="7">No data available</td>
+    </tr>
+  </tbody>
+</table></div></div></div>

@@ -1,0 +1,165 @@
+<div class="card"  *ngIf="activeTab == 'main_report'">
+  <div class="card-header">
+    <strong>Dispatch Summary</strong>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="filterForm">
+      <div class=" form-group row">
+
+        <div class="col-md-3">
+            <div class="form-group">
+              <label>Start Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp"
+                  formControlName="start_date"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>End Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp2"
+                  formControlName="end_date"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success" (click)="fetchReport()">
+      <i class="fa fa-get-pocket"></i> Fetch</button>
+    <button type="reset" style="margin-right: 10px" class="btn btn-sm btn-warning" (click)="resetFilters()">
+      <i class="fa fa-refresh"></i> Refresh</button>
+
+  </div>
+</div>
+
+
+
+<div class="animated fadeIn">
+  <div class="row" *ngIf="activeTab == 'main_report'">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Prepared By Administrator
+        </div>
+        <div class="card-body">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Prev</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+
+          <table class="table tableFixHead mytable">
+            <thead>
+              <tr>
+                  <th>Site</th>
+                  <th class="cell-align">Dispatch</th>
+                  <th class="cell-align">Tons</th>
+                  <th class="cell-align">O. Trips</th>
+                  <th class="cell-align">A. Trips</th>
+                  <th class="cell-align">O. Tons</th>
+                  <th class="cell-align">A. Ton</th>
+                  <th class="cell-align">O.Ratio</th>
+                  <th class="cell-align">A.Ratio</th>
+                  <th class="cell-align">O.Comm</th>
+                  <th class="cell-align">A.Comm</th>
+                  <th class="cell-align">Net Profit</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let summary of dispatch_summary_data?.result">
+                <td (click)="onSiteSelect(summary)" class="truck-selection"><i class="fa fa-industry" aria-hidden="true"></i> {{ summary._id ? summary._id : '--' }}</td>
+                <td class="cell-align">{{ summary.trip ? summary.trip : '--'}}</td>
+                <td class="cell-align">{{ (summary.ton ? summary.ton : 0) | number: '1.2-2'}}</td>
+                <td class="cell-align">{{ summary.Co_Trips ? summary.Co_Trips : '--'}}</td>
+                <td class="cell-align">{{ summary.A_Trips ? summary.A_Trips : '--'}}</td>
+                <td class="cell-align">{{ (summary.Co_Tons ? summary.Co_Tons : 0) | number: '1.2-2'}}</td>
+                <td class="cell-align">{{ (summary.A_Tons ? summary.A_Tons : 0) | number: '1.2-2'}}</td>
+                <td class="cell-align">{{ (summary.o_ratio ? summary.o_ratio : 0) | number: '1.2-2' }}%</td>
+                <td class="cell-align">{{ (summary.A_ratio ? summary.A_ratio : 0) | number: '1.2-2' }}%</td>
+                <td class="cell-align">{{ (summary.Co_profit ? summary.Co_profit : 0) | number: '1.2-2'}}</td>
+                <td class="cell-align">{{ (summary.A_profit ? summary.A_profit : 0) | number: '1.2-2' }}</td>
+                <td class="cell-align">{{ (summary.net_profit ? summary.net_profit : 0) | number: '1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Prev</a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12" *ngIf="activeTab == 'secondary_report'">
+        <p><a class="btn btn-info" href="javascript:void(0)" (click)="activeTab = 'main_report'"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</a></p>
+          <h4>Site Wise Dispatch Summary <br><i class="fa fa-truck"></i> Truck: {{selected_site_name}}</h4>
+        <table class="table table-hover table-striped table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Trips</th>
+              <th>Target</th>
+              <th>Achieved</th>
+              <th>Income</th>
+              <th>Expenses</th>
+              <th>Profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="10">
+                <div class="showbox">
+                  <div class="loader">
+                    <svg class="circular" viewBox="25 25 50 50">
+                      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                    </svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+  </div>

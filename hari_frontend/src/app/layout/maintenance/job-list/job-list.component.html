@@ -1,0 +1,241 @@
+<h4><i class="fa fa-file-text-o"></i> Srno #{{ srno }} Details</h4>
+
+<div class="row" *ngIf="listActive">
+  <div class="col-md-3">
+    <button type="button" class="btn btn-warning" (click)="newJobCard()">Create New Job Card</button>
+  </div>
+
+  <div class="col-md-3">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Job No.</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let j of jobNoList; let i = index">
+          <td>
+            <button type="button" class="btn btn-success" (click)="getJobCard(j.jobno)">{{ j.jobno ? j.jobno : '--' }}</button>
+          </td>
+          <td>
+            <button class="btn btn-danger" type="button" (click)="delete(i, j.jobno)" >-</button>
+            <!-- (click)="delete(i)" -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create New Job Card -->
+<div class="card" *ngIf="CardActive">
+  <div class="card-header">
+    <strong>Job Card</strong>
+    <button type="button" class="btn btn-warning" (click)="Back()" style="float:right;">Back</button>
+  </div>
+  <form [formGroup]="addForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-3">
+          <label>Date</label>
+          <div class="form-inline">
+            <div class="form-group">
+              <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="date" ngbDatepicker #d1="ngbDatepicker" />
+              <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <button type="button" (click)="submit()" class="btn btn-success" *ngIf="saveActive">Save</button>
+      <button type="button" (click)="update()" class="btn btn-success" *ngIf="updateActive">Update</button> -->
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Job No</label>
+            <input type="number" class="form-control" formControlName="jobno" value="{{ max_jobno }}" *ngIf="saveActive" readonly/> 
+            <input type="number" class="form-control" formControlName="jobno" *ngIf="updateActive" readonly/> 
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Sr No</label>
+            <input type="number" class="form-control" formControlName="srno" value="{{ srno }}" readonly/>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Truck No</label>
+            <input type="text" class="form-control" formControlName="truckno" value="{{ truckno }}" readonly/>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>KM Reading</label>
+            <input type="text" class="form-control" formControlName="km_reading" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Vendor Name</label>
+            <!-- <input type="text" class="form-control" formControlName="vendor_name" /> -->
+            <input class="form-control" ng2-auto-complete formControlName="vendor_name" 
+             [source]="vendorName.bind(this)" list-formatter="name" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Remarks</label>
+            <input type="text" class="form-control" formControlName="remarks" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Bill Amount</label>
+            <input type="number" class="form-control" formControlName="bill_amount" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>App Amount</label>
+            <input type="number" class="form-control" formControlName="app_amount" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Upload Bill</label>
+            <br />
+            <input
+              type="file"
+              class="form-control"
+              formControlName="upload_bill"
+              class="inputfile"
+              name="file1"
+              id="file1"
+              (change)="onSelectBill($event)"
+            />
+            <label class="btn btn-success" for="file1"><i class="fa fa-file" aria-hidden="true"></i> Select file</label>
+            {{ file ? file.name : '' }}
+            <br>
+            <a *ngIf="job_data && job_data.bill" href="{{ job_data && job_data.bill ? job_data.bill : '' }}">Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-header">
+      <strong>Job Detail</strong>
+    </div>
+    <div class="table-scroll">
+      <div
+        class="table-scroll-inner"
+        formArrayName="addMultipleJobDetails">
+        
+        <div >
+          <!-- class="table tableFixHead mytable" -->
+          <table class="table ">
+            <tbody>
+              <tr *ngFor="let d of detailData.controls; let i = index" [formGroup]="d">
+                <td>
+                  <label>Work To Be Done</label>
+                  <!-- <input type="number" class="form-control" formControlName="work_be_done"> -->
+                  <!-- <div class="input-group datepicker-input"> -->
+                    <!-- <input type="text" class="form-control" formControlName="work_be_done" /> -->
+                    <input class="form-control" width="100%" ng2-auto-complete formControlName="work_be_done" (change)="getLastDate(i)" [source]="wdName.bind(this)" list-formatter="name" />
+                  <!-- </div> -->
+                </td>
+
+                <td>
+                  <label>Last Done on</label>
+                  <!-- <input type="number" class="form-control" formControlName="last_done_on"> -->
+                  <div class="input-group datepicker-input">
+                    <input
+                      class="form-control"
+                      placeholder="dd/mm/yyyy"
+                      name="dp3"
+                      formControlName="last_done_on"
+                      ngbDatepicker
+                      #d3="ngbDatepicker"
+                      readonly                      
+                    />
+                    <!-- <div class="input-group-append">
+                      <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()" type="button" readonly>
+                        <i class="fa fa-calendar" aria-hidden="true" readonly></i>
+                      </button>
+                    </div> -->
+                  </div>
+                </td>
+
+                <td>
+                  <label>Remarks</label>
+                  <input type="text" class="form-control" formControlName="remarks" />
+                </td>
+
+                <td>
+                  <label>Qty</label>
+                  <input type="number" class="form-control" (change)="setTotalAmount(i)" formControlName="qty" />
+                </td>
+
+                <td>
+                  <label>Scrap Qty</label>
+                  <input type="number" class="form-control" formControlName="scrap_qty" />
+                </td>
+
+                <td>
+                  <label>Next Due KM</label>
+                  <input type="text" class="form-control" formControlName="next_due_km" />
+                </td>
+
+                <td>
+                  <label>Rate</label>
+                  <input type="number" class="form-control" (change)="setTotalAmount(i)" formControlName="rate" />
+                </td>
+
+                <td>
+                  <label>GST</label>
+                  <input type="number" class="form-control" (change)="setTotalAmount(i)" formControlName="gst" />
+                </td>
+
+                <td>
+                  <label>Amount</label>
+                  <input type="number" class="form-control" (change)="GetTotalAmount(i)" formControlName="amount" />
+                </td>
+
+                <td style="width: 100px;">
+                  <label> Action </label> <br />
+                  <!-- <button (click)="addDetail()">Add</button> -->
+                  <button class="btn btn-success" type="button" (click)="addDetail()">+</button>&nbsp;
+                  <button class="btn btn-danger" type="button" (click)="removeItem(i)">-</button>
+                </td>
+              </tr>
+            </tbody>
+            <tbody>
+              <tr>
+                <td [colSpan]="8"></td>
+                <td><b>Total : {{ mainTotal }} </b></td>
+              </tr>
+
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" (click)="submit()" class="btn btn-success" *ngIf="saveActive">Save</button>
+      <button type="button" (click)="update()" class="btn btn-success" *ngIf="updateActive">Update</button>
+      
+    </div>
+  </form>
+</div>

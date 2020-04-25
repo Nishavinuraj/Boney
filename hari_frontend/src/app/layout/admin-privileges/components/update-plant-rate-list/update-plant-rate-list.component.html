@@ -1,0 +1,166 @@
+<div class="row">
+  <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+    <form [formGroup]="filterForm">
+      <div class="row">
+        <div class="col-md-12">
+          <h4><i class="fa fa-truck"></i> Update Plant Rate List</h4>
+          <hr />
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Companies</label>
+            <select formControlName="name" class="form-control">
+              <option value="">Select Company</option>
+              <option *ngFor="let c of companies" value="{{ c.accountname }}">
+                {{ c.accountname }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Site</label>
+            <select formControlName="site" class="form-control">
+              <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                {{ s.branch_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Rate By</label>
+            <select formControlName="rateby" class="form-control">
+              <option value="SPI">SPI</option>
+              <option value="TON">TON</option>
+              <option value="ACCTYRE">ACCTYRE</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Status</label>
+            <select formControlName="status" class="form-control">
+              <option value="Active">Active</option>
+              <option value="Non Active">Non Active</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">	
+          <label>From Date</label>	
+          <div class="form-inline">	
+            <div class="form-group">	
+              <input	
+                class="form-control"	
+                placeholder="dd/mm/yyyy"	
+                name="dp"	
+                formControlName="date_from"	
+                ngbDatepicker	
+                #d1="ngbDatepicker"	
+              />	
+              <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">	
+                <i class="fa fa-calendar" aria-hidden="true"></i>	
+              </button>	
+            </div>	
+          </div>	
+        </div>	
+
+        <div class="col-md-3">	
+          <label>To Date</label>	
+          <div class="form-inline">	
+            <div class="form-group">	
+              <input	
+                class="form-control"	
+                placeholder="dd/mm/yyyy"	
+                name="dp"	
+                formControlName="date_to"	
+                ngbDatepicker	
+                #d2="ngbDatepicker"	
+              />	
+              <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">	
+                <i class="fa fa-calendar" aria-hidden="true"></i>	
+              </button>	
+            </div>	
+          </div>	
+        </div>	
+        <br>	
+
+        <div class="col-md-3"></div>	
+        <div class="col-md-3"></div>	
+
+        <div class="col-md-2 pull-right">
+          <label>Choose file to import</label>
+          <br />
+          <input type="file" accept=".xlsx, .xls, .csv" class="inputfile" name="file1" id="file1" multiple (change)="onSelectCSV($event)" />
+          <label class="btn btn-success" for="file1"><i class="fa fa-file" aria-hidden="true"></i> Select file</label>
+          {{ file ? file.name : '' }}
+        </div>
+        <div class="col-md-1 pull-right">
+          <label>Import</label>
+          <button [disabled]="shown" (click)="startImport()" class="btn btn-primary"><i class="fa fa-get-pocket" aria-hidden="true"></i> Import</button>
+        </div>
+
+        <div class="col-md-4">	
+        </div>	
+
+        <div class="col-md-1 pull-right">	
+          <label> </label>	
+          <button (click)="getSearchPlantRateList()" class="btn btn-warning"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch </button>	
+        </div>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Loader -->
+<div class="showbox" [hidden]="!shown">
+  <div class="loader">
+    <svg class="circular" viewBox="25 25 50 50">
+      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+    </svg>
+  </div>
+</div>
+
+
+<!-- ---------------- List -------------------- -->	
+
+<div class="card">	
+  <div class="animated fadeIn">	
+    <div class="row">	
+      <div class="col-lg">	
+        <div class="card">	
+          <div class="card-body">	
+              <!-- <p></p>           -->	
+            <h4>Plant Rates List</h4>	
+            <table class="table tableFixHead mytable">	
+              <thead>	
+                <tr>	
+                  <th>Sr No</th>	
+                  <th>Name</th>	
+                  <th>Site</th>	
+                  <th>Status</th>	
+                  <th>rateby</th>	
+                  <th>date_from</th>	
+                  <th>date_to</th>	
+                </tr>	
+              </thead>	
+              <tbody>	
+                <tr *ngFor="let data of plantRateList; let i = index">	
+                  <td>{{ data.srno ? data.srno : '--' }}</td>	
+                  <td>{{ data.name ? data.name : '--' }}</td>	
+                  <td>{{ data.site ? data.site : '--' }}</td>	
+                  <td>{{ data.status ? data.status : '--' }}</td>	
+                  <td>{{ data.rateby ? data.rateby : '--' }}</td>	
+                  <td>{{ data.date_from ? data.date_from : '--' }}</td>	
+                  <td>{{ data.date_to ? data.date_to : '--' }}</td>	
+                </tr>	
+              </tbody>	
+            </table>	
+          </div>	
+        </div>	
+      </div>	
+    </div>	
+  </div>	
+</div>

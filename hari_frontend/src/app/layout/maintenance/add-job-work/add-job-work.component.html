@@ -1,0 +1,172 @@
+<div class="container">
+  <form [formGroup]="jwForm">
+    <div class="card">
+      <div class="card-header">Add Job Work</div>
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="col-md-3">
+            <label class="required">Site</label>
+            <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+              formControlName="site">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <label class="required">Job type</label>
+            <select class="form-control" formControlName="job_type" (change)="generatejobNumber()">
+              <option value="">Select Job type</option>
+              <option value="Job Work">Job Work</option>
+              <option value="Job Card">Job Card</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label>Job No.</label>
+            <input disabled type="text" formControlName="job_number" class="form-control" placeholder="Job No.">
+          </div>
+
+          <div class="col-md-2">
+            <label class="required">Job date</label>
+            <div class="input-group datepicker-input">
+              <input
+                class="form-control"
+                placeholder="dd-mm-yyyy"
+                name="dp2"
+                formControlName="job_date"
+                ngbDatepicker
+                #d2="ngbDatepicker" 
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label class="required">Truck No.</label>
+            <ng-select [items]="trucks_option" placeholder="Type and search items" bindLabel="truckno" bindValue="truckno"
+              formControlName="truck_no">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <label class="required">Km Reading</label>
+            <input type="number" formControlName="km_reading" class="form-control" placeholder="Km Reading">
+          </div>
+          <div class="col-md-3">
+            <label class="required">Vendor</label>
+            <ng-select [items]="vendor_option" placeholder="Type and search vendor" bindLabel="name" bindValue="name"
+              formControlName="vendor">
+            </ng-select>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Engine Type</label>
+              <input type="text" *ngIf="!etField" disabled formControlName="enginetype" class="form-control" placeholder="Engine Type">
+              <input type="text" *ngIf="etField" formControlName="enginetype" class="form-control" placeholder="Engine Type">
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>Mannual Entry </label>
+              <div class="checkbox">
+                  <label>
+                      <input type="checkbox" formControlName="mannualenginetype" >
+                      Enter Engine Type .?
+                    </label>
+              </div>
+                </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Job work items
+                <button class="btn btn-primary float-right" (click)="addJwitems()" [disabled]="!jwForm.valid"
+                  type="button">
+                  Add Job
+                </button>
+              </div>
+              <!-- /.box-header -->
+              <div class="card-body" *ngIf="jwForm.controls.job_items.controls.length > 0">
+                <table class="table table-bordered" formArrayName="job_items">
+                  <tr>
+                    <th>Work To Be Done</th>
+                    <th>Last Done On</th>
+                    <th>Remarks</th>
+                    <th>Next Due Km</th>
+                    <th>Action</th>
+                  </tr>
+                  <tr *ngFor="let school of jwForm.controls.job_items.controls; let i=index" formGroupName="{{i}}">
+                    <td>
+                        <div class="input-group">
+                          <select class="form-control" formControlName="worktobedone">
+                            <option value="">Select Job Description</option>
+                            <option *ngFor="let j of jobworkname_option" [value]="j.jobworkname"> {{j.jobworkname}}</option>
+                          </select>
+                        </div>
+  
+                      </td>
+                    <td>
+                        <div class="input-group">
+                          <select class="form-control">
+                            <input type="text" #ld="bsDatepicker" [bsConfig]="{ containerClass: 'theme-blue', 'dateInputFormat': 'DD-MM-YYYY', 'showWeekNumbers': false, 'minDate': currentDate }" bsDatepicker formControlName="lastdoneon"
+                              class="form-control">
+                            <div class="input-group-prepend" (click)="ld.toggle()">
+                              <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                            </div>
+                          </select>
+                          </div>
+                      </td>                    
+                    <td>
+                      <input type="text" formControlName="remarks"
+                        class="form-control remarks">
+                    </td>
+                    <td>
+                      <input type="number" min="0" formControlName="nextduekm"
+                        class="form-control nextduekm">
+                    </td>
+                    <td>
+                      <button class="btn btn-danger float-right" [disabled]="jwForm.controls?.job_items.controls.length == 1" (click)="removeItems(i)" type="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body" *ngIf="jwForm.controls?.job_items.controls.length == 0">
+                <p>Please select </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <div class="form-group row">
+          <div class="col-md-3">
+            <label>Bill Amount</label>
+            <input type="number" formControlName="bill_amount" class="form-control" placeholder="Bill Amount">
+          </div>
+          <div class="col-md-3">
+            <label>Approved Amount</label>
+            <input type="number" formControlName="app_amount" class="form-control" placeholder="Approved Amount">
+          </div>
+
+          <div class="col-lg-6 col-md-6">
+            <label class="">Job Remarks</label>
+            <input type="text" formControlName="job_remarks" class="form-control" placeholder="Please enter Job Remarks">
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="save()" [disabled]="!jwForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+  </form>
+</div>

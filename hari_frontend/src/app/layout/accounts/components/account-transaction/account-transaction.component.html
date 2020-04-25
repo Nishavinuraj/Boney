@@ -1,0 +1,228 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Account Transactions</strong>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="addForm" (ngSubmit)="save(addForm.valid, addForm.value)">
+      <div class=" form-group row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Site*</label>
+            <select formControlName="site_name" class="form-control" >
+              <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                {{ s.branch_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Voucher Type*</label>
+            <select formControlName="voucher_type" class="form-control" required>
+              <option value="">--Select Voucher Type--</option>
+              <option *ngFor="let v of voucher_types" value="{{ v.v_name }}">
+                {{ v.v_name }}
+              </option>
+            </select>
+            <span class="text-danger" *ngIf="(addForm.controls['voucher_type'].dirty || submitted) && addForm.controls['voucher_type'].hasError('required')">Voucher type is required.</span>
+          </div>
+        </div>
+        <!-- <div class="col-md-3">
+          <div class="form-group">
+            <label>Voucher No*</label>
+            <input type="number" formControlName="voucher_no" class="form-control">
+          </div>
+        </div> -->
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Date*</label>
+            <div class="input-group datepicker-input">
+              <input
+                class="form-control"
+                placeholder="dd/mm/yyyy"
+                name="dp"
+                formControlName="date"
+                ngbDatepicker
+                #d="ngbDatepicker"
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+            <span class="text-danger" *ngIf="( addForm.controls['date'].dirty || submitted) && addForm.controls['date'].hasError('required')">Date is required.</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Account Head</label>
+            <select formControlName="account_head" class="form-control">
+              <option value="">--Select Account Head--</option>
+              <option value=""></option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Payment Type*</label>
+            <select formControlName="payment_type" class="form-control" required>
+              <option value="">--Select Payment Type--</option>
+              <option *ngFor="let p of payment_types" value="{{ p.p_name }}">
+                {{ p.p_name }}
+              </option>
+            </select>
+            <span class="text-danger" *ngIf="( addForm.controls['payment_type'].dirty || submitted) && addForm.controls['payment_type'].hasError('required')">Payment type is required.</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Against</label>
+            <select formControlName="against" class="form-control" required>
+              <option value="">--Select Against--</option>
+              <option *ngFor="let a of againsts" value="{{ a.a_name }}">
+                {{ a.a_name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Account Name*</label>
+            <select formControlName="account_name" class="form-control" required>
+                <option value="">--Select Account Name--</option>
+              <option *ngFor="let a of accounts" value="{{ a.accountname }}">
+                {{ a.accountname }}
+              </option>
+            </select>
+            <span class="text-danger" *ngIf="( addForm.controls['account_name'].dirty || submitted) && addForm.controls['account_name'].hasError('required')">Account name is required.</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Debit</label>
+            <input type="number" formControlName="debit" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Credit</label>
+            <input type="number" formControlName="credit" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Naration*</label>
+            <textarea formControlName="naration" class="form-control" required></textarea>
+            <span class="text-danger" *ngIf="( addForm.controls['naration'].dirty || submitted) && addForm.controls['naration'].hasError('required')">Naration is required.</span>
+          </div>
+        </div>
+      </div>
+      <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success">
+        <i class="fa fa-get-pocket"></i> save
+      </button>
+      <button type="reset" style="margin-right: 10px" class="btn btn-sm btn-warning" (click)="reset()">
+        <i class="fa fa-refresh"></i> Reset
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="animated fadeIn">
+  <div class="row" >
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header"><i class="fa fa-align-justify"></i> Prepared By Administrator</div>
+        <div class="card-body">
+          <!-- <ngb-pagination
+            [(page)]="pagination.currenPage"
+            [pageSize]="pagination.pageSize"
+            [collectionSize]="pagination.total"
+            [maxSize]="pagination.maxSize"
+            (pageChange)="fetchReport()"
+          ></ngb-pagination>-->
+          <form [formGroup]="editForm">
+            <table class="table tableFixHead mytable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th class="cell-align">Site</th>
+                  <th class="cell-align">Voucher Type</th>
+                  <th class="cell-align">Voucher No.</th>
+                  <th class="cell-align">Payment Type</th>
+                  <th class="cell-align">Naration</th>
+                  <th class="cell-align">Username</th>
+                  <th align="center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="loading">
+                  <td colspan="10">
+                    <div class="showbox">
+                      <div class="loader">
+                        <svg class="circular" viewBox="25 25 50 50">
+                          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                        </svg>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngFor="let t of transactions; let i = index">
+                  <td class="cell-align">{{ t.tdate }}</td>
+
+                  <!-- <td *ngIf="t.editing">
+                    <input type="text">
+                  </td> -->
+
+                  <td class="cell-align">{{ t.site ? t.site : '--' }}</td>
+                  
+                  <td *ngIf="!t.editing" class="cell-align">{{ t.voucher_type ? t.voucher_type : '--' }}</td>
+                  
+                  <td *ngIf="t.editing" class="cell-align">
+                    <select formControlName="voucher_type" class="form-control">
+                      <option *ngFor="let v of voucher_types" value="{{v.v_name}}">{{v.v_name}}</option>
+                    </select>
+                  </td>
+                  
+                  <td class="cell-align">{{ t.voucher_no ? t.voucher_no : '--' }}</td>
+                  <td *ngIf="!t.editing" class="cell-align">{{ t.payment_type ? t.payment_type : '--' }}</td>
+
+                  <td *ngIf="t.editing">
+                    <select formControlName="payment_type" class="form-control">
+                      <option *ngFor="let p of payment_types" value="{{p.p_name}}">{{p.p_name}}</option>
+                    </select>
+                  </td>
+
+                  <td *ngIf="!t.editing" class="cell-align">{{ t.naration ? t.naration : '--' }}</td>
+
+                  <td *ngIf="t.editing">
+                    <textarea class="form-control" formControlName="naration"></textarea>
+                  </td>
+    
+                  <td class="cell-align">{{ t.user ? t.user : '--' }}</td>
+                  <td>
+                    <button (click)="edit(t)" class="btn btn-primary">Edit</button>&nbsp;&nbsp;
+                    <button *ngIf="t.editing" (click)="cancel(t)" class="btn btn-warning">Cancel</button>&nbsp;&nbsp;
+                    <button *ngIf="t.editing" (click)="update(t, editForm.value)" class="btn btn-success">Update</button>&nbsp;&nbsp;
+                    <button (click)="delete(t, i)" class="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+                <tr *ngIf="loaded && transactions.length === 0">
+                    <td align="center" colspan="7">No data available</td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+          <!-- <ngb-pagination
+            [(page)]="pagination.currenPage"
+            [pageSize]="pagination.pageSize"
+            [collectionSize]="pagination.total"
+            [maxSize]="pagination.maxSize"
+            (pageChange)="fetchReport()"
+          ></ngb-pagination>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

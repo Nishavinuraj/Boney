@@ -1,0 +1,142 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      View Order
+      <button class="btn btn-primary float-right" (click)="gotoEdit()"  type="button">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Site</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.site}}</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Order type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.order_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Order no</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.order_number}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Order date</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.order_date | date}}</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Delivery date</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.delivery_date| date}}</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Vendor</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.vendor}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-4 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Job type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.job_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Department</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.department}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">Order line items</div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th>Item</th>
+                  <th>Unit</th>
+                  <th>Qty</th>
+                  <th>Price(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                  <th>Dis(%)</th>
+                  <th>CGST(%)</th>
+                  <th>SGST(%)</th>
+                  <th>IGST(%)</th>
+                  <th>Amount(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                </tr>
+                <tr *ngFor="let items of orderDetails.order_items; let i=index">
+                  <td>{{items?.name}}</td>
+                  <td>{{items?.unit}}</td>
+                  <td>{{items?.qty}}</td>
+                  <td>{{items?.price}}</td>
+                  <td>{{items?.discount}}</td>
+                  <td>{{items?.cgst}}</td>
+                  <td>{{items?.sgst}}</td>
+                  <td>{{items?.igst}}</td>
+                  <td>{{items?.total}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row mt-3">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Narration</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.narration}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Terms And Conditions</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.terms_and_conditions}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Net Amt(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.net_amount}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Rounded off(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.rounded_off}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Round of Type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.round_off_type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Total(<i class="fa fa-inr" aria-hidden="true"></i>)</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{orderDetails?.total_amount}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

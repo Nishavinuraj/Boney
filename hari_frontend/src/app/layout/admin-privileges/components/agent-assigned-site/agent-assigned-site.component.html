@@ -1,0 +1,47 @@
+<div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+      <form [formGroup]="addForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-user" aria-hidden="true"></i> Site Assign To Traffic Agents</h4>
+            <hr />
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Traffic Agent</label>
+              <select formControlName="traffic_agent" class="form-control">
+                <option value="">Select Agent</option>
+                <option *ngFor="let a of agents" value="{{ a.name }}">
+                  {{ a.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+
+            <div class="form-group">
+              <label>Site</label>
+              <select formControlName="site" class="form-control" multiple>
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select>
+            </div>    
+
+          </div>
+          <div class="col-md-1 pull-right">
+            <label>Save</label>
+            <button (click)="save()" class="btn btn-primary"><i class="fa fa-get-pocket" aria-hidden="true"></i> Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Loader -->
+  <div class="showbox" [hidden]="!shown">
+    <div class="loader">
+      <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+      </svg>
+    </div>
+  </div>

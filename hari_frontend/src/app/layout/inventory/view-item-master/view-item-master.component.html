@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      View Item Master`
+      <button class="btn btn-primary float-right" (click)="gotoEdit()"  type="button">
+        <i class="fa fa-edit" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="card-body">
+
+      <div class="form-group row">
+       <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-3 col-md-4">Type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.type}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Name</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.name}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-3">Description</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.pdescription}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Item Category</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.itemcategory}}</label>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-3 col-md-4">Item Type</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.itemtype}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Unit</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.unit}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Godown</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.godown}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Opening Quantity</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.oq}}</label>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-3 col-md-3">Rate</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.prate}}</label>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">Value</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.value}}</label>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">HSN Code</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.hsncode}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="form-group row">
+            <label class="col-lg-4 col-md-4">GST</label>
+            <label class="col-lg-8 col-md-8 font-weight-bold">{{itemsDetails?.gst}}</label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

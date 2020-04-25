@@ -1,0 +1,122 @@
+<div [@routerTransition]>
+  <form [formGroup]="editForm" class="table-overflow">
+    <div class="row">
+      <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+        <form>
+          <div class="row">
+            <div class="col-md-12">
+              <h4><i class="fa fa-file-text-o"></i> Bill Details -> {{this.site_name}} #{{bill_no}}</h4>
+              <hr />
+            </div>
+          </div>
+        </form>
+        <table class="table table-hover table-striped table-bordered table-condensed tableFixHead">
+          <thead>
+            <tr>
+                <th>Bill No.</th>
+                <th>Lr No.</th>
+                <th>Lr Date</th>
+                <th>Pkgs</th>
+                <th>Wt.Kgs</th>
+                <th>Description</th>
+                <th>TBB Amount</th>
+                <th>L. Chrg</th>
+                <th>Ul Chrg</th>
+                <th>H-Days</th>
+                <th>H-Amt</th>
+                <th>Bill-Amt</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="10">
+                <div class="showbox">
+                  <div class="loader">
+                    <svg class="circular" viewBox="25 25 50 50">
+                      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                    </svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let billing of billing_data; let i = index">
+              <td>{{ billing.bill_no ? billing.bill_no : '--' }}</td>
+              <td>{{ billing.lr_no ? billing.lr_no : '--' }}</td>
+              <td>{{ billing.lr_date ? billing.lr_date : '--' }}</td>
+              <td>{{ billing.pkgs ? billing.pkgs : '--' }}</td>
+              <td>{{ billing.wt_kgs ? billing.wt_kgs : '--' }}</td>
+              <td>{{ billing.description ? billing.description : '--' }}</td>
+              <td class="cell-align">{{ (billing.tbb_amount ? billing.tbb_amount : 0) | number : '1.2-2' }}</td>
+
+
+              <td *ngIf="!billing.editing" class="cell-align">{{ (billing.lchrg ? billing.lchrg : 0) | number : '1.2-2' }}</td>
+              <td *ngIf="billing.editing">
+                <input class="form-control" formControlName="lchrg" type="number" (keyup)="changeLChargeModalValue(billing)" >
+              </td>
+
+              <td *ngIf="!billing.editing" class="cell-align">{{ (billing.ulchrg ? billing.ulchrg : 0) | number : '1.2-2' }}</td>
+              <td *ngIf="billing.editing">
+                <input class="form-control" formControlName="ulchrg" type="number" (keyup)="changeUlChargeModalValue(billing)" >
+              </td>
+
+              <td *ngIf="!billing.editing" class="cell-align">{{ billing.hdays ? billing.hdays : '0' }}</td>
+              <td *ngIf="billing.editing">
+                <input class="form-control" formControlName="hdays" type="number">
+              </td>
+
+              <td *ngIf="!billing.editing" class="cell-align">{{ (billing.hamt ? billing.hamt : 0) | number : '1.2-2' }}</td>
+              <td *ngIf="billing.editing">
+                <input class="form-control" formControlName="hamt" type="number" (keyup)="changeHamtModalValue(billing)" >
+              </td>
+
+
+              
+              <td class="cell-align">{{ (billing.bill_amt ? billing.bill_amt : 0) | number : '1.2-2' }}</td>
+              <td>
+                <button class="btn btn-primary" *ngIf="!billing.editing" (click)="edit(billing)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>&nbsp;
+                <button *ngIf="billing.editing" class="btn btn-danger" (click)="cancel(billing)">Cancel</button>&nbsp;
+                <button *ngIf="billing.editing" class="btn btn-success" (click)="update(billing)">Update</button>&nbsp;
+                <button class="btn btn-danger" (click)="delete(billing_data, i)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <th class="cell-align" colspan="12">Total</th>
+              <td>{{ total | number : '1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="billing_data.length === 0">
+              <td align="center" colspan="12">No data available</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-12">
+        <div class="clearfix"></div>
+        <div class="col-md-3 pull-right">
+          <form>
+            <table class="table table-hover table-striped table-bordered table-condensed">
+              <tr>
+                <td class="cell-align">SGST</td>
+                <td class="cell-align">{{ sgst | number : '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td class="cell-align">CGST</td>
+                <td class="cell-align">{{ cgst | number : '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td class="cell-align">IGST</td>
+                <td class="cell-align">{{ igst | number : '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th class="cell-align">Total Bill Amount</th>
+                <td class="cell-align">{{ totalBillAmount | number : '1.2-2' }}</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+  

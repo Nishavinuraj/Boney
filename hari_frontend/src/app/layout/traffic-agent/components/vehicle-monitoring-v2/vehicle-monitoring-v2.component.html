@@ -1,0 +1,771 @@
+  <div class="row">
+    
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+        <ngb-tabset>
+            <ngb-tab title="Vehicle Monitoring">
+              <ng-template ngbTabContent>
+                <br>
+                <form [formGroup]="filterForm" novalidate>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h4><i class="fa fa-truck"></i> Vehicle Monitoring</h4>
+                      <hr />
+                    </div>
+                    <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3">
+                      <div class="form-group">
+                        <label>Traffic Agent*</label>
+                        <select formControlName="traffic_agent" class="form-control" (change)="onChangeTrafficAgent($event.target.value)">
+                          <option value="">All</option>
+                          <option *ngFor="let a of agents" value="{{ a.name }}">
+                            {{ a.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12 col-sm-12 col-lg-1">
+                      <div class="form-group">
+                        <label>Actions</label>
+                        <button (click)="fetch()" [disabled]="loading" class="btn btn-warning"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch</button>&nbsp;
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-xs-12 col-sm-12 col-lg-1">
+                        <div class="form-group">
+                          <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                          <button class="btn btn-primary" (click)="goToReport3()"><i class="fa fa-file" aria-hidden="true"></i> Truck Performance</button>
+                        </div>
+                      </div>
+                  </div>
+                </form>
+                <hr />
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Search Truck</label>
+                      <input [(ngModel)]="text_filter" class="form-control" (input)="filterTruckData()" name="search" placeholder="Search Truck No">
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Screen One -->
+                <table class="table table-bordered mytable tableFixHead">
+                  <thead>
+                    <tr>
+                      <th>Truck No.</th>
+                      <th>Status</th>
+                      <th>Last location</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Remarks</th>
+                      <th>Truck Maintenance</th>
+                      <th>Tyre Maintenance</th>
+                      <th>Assign To</th>
+                      <th align="center">Actions</th>
+                      <!-- <th align="center">History</th>    -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="loading">
+                      <td colspan="14">
+                        <div class="showbox">
+                          <div class="loader">
+                            <svg class="circular" viewBox="25 25 50 50">
+                              <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                            </svg>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr *ngFor="let r of filteredData">
+                      <td>
+                        <a href="javascript:void(0)" (click)="onTruckNoClick(r)">{{ r.truckno }}</a>
+                        <i class="fa fa-circle-o-notch fa-spin" *ngIf="r.loading" aria-hidden="true"></i>
+                      </td>
+                      <td>
+                        <div *ngIf="r.editing === true">
+                          <div class="radio">
+                            <label><input type="radio" [(ngModel)]="r.status" name="status{{ r.truckno }}" value="Up">Up</label>
+                          </div>
+                          <div class="radio">
+                            <label><input type="radio" [(ngModel)]="r.status" name="status{{ r.truckno }}" value="Down">Down</label>
+                          </div>
+                          <div class="radio">
+                            <label><input type="radio" [(ngModel)]="r.status" name="status{{ r.truckno }}" value="No driver">No Driver</label>
+                          </div>
+                          <div class="radio">
+                            <label><input type="radio" [(ngModel)]="r.status" name="status{{ r.truckno }}" value="Maintenance">Maintenance</label>
+                          </div>
+                        </div>
+
+                        <span *ngIf="!r.editing"><span *ngIf="r.status === 'Up'"><i class="fa fa-arrow-up fa-up" aria-hidden="true"></i></span></span>
+
+                        <span *ngIf="!r.editing"><span *ngIf="r.status === 'Down'"><i class="fa fa-arrow-down fa-down" aria-hidden="true"></i></span></span>
+                        
+                        <span *ngIf="!r.editing"><span *ngIf="r.status === 'No driver'"><img [src]="no_driver_img" class="no-driver"></span></span>
+
+                        <span *ngIf="!r.editing"><span *ngIf="r.status === 'Maintenance'"><i class="fa fa-wrench" aria-hidden="true"></i></span></span>
+                      </td>
+                      <td>
+                        <input *ngIf="r.editing === true" [(ngModel)]="r.last_location" type="text" class="form-control" name="last_location">
+                        <span *ngIf="!r.editing">{{ r.last_location }}</span>
+                      </td>
+                      <td>
+                        <!-- <input *ngIf="r.editing === true" [(ngModel)]="r.date" type="date" class="form-control" name="date"> -->
+                        <span *ngIf="!r.editing && r.date">{{ r.date | date: 'dd/MM/yyyy'}}</span>
+                      </td>
+                      <td>
+                          <!-- <div *ngIf="r.editing === true">
+                            <ngb-timepicker [(ngModel)]="r.time"></ngb-timepicker>
+                          </div> -->
+                          <span *ngIf="!r.editing" [ngClass]="{bgcolor_change :r.is_after}">{{ r.formatted_time | date: 'HH:mm:ss' }}</span>
+                      </td>
+                      <td>
+                          <input *ngIf="r.editing === true" [(ngModel)]="r.remarks" type="text" class="form-control" name="date">
+                          <span *ngIf="!r.editing">{{ r.remarks }}</span>
+                      </td>
+                      <td>
+                        <span *ngIf="!r.editing">{{ r.truck_m }}</span>
+                        <!-- Input box -->
+                        <span *ngIf="r.editing">
+                          <span *ngIf="r.truck_maint === true">
+                            <div class="checkbox">
+                              <label><input [disabled]="true" type="checkbox" [(ngModel)]="r.truck_maintenance" >Truck Maintenance</label>
+                            </div>
+                            <!-- <span>{{ r.truck_particulars }}</span>       -->
+                          </span>
+                        </span>
+                        
+                        <span *ngIf="r.truck_particulars"><br> {{ r.truck_particulars }}</span>
+                        <span *ngIf="r.editing">
+                          <span *ngIf="r.truck_maint === false">
+                            <div class="checkbox">
+                              <label><input type="checkbox" [(ngModel)]="r.truck_maintenance" >Truck Maintenance</label>
+                            </div>
+
+                            <span *ngIf="r.truck_maintenance">
+                              <input [(ngModel)]="r.truck_particulars" type="text" class="form-control" name="truck_particulars">
+                            </span>
+                          </span>
+                        </span>
+                      </td>
+                      <td>
+                        <span *ngIf="!r.editing">{{ r.tyre_m }}</span>
+
+                        <!-- Input box -->
+                        <span *ngIf="r.editing">
+                          <span *ngIf="r.tyre_maint === true">
+                            <div class="checkbox">
+                              <label><input [disabled]="true" type="checkbox" [(ngModel)]="r.tyre_maintenance" >Tyre Maintenance</label>
+                            </div>
+                            <span>{{ r.tyre_particulars }}</span>      
+                          </span>
+                        </span>
+
+                        <span *ngIf="r.editing">
+                          <span *ngIf="r.tyre_maint === false">
+                            <div class="checkbox">
+                              <label><input type="checkbox" name="tr_m" [(ngModel)]="r.tyre_maintenance" #tr_m="ngModel">Tyre Maintenance</label>
+                            </div>
+
+                            <span *ngIf="r.tyre_maintenance">
+                              <input [(ngModel)]="r.tyre_particulars" type="text" class="form-control" name="tyre_particulars">
+                            </span>
+                          </span>
+                        </span>
+                      </td>
+                      <td>
+                          <!-- <input *ngIf="r.editing === true" [(ngModel)]="r.assign" type="text" class="form-control" name="assign_to"> -->
+                          <span>{{ r.assign }}</span>
+                      </td>
+                      <td>
+                        <button class="btn btn-primary" *ngIf="!r.editing" (click)="edit(r)">Edit</button>
+                        <a [routerLink]="['/maintenance/truck-history/', { truckno: r.truckno }]">
+                          &nbsp;<button type="button" class="btn btn-warning">Truck History</button></a>
+
+                        <button class="btn btn-success" *ngIf="r.editing" (click)="update(r)">Update</button>&nbsp;&nbsp;
+                        <button class="btn btn-warning" *ngIf="r.editing" (click)="cancel(r)">Cancel</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <br>
+                <div class="card" *ngIf="selected_truck && selected_truck.truckno">
+                  <div class="card-header">
+                      <h3>Truck Info: {{ selected_truck.truckno }}</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="zui-scroller" *ngIf="selected_truck && selected_truck.srno">
+                      <form [formGroup]="editForm" class="table-overflow">
+                        <table id="section2" class="table table-bordered mytable zui-table">
+                          <thead>
+                            <tr>
+                              <th class="zui-sticky-col zui-1">Sr.No</th>
+                              <th class="zui-sticky-col zui-2">Vehicle No.</th>
+                              <th>Lrno</th>
+                              <th>Date</th>
+                              <th>From</th>
+                              <th>Destination</th>
+                              <th>M.Ton</th>
+                              <th>Customer Name</th>
+                              <th>Map</th>
+                              <th>Km Run</th>
+                              <th>Current Location</th>
+                              <th>Trips Status</th>
+                              <th>Remark</th>
+                              <th>Completed</th>
+                              <th align="center">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngIf="loading">
+                              <td colspan="14">
+                                <div class="showbox">
+                                  <div class="loader">
+                                    <svg class="circular" viewBox="25 25 50 50">
+                                      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                                    </svg>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="zui-sticky-col zui-1">{{selected_truck.srno ? selected_truck.srno : '--'}}</td>
+                              <td class="zui-sticky-col zui-2"><a [routerLink]="['/traffic-agent/vehicle-monitoring/reports', {truck_no: selected_truck.truckno}]">{{selected_truck.truckno ? selected_truck.truckno : '--'}}</a></td>
+                              <td>{{selected_truck.lrno ? selected_truck.lrno : '--'}}</td>
+                              <td>{{selected_truck.date | date:'dd/MM/yyyy'}}</td>
+                              <td>{{selected_truck.from ? selected_truck.from : '--'}}</td>
+                              <td>{{selected_truck.to ? selected_truck.to : '--'}}</td>
+                              <td>{{selected_truck.m_ton ? selected_truck.m_ton : '--'}}</td>
+                              <td>{{selected_truck.customer_name ? selected_truck.customer_name : '--'}}</td>
+                              <td>{{selected_truck.map ? selected_truck.map : '--'}}</td>
+              
+                              <td *ngIf="!selected_truck.editing">
+                                  {{selected_truck.km ? selected_truck.km : '--'}}
+                              </td>
+                              <td *ngIf="selected_truck.editing">
+                                <input class="form-control" formControlName="km_run" type="number" >
+                              </td>
+              
+                              <td *ngIf="!selected_truck.editing">{{selected_truck.currentlocation ? selected_truck.currentlocation : '--'}}</td>
+                              <td *ngIf="selected_truck.editing">
+                                <input class="form-control" formControlName="current_location" type="text" >
+                              </td>
+              
+                              <td *ngIf="!selected_truck.editing">{{selected_truck.tripsstatus ? selected_truck.tripsstatus : '--'}}</td>
+                              <td *ngIf="selected_truck.editing">
+                                <select class="form-control" formControlName="trip_status">
+                                  <option *ngFor="let t of tripStatus" value="{{ t.name }}">{{t.name}}</option>
+                                </select>    
+                              </td>
+              
+                              <td *ngIf="!selected_truck.editing">{{selected_truck.remark ? selected_truck.remark : '--'}}</td>
+                              <td *ngIf="selected_truck.editing">
+                                <input class="form-control" formControlName="remark" type="text" >
+                              </td>
+                              
+                              <td *ngIf="!selected_truck.editing">{{selected_truck.completed ? selected_truck.completed : '--'}}</td>
+                              <td *ngIf="selected_truck.editing">
+                                <select class="form-control" formControlName="completed">
+                                  <option *ngFor="let c of completed" value="{{ c.name }}">{{c.name}}</option>
+                                </select>
+                              </td>
+                              
+                              <td>
+                                <button *ngIf="!selected_truck.editing" class="btn btn-primary" (click)="edit(selected_truck)">Edit</button>&nbsp;&nbsp;
+                                <button *ngIf="selected_truck.editing" class="btn btn-danger" (click)="cancel(selected_truck)">Cancel</button>&nbsp;&nbsp;
+                                <button *ngIf="selected_truck.editing" class="btn btn-success" (click)="update(selected_truck)">Update</button>
+                              </td>
+                            </tr>
+                            <tr *ngIf="loaded && report_data.length === 0 ">
+                              <td align="center" colspan="14">No data available</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+          
+                <!-- Screen 3 -->
+                <div class="row" id="screen3">
+                  <div class="col-lg">
+                    <div class="card">
+                      <div class="card-header">
+                        <span> <i class="fa fa-industry"></i> Vehicle Monitoring Reports </span>
+                      </div>
+                      <div class="card-body">
+                        <form [formGroup]="screen3FilterForm">
+                          <div class="pull-left">
+                              <h3 *ngIf="selected_truck">Truck No: {{selected_truck.truckno}}</h3> 
+                          </div>
+                          <div
+                            class="btn-group btn-group-toggle pull-right"
+                            (change)="onReportParameterChange(screen3FilterForm.value['filters'])"
+                            ngbRadioGroup
+                            name="radioBasic"
+                            formControlName="filters"
+                          >
+                            <!-- <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="date" /> Date Wise </label>
+                            <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="month" /> Month Wise </label>
+                            <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="performance" /> Performance Wise </label> -->
+
+                            <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="date" /> Date Wise </label>
+                            <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="month" /> Month Wise </label>
+                            <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="performance" /> Performance Wise </label>
+
+                          </div>
+                        </form>
+                        <div class="clearfix"></div>
+                        <br />
+              
+                        <div class="row" *ngIf="active_report == 'date'">
+                          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <form [formGroup]="dateWiseFrom">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="dp"
+                                        formControlName="start_date"
+                                        ngbDatepicker
+                                        #d="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>End Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="dp2"
+                                        formControlName="end_date"
+                                        ngbDatepicker
+                                        #d1="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Truck No.*</label>
+                                    <input
+                                      class="form-control"
+                                      ng2-auto-complete
+                                      formControlName="truck_no"
+                                      [source]="truckPosition.bind(this)"
+                                      list-formatter="truckno"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <button (click)="fetchDateWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                                  <button [disabled]="dateWiseReport.length === 0" (click)="exportDateWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export to excel</button>
+                                </div>
+                              </div>
+                            </form>
+                            <hr />
+                            
+                            <table id="dailytable" class="table mytable tableFixHead">
+                              <thead>
+                                <tr>
+                                  <th>S.No</th>
+                                  <th>LR.No</th>
+                                  <th>Date</th>
+                                  <th>From</th>
+                                  <th>To</th>
+                                  <th>Km</th>
+                                  <th>Qty</th>
+                                  <th>Rate</th>
+                                  <th>Freight</th>
+                                  <th>D.Qty</th>
+                                  <th>D.Amt</th>
+                                  <th>JST Adv</th>
+                                  <th>Party Adv.</th>
+                                  <th>Others</th>
+                                  <th>Total.Exp</th>
+                                  <th>Gross Profit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngIf="loading">
+                                  <td colspan="14">
+                                    <div class="showbox">
+                                      <div class="loader">
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                                        </svg>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr *ngFor="let d of dateWiseReport">
+                                  <td>{{ d.sno ? d.sno : '--' }}</td>
+                                  <td>{{ d.lrno ? d.lrno : '--' }}</td>
+                                  <td>{{ d.date ? d.date : '' | date: 'dd/MM/yyyy' }}</td>
+                                  <td>{{ d.from ? d.from : '--' }}</td>
+                                  <td>{{ d.to ? d.to : '--' }}</td>
+                                  <td>{{ d.km ? d.km : '--' }}</td>
+                                  <td>{{ d.qty ? d.qty : '--' }}</td>
+                                  <td>{{ d.rate ? d.rate : '--' }}</td>
+                                  <td>{{ (d.freight ? d.freight : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ d.dqty ? d.dqty : '--' }}</td>
+                                  <td>{{ (d.damount ? d.damount : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ d.JSTC_Adv ? d.JSTC_Adv : '--' }}</td>
+                                  <td>{{ d.Party_Adv ? d.Party_Adv : '--' }}</td>
+                                  <td>{{ d.other ? d.other : '--' }}</td>
+                                  <td>{{ (d.tot_exp ? d.tot_exp : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ (d.gross_profit ? d.gross_profit : 0) | number: '1.2-2' }}</td>
+                                </tr>
+                                
+                                <tr *ngIf="loaded && dateWiseReport.length === 0">
+                                  <td align="center" colspan="14">No data available</td>
+                                </tr>
+                              </tbody>
+                            </table>
+        
+                            <table id="dailytable" class="table table mytable" width="40%" *ngIf="summaryReport">
+                                <tr>
+                                  <td colspan="2"><b>Summary Report</b></td>
+                                </tr>
+                              <tr>
+                                <td>Freight Amount</td>
+                                <td>{{ summaryReport.freight_amount ? summaryReport.freight_amount: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Comm</td>
+                                <td>{{ summaryReport.comm ? summaryReport.comm: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Diesal Amount</td>
+                                <td>{{ (summaryReport.diesal_amount ? summaryReport.diesal_amount: 0) | number: '1.2-2' }}</td>
+                              </tr>
+                              <tr>
+                                <td>Trip Amount</td>
+                                <td>{{ summaryReport.trip_amount ? summaryReport.trip_amount: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Total Amount</td>
+                                <td>{{ (summaryReport.total_amount ? summaryReport.total_amount: 0) | number: '1.2-2' }}</td>
+                              </tr>
+                              <tr>
+                                <td>Driver Salary</td>
+                                <td>{{ summaryReport.driver_salary ? summaryReport.driver_salary: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>EMi</td>
+                                <td>{{ summaryReport.emi ? summaryReport.emi: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Tyre</td>
+                                <td>{{ summaryReport.tyre ? summaryReport.tyre: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Doc</td>
+                                <td>{{ summaryReport.doc ? summaryReport.doc: 0 }}</td>
+                              </tr>
+                              <tr>
+                                <td>Final Amount</td>
+                                <td>{{ (summaryReport.final_amount ? summaryReport.final_amount: 0) | number: '1.2-2' }}</td>
+                              </tr>
+                            </table>
+              
+                          </div>
+                        </div>
+              
+                        <div class="row" *ngIf="active_report == 'performance'">
+                          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <form [formGroup]="monthWiseForms">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Start Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="dp"
+                                        formControlName="start_date"
+                                        ngbDatepicker
+                                        #d="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>End Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control"
+                                        placeholder="dd/mm/yyyy"
+                                        name="dp2"
+                                        formControlName="end_date"
+                                        ngbDatepicker
+                                        #d1="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Truck No.*</label>
+                                    <input
+                                      class="form-control"
+                                      ng2-auto-complete
+                                      formControlName="truck_no"
+                                      [source]="truckPosition.bind(this)"
+                                      list-formatter="truckno"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <button (click)="fetchMonthWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                                  <button [disabled]="monthWiseReport.length === 0" (click)="exportMonthWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export to excel</button>
+                                </div>
+                              </div>
+                            </form>
+                            <hr>
+                            <table class="table mytable tableFixHead">
+                              <thead>
+                                <tr>
+                                  <th>Trip</th>
+                                  <th>MTons</th>
+                                  <th>Freight</th>
+                                  <th>JSTC</th>
+                                  <th>Party</th>
+                                  <th>Other</th>
+                                  <th>Diesal Amount</th>
+                                  <th>Comm</th>
+                                  <th>Salary</th>
+                                  <th>Emi</th>
+                                  <th>Doc</th>
+                                  <th>Tyre</th>
+                                  <th>Maint.</th>
+                                  <th>Net Profit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let m of monthWiseReport">
+                                  <td>{{ m.trips ? m.trips : '--' }}</td>
+                                  <td>{{ m.mtons ? m.mtons : '--' }}</td>
+                                  <td>{{ (m.freight ? m.freight : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ m.jstc ? m.jstc : '--' }}</td>
+                                  <td>{{ m.party ? m.party : '--' }}</td>
+                                  <td>{{ (m.other ? m.other : '0') | number : '1.2-2' }}</td>
+                                  <td>{{ (m.diesal_amount ? m.diesal_amount : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ (m.comm ? m.comm : '0') | number : '1.2-2' }}</td>
+                                  <td>{{ m.salary ? m.salary : '--' }}</td>
+                                  <td>{{ m.emi ? m.emi : '--' }}</td>
+                                  <td>{{ m.doc ? m.doc : '--' }}</td>
+                                  <td>{{ m.tyre ? m.tyre : '--' }}</td>
+                                  <td>{{ m.maint ? m.maint : '--' }}</td>
+                                  <td>{{ (m.net_profit ? m.net_profit : '0') | number : '1.2-2' }}</td>
+                                </tr>
+                                <tr *ngIf="loaded && monthWiseReport.length === 0">
+                                  <td align="center" colspan="14">No data available</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="row" *ngIf="active_report == 'month'">
+                          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <form [formGroup]="performanceForms">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Years</label>
+                                    <select class="form-control" formControlName="year">
+                                      <option value="">--Select year--</option>
+                                      <option *ngFor="let y of years" value="{{y.year}}">{{y.year}}</option>
+                                    </select>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Truck No.*</label>
+                                    <input
+                                      class="form-control"
+                                      ng2-auto-complete
+                                      formControlName="truck_no"
+                                      [source]="truckPosition.bind(this)"
+                                      list-formatter="truckno"
+                                    />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <button (click)="fetchPerformanceWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                                  <!-- <button [disabled]="performanceWiseReport.length === 0" (click)="exportMonthWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export</button> -->
+                                </div>
+                              </div>
+                            </form>
+                            <hr>
+                            <table class="table mytable tableFixHead">
+                              <thead>
+                                <tr>
+                                  <th>Month</th>
+                                  <th>Trip</th>
+                                  <th>MTons</th>
+                                  <th>Target</th>
+                                  <th>Freight</th>
+                                  <th>JSTC</th>
+                                  <th>Party</th>
+                                  <th>Other</th>
+                                  <th>Diesal Amount</th>
+                                  <th>Comm</th>
+                                  <th>Gross Profit</th>
+                                  <th>Salary</th>
+                                  <th>Emi</th>
+                                  <th>Doc</th>
+                                  <th>Tyre</th>
+                                  <th>Maint.</th>
+                                  <th>Net Profit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let m of performanceWiseReport">
+                                  <td>{{ m.month ? m.month : '--' }}</td>
+                                  <td>{{ m.trips ? m.trips : '--' }}</td>
+                                  <td>{{ (m.mtons ? m.mtons : 0) | number: '1.2-2' }}</td>
+                                  <td>{{ m.target ? m.target : '--' }}</td>
+                                  <td>{{ (m.freight ? m.freight : 0) | number: '1.2-2'}}</td>
+                                  <td>{{ m.jstc ? m.jstc : '--' }}</td>
+                                  <td>{{ m.party ? m.party : '--' }}</td>
+                                  <td>{{ (m.other ? m.other : '0') | number : '1.2-2' }}</td>
+                                  <td>{{ (m.diesal_amount ? m.diesal_amount : 0) | number : '1.2-2' }}</td>
+                                  <td>{{ (m.comm ? m.comm : '0') | number : '1.2-2' }}</td>
+                                  <td>{{ (m.gross_profit ? m.gross_profit : '0') | number : '1.2-2' }}</td>
+                                  <td>{{ m.salary ? m.salary : '--' }}</td>
+                                  <td>{{ m.emi ? m.emi : '--' }}</td>
+                                  <td>{{ m.doc ? m.doc : '--' }}</td>
+                                  <td>{{ m.tyre ? m.tyre : '--' }}</td>
+                                  <td>{{ m.maint ? m.maint : '--' }}</td>
+                                  <td>{{ (m.net_profit ? m.net_profit : '0') | number : '1.2-2' }}</td>
+                                </tr>
+                                <tr *ngIf="loaded && performanceWiseReport.length === 0">
+                                  <td align="center" colspan="14">No data available</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Vehicle Monitoring History">
+              <ng-template ngbTabContent>
+                <br>
+                <div class="row">
+                  <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                    <form [formGroup]="historyForm">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Truck No.*</label>
+                            <input
+                              class="form-control"
+                              ng2-auto-complete
+                              formControlName="truck_no"
+                              [source]="truckPosition.bind(this)"
+                              list-formatter="truckno"
+                            />
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <button (click)="getHistoryTabData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                          <!-- <button [disabled]="performanceWiseReport.length === 0" (click)="exportMonthWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export</button> -->
+                        </div>
+                      </div>
+                    </form>
+                    <hr>
+                    <table class="table table-bordered mytable tableFixHead">
+                      <thead>
+                        <tr>
+                          <th>Truck No.</th>
+                          <th>Agent Name</th>
+                          <th>Status</th>
+                          <th>Last location</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Remarks</th>
+                          <!-- <th>Tyre maintenance</th>
+                          <th>Tyre particulars</th>
+                          <th>Truck maintenance</th>
+                          <th>Truck particulars</th>
+                          <th>Assign</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngIf="loading">
+                          <td colspan="14">
+                            <div class="showbox">
+                              <div class="loader">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                  <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                                </svg>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr *ngFor="let hr of historyReports">
+                          <td>{{hr.truckno}}</td>
+                          <td>{{hr.taname}}</td>
+                          <td>{{hr.status}}</td>
+                          <td>{{hr.last_location}}</td>
+                          <td>{{hr.date}}</td>
+                          <td>{{hr.time }}</td>
+                          <td>{{hr.remarks}}</td>
+                          <!-- <td>{{hr.tyre_maintenance}}</td>
+                          <td>{{hr.tyre_particulars}}</td>
+                          <td>{{hr.truck_maintenance}}</td>
+                          <td>{{hr.truck_particulars}}</td>
+                          <td>{{hr.assign}}</td> -->
+                        </tr>
+                        <tr *ngIf="loaded && historyReports.length === 0 ">
+                            <td align="center" colspan="12">No data available</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+  
+
+      <!-- Screen Two -->
+
+
+    </div>
+  </div>

@@ -1,0 +1,315 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-truck"></i> Principle Billings</h4>
+            <hr />
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Site</label>
+              <!-- <select formControlName="site" class="form-control">
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select> -->
+
+              <input
+                class="form-control"
+                ng2-auto-complete
+                formControlName="site"
+                [source]="searchSite.bind(this)"
+                list-formatter="name"
+              />
+
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Party Name</label>
+              <!-- <select formControlName="consigner" class="form-control">
+                <option value="">Select Party Name</option>
+                <option *ngFor="let p of parties" value="{{ p.accountname }}">
+                  {{ p.accountname }}
+                </option>
+              </select> -->
+
+              <input
+                class="form-control"
+                ng2-auto-complete
+                formControlName="consigner"
+                [source]="searchPartyName.bind(this)"
+                list-formatter="accountname"
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>From Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  formControlName="from_date"
+                  name="dp1"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>To Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  formControlName="to_date"
+                  name="dp2"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1 pull-right">
+            <label>Search</label>
+            <button (click)="onFilterChange()" class="btn btn-primary"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch</button>
+          </div>
+        </div>
+      </form>
+      <hr />
+      <h3>Create New Bill</h3>
+      <hr />
+      <form [formGroup]="createBillForm">
+        <div class="row">
+          <div class="col-md-3">
+            <fieldset class="form-group">
+              <label>Billing No</label>
+              <input id="truck_no" formControlName="billing_no" placeholder="Bill No." type="text" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Bill Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  formControlName="bill_date"
+                  name="dp"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <fieldset class="form-group">
+              <label>Billing Name</label>
+              <input id="truck_no" formControlName="billing_name" placeholder="Type billing name..." type="text" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-md-3">
+            <fieldset class="form-group">
+              <label>Billing Address</label>
+              <input id="truck_no" formControlName="billing_address" placeholder="Type billing address..." type="text" class="form-control" />
+            </fieldset>
+          </div>
+          <div class="col-md-1 pull-right">
+            <button class="btn btn-primary" (click)="save()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination>
+      <p><strong>Total:</strong> {{ pagination.total }}<br /><strong>Records per page:</strong> {{ pagination.pageSize }}</p> -->
+      <table class="table table-hover table-striped table-bordered table-condensed tableFixHead">
+        <thead>
+          <tr>
+            <th><input type="checkbox" (change)="changeStatus($event)"> &nbsp;Select</th>
+            <th>Lr No.</th>
+            <th>Lr Date</th>
+            <th>Destination</th>
+            <th>Pkgs</th>
+            <th>Wt.Kgs</th>
+            <th>Description</th>
+            <th>TBB Amount</th>
+            <th>L. Chrg</th>
+            <th>Ul Chrg</th>
+            <th>H-Amt</th>
+            <th>H-Days</th>
+            <th>Bill-Amt</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="14">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let billing of billing_data; let i = index">
+            <td (click)="onSelectRecord(billing)" class="clickable">
+              <span class="selection-circle"
+                ><i
+                  class="fa"
+                  aria-hidden="true"
+                  [ngClass]="{ 'fa-circle-thin': !billing.selected, 'fa-check-circle': billing.selected }"
+                ></i
+              ></span>
+            </td>
+            <td>{{ billing.lrno ? billing.lrno : '--' }}</td>
+            <td>{{ billing.lrdate ? billing.lrdate : '--' }}</td>
+            <td>{{ billing.to ? billing.to : '--' }}</td>
+            <td>{{ billing.packages ? billing.packages : '--' }}</td>
+            <td>{{ billing.actualweight ? billing.actualweight : '--' }}</td>
+            <td>{{ billing.contains ? billing.contains : '--' }}</td>
+            <td class="cell-align">{{ (billing.newamount ? billing.newamount : 0) | number: '1.2-2' }}</td>
+            <td class="cell-align">{{ (billing_data[i].l_chrge ? billing_data[i].l_chrge : 0) | number: '1.2-2' }}</td>
+            <td class="cell-align">{{ (billing_data[i].ul_chrge ? billing_data[i].ul_chrge : 0) | number: '1.2-2' }}</td>
+            <td class="cell-align">{{ (billing_data[i].h_amt ? billing_data[i].h_amt : 0) | number: '1.2-2' }}</td>
+            <td>{{ billing_data[i].h_days ? billing_data[i].h_days : '0' }}</td>
+            <td class="cell-align">{{ (billing_data[i].total ? billing_data[i].total : 0) | number: '1.2-2' }}</td>
+            <td>
+              <button class="btn btn-primary" (click)="edit(editModal, i)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button
+              >&nbsp;
+              <!-- <button class="btn btn-danger" (click)="delete()"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button> -->
+            </td>
+          </tr>
+          <tr *ngIf="billing_data.length > 0">
+            <th class="cell-align" colspan="13">Total</th>
+            <td class="cell-align">{{ subTotal | number: '1.2-2' }}</td>
+          </tr>
+          <tr *ngIf="billing_data.length === 0">
+            <td align="center" colspan="14">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-12">
+        <div class="col-md-3">
+          <button class="btn btn-primary mg-left-10" (click)="save()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+        </div>
+        <div class="col-md-6 pull-right">
+          <form [formGroup]="gstForm">
+            <table class="table table-hover table-striped table-bordered table-condensed">
+              <tr>
+                <th>Add %</th>
+                <td><input type="number" (keyup)="cgstChange()" formControlName="cgst" placeholder="Add CGST" /></td>
+                <th class="cell-align">CGST ({{ cgst ? cgst : 0 }} %)</th>
+                <td class="cell-align">{{ cgstGstPercentage | number: '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th>Add %</th>
+                <td><input type="number" (keyup)="sgstChange()" formControlName="sgst" placeholder="Add SGST" /></td>
+                <th class="cell-align">SGST ({{ sgst ? sgst : 0 }} %)</th>
+                <td class="cell-align">{{ sgstGstPercentage | number: '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th>Add %</th>
+                <td><input type="number" (keyup)="igstChange()" formControlName="igst" placeholder="Add IGST" /></td>
+                <th class="cell-align">IGST ({{ igst ? igst : 0 }} %)</th>
+                <td class="cell-align">{{ igstGstPercentage | number: '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th class="cell-align" colspan="3">Total Bill Amount</th>
+                <td class="cell-align">{{ grandTotal | number: '1.2-2' }}</td>
+              </tr>
+            </table>
+          </form>
+        </div>
+      </div>
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination> -->
+    </div>
+  </div>
+</div>
+
+<!-- Edit template -->
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Principle Billing</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="editForm">
+    <div class="modal-body">
+      <fieldset class="form-group">
+        <label>L. Charge</label>
+        <input
+          formControlName="l_chrge"
+          (keyup)="changeLChargeModalValue()"
+          type="number"
+          form
+          class="form-control"
+          placeholder="Enter value"
+        />
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label>Ul. Charge</label>
+        <input
+          formControlName="ul_chrge"
+          (keyup)="changeUlChargeModalValue()"
+          type="number"
+          class="form-control"
+          placeholder="Enter value"
+        />
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label>H-Days</label>
+        <input formControlName="h_days" type="number" class="form-control" placeholder="Enter days" />
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label>H-Amt</label>
+        <input formControlName="h_amt" (keyup)="changeHamtModalValue()" type="number" class="form-control" placeholder="Enter value" />
+      </fieldset>
+      <fieldset class="form-group">
+        <label>Bill Amount: {{ obj.total }}</label>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <button (click)="modal.close(editForm.value)" class="btn btn-outline-dark">
+        <i class="fa fa-floppy-o" aria-hidden="true"></i> Save
+      </button>
+    </div>
+  </form>
+</ng-template>

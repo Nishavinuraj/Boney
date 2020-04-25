@@ -1,0 +1,37 @@
+table {
+    overflow-x: scroll;
+    width: 100%;
+    display: block;
+    select {
+        width: 150px
+    }
+    .unit {
+        width: 70px
+    }
+    .qty {
+        width: 70px
+    }
+    .price{
+        width: 70px
+    }
+    .refund{
+        width: 70px
+    }
+    .mat_type{
+        width: 70px
+    }
+    .ref_qty {
+        width: 120px
+    }
+    .godown{
+        width: 70px
+    }
+    .total{
+        width: 120px
+    }
+
+  }
+
+  ::ng-deep .ng-dropdown-panel {
+      margin-top : 40px !important;
+  }

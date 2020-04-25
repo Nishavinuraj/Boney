@@ -1,0 +1,22 @@
+.mg-top-25 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    .mg-top-25 {
+        margin-top: 0px;
+    }
+    .wrapper-right {
+        text-align:right;
+    }
+  }
+
+.truck-selection {
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.cell-align {
+    text-align: right;
+}

@@ -1,0 +1,125 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <a routerLink="/reports/dispatch_summary" [routerLinkActive]="['router-link-active']">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;
+          </a>
+          <span>
+            <i class="fa fa-industry"></i> {{ sitename }}
+          </span>
+
+          <button  style="margin-right: 10px" class="btn btn-sm btn-success pull-right" (click)="ExportAsExcel()">
+              <i class="fa fa fa-file-excel-o"></i> Save As EXCEL</button>
+
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+
+            <div class="btn-group btn-group-toggle pull-right" (change)="onReportParameterChange(form.value['filters'])"
+              ngbRadioGroup name="radioBasic" formControlName="filters">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="date"> Date Wise
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month Wise
+              </label>
+            </div>
+          </form>
+          <div class="clearfix"></div>
+          <br>
+          <table id="dailytable" class="table mytable tableFixHead" *ngIf="active_report == 'date'">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>D.I No.</th>
+                <th>Lr no.</th>
+                <th>From</th>
+                <th>Destination</th>
+                <th>Consignee Name</th>
+                <th>Truck no</th>
+                <th>Owner name</th>
+                <th class="cell-align">KM</th>
+                <th class="cell-align">Qty</th>
+                <th class="cell-align">C.Rate</th>
+                <th class="cell-align">C.Freight</th>
+                <th class="cell-align">P.Rate</th>
+                <th class="cell-align">P.Freight</th>
+                <th class="cell-align">Comm</th>
+                <th class="cell-align">GPS</th>
+                <th class="cell-align">D.Qty</th>
+                <th class="cell-align">D.Amt</th>
+                <th class="cell-align">JST Adv</th>
+                <th class="cell-align">Party Adv.</th>
+                <th class="cell-align">Ex. Diesal</th>
+                <th class="cell-align">Ex.Exp</th>
+                <th class="cell-align">Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of report_data">
+                <td>{{ report.LR_Date | date: 'dd/MM/yyyy'}}</td>
+                <td class="cell-align">{{ report.G_I_No }}</td>
+                <td>{{ report.LrNo}}</td>
+                <td>{{ report.From}}</td>
+                <td>{{ report.Destination}}</td>
+                <td>{{ report.Consignne }}</td>
+                <td>{{ report.Truckno }}</td>
+                <td>{{ report.Ownername ? report.Ownername : '-' }}</td>
+                <td class="cell-align">{{ report.km }}</td>
+                <td class="cell-align">{{ report.C_WT}}</td>
+                <td class="cell-align">{{ report.C_Rate ? report.C_Rate : 0 }}</td>
+                <td class="cell-align">{{ report.C_Freight ? report.C_Freight : 0 }}</td>
+                <td class="cell-align">{{ report.P_Rate ? report.P_Rate : 0 }}</td>
+                <td class="cell-align">{{ report.P_Freight ? report.P_Freight : 0 }}</td>
+                <td class="cell-align">{{ report.Commision ? report.Commision : 0 | number : '1.2-2' }}</td>
+                <td class="cell-align">{{ report.gps ? 'yes' : 'no' }}</td>
+                <td class="cell-align">{{ report.D_Qty ? report.D_Qty : 0 | number : '1.2-2' }}</td>
+                <td class="cell-align">{{ report.D_Amt ? report.D_Amt : 0 }}</td>
+                <td class="cell-align">{{ report.JSTC_Adv? report.JSTC_Adv : 0 | number : '1.2-2'  }}</td>
+                <td class="cell-align">{{ report.Party_Adv? report.Party_Adv : 0 | number : '1.2-2'}}</td>
+                <td class="cell-align">{{ 0 }}</td>
+                <td class="cell-align">{{ 0 }}</td>
+                <td class="cell-align">{{ report.Profit ? report.Profit : 0 | number : '1.2-2' }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table mytable tableFixHead" *ngIf="active_report == 'month'">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th class="cell-align">Dispatch</th>
+                <th class="cell-align">Tons</th>
+                <th class="cell-align">OT</th>
+                <th class="cell-align">AT</th>
+                <th class="cell-align">CTons</th>
+                <th class="cell-align">ATons</th>
+                <th class="cell-align">C.Ratio</th>
+                <th class="cell-align">ARAtio</th>
+                <th class="cell-align">O.Comm</th>
+                <th class="cell-align">A.Comm</th>
+                <th class="cell-align">Net Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of report_data_monthly">
+                <td>{{ report.month}}</td>
+                <td class="cell-align">{{ report.trips}}</td>
+                <td class="cell-align">{{ report.tons.toFixed(2)}}</td>
+                <td class="cell-align">{{ report.OT}}</td>
+                <td class="cell-align">{{ report.AT }}</td>
+                <td class="cell-align">{{ report.CTons.toFixed(2)}}</td>
+                <td class="cell-align">{{ report.ATons.toFixed(2) }}</td>
+                <td class="cell-align">{{ report.o_ratio.toFixed(2)}}%</td>
+                <td class="cell-align">{{ report.a_ratio | number : '1.2-2' }}%</td>
+                <td class="cell-align">{{ report.Co_profit.toFixed(2) }}</td>
+                <td class="cell-align">{{ report.A_profit.toFixed(2) }}</td>
+                <td class="cell-align">{{ report.net_profit.toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

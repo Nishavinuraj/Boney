@@ -1,0 +1,387 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <a routerLink="/traffic-agent/vehicle-monitoring" [routerLinkActive]="['router-link-active']">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> &nbsp;
+          </a>
+          <span> <i class="fa fa-industry"></i> Vehicle Monitoring Reports </span>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form">
+            <div class="pull-left">
+                <h3>Truck No: {{vehicle_no}}</h3> 
+            </div>
+            <div
+              class="btn-group btn-group-toggle pull-right"
+              (change)="onReportParameterChange(form.value['filters'])"
+              ngbRadioGroup
+              name="radioBasic"
+              formControlName="filters"
+            >
+              <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="date" /> Date Wise </label>
+              <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="month" /> Month Wise </label>
+              <label ngbButtonLabel class="btn-primary btn-sm"> <input ngbButton type="radio" value="performance" /> Performance Wise </label>
+            </div>
+          </form>
+          <div class="clearfix"></div>
+          <br />
+
+          <div class="row" *ngIf="active_report == 'date'">
+            <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+              <form [formGroup]="dateWiseFrom">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Start Date</label>
+                      <div class="input-group datepicker-input">
+                        <input
+                          class="form-control"
+                          placeholder="dd/mm/yyyy"
+                          name="dp"
+                          formControlName="start_date"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>End Date</label>
+                      <div class="input-group datepicker-input">
+                        <input
+                          class="form-control"
+                          placeholder="dd/mm/yyyy"
+                          name="dp2"
+                          formControlName="end_date"
+                          ngbDatepicker
+                          #d1="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Truck No.*</label>
+                      <input
+                        class="form-control"
+                        ng2-auto-complete
+                        formControlName="truck_no"
+                        [source]="truckPosition.bind(this)"
+                        list-formatter="truckno"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button (click)="fetchDateWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                    <button [disabled]="dateWiseReport.length === 0" (click)="exportDateWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export to excel</button>
+                  </div>
+                </div>
+              </form>
+              <hr />
+              <table id="dailytable" class="table mytable tableFixHead">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Km</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Freight</th>
+                    <th>D.Qty</th>
+                    <th>D.Amt</th>
+                    <th>JST Adv</th>
+                    <th>Party Adv.</th>
+                    <th>Others</th>
+                    <th>Tot.Exp</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="14">
+                      <div class="showbox">
+                        <div class="loader">
+                          <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let d of dateWiseReport">
+                    <td>{{ d.sno ? d.sno : '--' }}</td>
+                    <td>{{ d.date ? d.date : '--' }}</td>
+                    <td>{{ d.from ? d.from : '--' }}</td>
+                    <td>{{ d.to ? d.to : '--' }}</td>
+                    <td>{{ d.km ? d.km : '--' }}</td>
+                    <td>{{ d.qty ? d.qty : '--' }}</td>
+                    <td>{{ d.rate ? d.rate : '--' }}</td>
+                    <td>{{ (d.freight ? d.freight : 0) | number: '1.2-2' }}</td>
+                    <td>{{ d.dqty ? d.dqty : '--' }}</td>
+                    <td>{{ (d.damount ? d.damount : 0) | number: '1.2-2' }}</td>
+                    <td>{{ d.JSTC_Adv ? d.JSTC_Adv : '--' }}</td>
+                    <td>{{ d.Party_Adv ? d.Party_Adv : '--' }}</td>
+                    <td>{{ d.other ? d.other : '--' }}</td>
+                    <td>{{ (d.ex_diesal ? d.ex_diesal : 0) | number: '1.2-2' }}</td>
+                  </tr>
+                  <tr *ngIf="loaded && dateWiseReport.length === 0">
+                    <td align="center" colspan="14">No data available</td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+
+              <table id="dailytable" class="table table mytable" width="40%">
+                  <tr>
+                    <td colspan="2"><b>Summary Report</b></td>
+                  </tr>
+                <tr>
+                  <td>Freight Amount</td>
+                  <td>{{ summaryReport.freight_amount ? summaryReport.freight_amount: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Comm</td>
+                  <td>{{ summaryReport.comm ? summaryReport.comm: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Diesal Amount</td>
+                  <td>{{ summaryReport.diesal_amount ? summaryReport.diesal_amount: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Trip Amount</td>
+                  <td>{{ summaryReport.trip_amount ? summaryReport.trip_amount: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Total Amount</td>
+                  <td>{{ summaryReport.total_amount ? summaryReport.total_amount: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Driver Salary</td>
+                  <td>{{ summaryReport.driver_salary ? summaryReport.driver_salary: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>EMi</td>
+                  <td>{{ summaryReport.emi ? summaryReport.emi: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Tyre</td>
+                  <td>{{ summaryReport.tyre ? summaryReport.tyre: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Doc</td>
+                  <td>{{ summaryReport.doc ? summaryReport.doc: 0 }}</td>
+                </tr>
+                <tr>
+                  <td>Final Amount</td>
+                  <td>{{ summaryReport.final_amount ? summaryReport.final_amount: 0 }}</td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+
+          <div class="row" *ngIf="active_report == 'month'">
+            <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+              <form [formGroup]="monthWiseForms">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Start Date</label>
+                      <div class="input-group datepicker-input">
+                        <input
+                          class="form-control"
+                          placeholder="dd/mm/yyyy"
+                          name="dp"
+                          formControlName="start_date"
+                          ngbDatepicker
+                          #d="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>End Date</label>
+                      <div class="input-group datepicker-input">
+                        <input
+                          class="form-control"
+                          placeholder="dd/mm/yyyy"
+                          name="dp2"
+                          formControlName="end_date"
+                          ngbDatepicker
+                          #d1="ngbDatepicker"
+                        />
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Truck No.*</label>
+                      <input
+                        class="form-control"
+                        ng2-auto-complete
+                        formControlName="truck_no"
+                        [source]="truckPosition.bind(this)"
+                        list-formatter="truckno"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button (click)="fetchMonthWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                    <button [disabled]="monthWiseReport.length === 0" (click)="exportMonthWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export to excel</button>
+                  </div>
+                </div>
+              </form>
+              <hr>
+              <table class="table mytable tableFixHead">
+                <thead>
+                  <tr>
+                    <th>Trip</th>
+                    <th>MTons</th>
+                    <th>Freight</th>
+                    <th>JSTC</th>
+                    <th>Party</th>
+                    <th>Other</th>
+                    <th>Diesal Amount</th>
+                    <th>Comm</th>
+                    <th>Salary</th>
+                    <th>Emi</th>
+                    <th>Doc</th>
+                    <th>Tyre</th>
+                    <th>Maint.</th>
+                    <th>Net Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let m of monthWiseReport">
+                    <td>{{ m.trips ? m.trips : '--' }}</td>
+                    <td>{{ m.mtons ? m.mtons : '--' }}</td>
+                    <td>{{ (m.freight ? m.freight : 0) | number: '1.2-2' }}</td>
+                    <td>{{ m.jstc ? m.jstc : '--' }}</td>
+                    <td>{{ m.party ? m.party : '--' }}</td>
+                    <td>{{ (m.other ? m.other : '0') | number : '1.2-2' }}</td>
+                    <td>{{ (m.diesal_amount ? m.diesal_amount : 0) | number: '1.2-2' }}</td>
+                    <td>{{ (m.comm ? m.comm : '0') | number : '1.2-2' }}</td>
+                    <td>{{ m.salary ? m.salary : '--' }}</td>
+                    <td>{{ m.emi ? m.emi : '--' }}</td>
+                    <td>{{ m.doc ? m.doc : '--' }}</td>
+                    <td>{{ m.tyre ? m.tyre : '--' }}</td>
+                    <td>{{ m.maint ? m.maint : '--' }}</td>
+                    <td>{{ (m.net_profit ? m.net_profit : '0') | number : '1.2-2' }}</td>
+                  </tr>
+                  <tr *ngIf="loaded && monthWiseReport.length === 0">
+                    <td align="center" colspan="14">No data available</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row" *ngIf="active_report == 'performance'">
+            <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+              <form [formGroup]="performanceForms">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Years</label>
+                      <select class="form-control" formControlName="year">
+                        <option value="">--Select year--</option>
+                        <option *ngFor="let y of years" value="{{y.year}}">{{y.year}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Truck No.*</label>
+                      <input
+                        class="form-control"
+                        ng2-auto-complete
+                        formControlName="truck_no"
+                        [source]="truckPosition.bind(this)"
+                        list-formatter="truckno"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <button (click)="fetchPerformanceWiseData()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket"></i> Fetch</button>&nbsp;&nbsp;
+                    <!-- <button [disabled]="performanceWiseReport.length === 0" (click)="exportMonthWiseReport()" class="btn btn-success mg-top-26"><i class="fa fa-get-pocket"></i> Export</button> -->
+                  </div>
+                </div>
+              </form>
+              <hr>
+              <table class="table mytable tableFixHead">
+                <thead>
+                  <tr>
+                    <th>Month</th>
+                    <th>Trip</th>
+                    <th>MTons</th>
+                    <th>Target</th>
+                    <th>Freight</th>
+                    <th>JSTC</th>
+                    <th>Party</th>
+                    <th>Other</th>
+                    <th>Diesal Amount</th>
+                    <th>Comm</th>
+                    <th>Salary</th>
+                    <th>Emi</th>
+                    <th>Doc</th>
+                    <th>Tyre</th>
+                    <th>Maint.</th>
+                    <th>Net Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let m of performanceWiseReport">
+                    <td>{{ m.month ? m.month : '--' }}</td>
+                    <td>{{ m.trips ? m.trips : '--' }}</td>
+                    <td>{{ (m.mtons ? m.mtons : 0) | number: '1.2-2' }}</td>
+                    <td>{{ m.target ? m.target : '--' }}</td>
+                    <td>{{ (m.freight ? m.freight : 0) | number: '1.2-2'}}</td>
+                    <td>{{ m.jstc ? m.jstc : '--' }}</td>
+                    <td>{{ m.party ? m.party : '--' }}</td>
+                    <td>{{ (m.other ? m.other : '0') | number : '1.2-2' }}</td>
+                    <td>{{ m.diesal_amount ? m.diesal_amount : '--' }}</td>
+                    <td>{{ (m.comm ? m.comm : '0') | number : '1.2-2' }}</td>
+                    <td>{{ m.salary ? m.salary : '--' }}</td>
+                    <td>{{ m.emi ? m.emi : '--' }}</td>
+                    <td>{{ m.doc ? m.doc : '--' }}</td>
+                    <td>{{ m.tyre ? m.tyre : '--' }}</td>
+                    <td>{{ m.maint ? m.maint : '--' }}</td>
+                    <td>{{ (m.net_profit ? m.net_profit : '0') | number : '1.2-2' }}</td>
+                  </tr>
+                  <tr *ngIf="loaded && performanceWiseReport.length === 0">
+                    <td align="center" colspan="14">No data available</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
