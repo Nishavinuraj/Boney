@@ -1,0 +1,98 @@
+<div class="container">
+  <form [formGroup]="tcmForm">
+    <div class="card">
+      <div class="card-header">Edit Tyre Company Master</div>
+      <div class="card-body">
+
+        <div class="form-group row">
+          <div class="col-lg-2 col-md-2">
+            <label>Company Name</label>
+            <input type="text" formControlName="coname" class="form-control" placeholder="Company Name">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Tyre Company Master items
+                <button class="btn btn-primary float-right" (click)="addTcmItems()" [disabled]="!tcmForm.valid"
+                  type="button">
+                  Add Item
+                </button>
+              </div>
+              <!-- /.box-header -->
+              <div class="card-body" *ngIf="tcmForm.controls.tcm_items.controls.length > 0">
+                <table class="table table-bordered" formArrayName="tcm_items">
+                  <tr>
+                    <th>Brand</th>
+                    <th>Tyre Size</th>
+                    <th>Tyre Type</th>
+                    <th>NSD</th>
+                    <th>Action</th>
+                  </tr>
+                  <tr *ngFor="let school of tcmForm.controls.tcm_items.controls; let i=index" formGroupName="{{i}}">
+                    <td>
+                      <input type="text" formControlName="brand"
+                        class="form-control brand">
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <select class="form-control" formControlName="tyre_size">
+                          <option value="">Tyre Size</option>
+                          <option value="1000 x 20">1000 x 20</option>
+                          <option value="8.25 x 20">8.25 x 20</option>
+                          <option value="11.00 x 20">11.00 x 20</option>
+                        </select>
+                        </div>
+                    </td>                    
+
+                    <td>
+                      <div class="input-group">
+                        <select class="form-control" formControlName="tyre_type">
+                          <option value="">Tyre Sype</option>
+                          <option value="New Nylon">New Nylon</option>
+                          <option value="New Radial">New Radial</option>
+                          <option value="Retread Nylon">Retread Nylon</option>
+                          <option value="Retread Radial">Retread Radial</option>
+                          <option value="Khol">Khol</option>
+                        </select>
+                        </div>
+                    </td>                    
+
+                    <td>
+                      <input type="number" min="0" formControlName="nsd"
+                        class="form-control nsd">
+                    </td>
+                    <td>
+                      <button class="btn btn-danger float-right" [disabled]="tcmForm.controls?.tcm_items.controls.length == 1" (click)="removeItems(i)" type="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body" *ngIf="tcmForm.controls?.tcm_items.controls.length == 0">
+                <p>Please select vendor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveTcm()" [disabled]="!tcmForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  
+  </form>
+</div>
+
+
+
+
+
+
+

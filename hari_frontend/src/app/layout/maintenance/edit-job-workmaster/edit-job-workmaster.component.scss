@@ -1,0 +1,16 @@
+.auto-entry{
+    border:2px solid rgb(252, 189, 71) !important;
+}
+
+.manual-entry{
+    border:2px solid rgb(81, 204, 81) !important;
+}
+
+::ng-deep .ng-select.manual-entry{
+    border:2px solid rgb(81, 204, 81) !important;
+}
+
+::ng-deep .ng-select.auto-entry{
+    border:2px solid rgb(252, 189, 71) !important;
+}
+

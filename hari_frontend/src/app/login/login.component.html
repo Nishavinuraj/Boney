@@ -1,0 +1,21 @@
+<div class="login-page" [@routerTransition]>
+    <div class="row justify-content-md-center">
+        <div class="col-md-4 wrapper-border">
+            <img src="assets/images/logo.png" width="150px" class="user-avatar" />
+            <h1>Welcome to JSTC</h1>
+            <form role="form" [formGroup]="loginForm" (ngSubmit)="onLoggedin(loginForm.valid)" novalidate>
+                <div class="form-content">
+                    <div class="form-group">
+                        <input type="text" formControlName="username" class="form-control input-underline input-lg" id="email" placeholder="{{ 'Username' | translate }}">
+                    </div>
+                    <div *ngIf="submitted || loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched" class="alert alert-danger">Username is required.</div>
+                    <div class="form-group">
+                        <input type="password" formControlName="password" class="form-control input-underline input-lg" id="password" placeholder="{{ 'Password' | translate }}">
+                    </div>
+                    <div *ngIf="submitted || loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched" class="alert alert-danger">Password is required.</div>
+                </div>
+                <button class="btn rounded-btn" type="submit">{{ 'Log in' | translate }}</button>
+            </form>
+        </div>
+    </div>
+</div>

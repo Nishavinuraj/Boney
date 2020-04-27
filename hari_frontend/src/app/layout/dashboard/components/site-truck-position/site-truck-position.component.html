@@ -1,0 +1,120 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col-md-12">
+      <form [formGroup]="siteForm">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="pull-left"><i class="fa fa-truck"></i> Site Truck Position</h4>
+          </div>
+          <div class="col-md-6">
+            <a routerLink="/dashboard" class="btn btn-primary pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+          </div>
+          <hr>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Start Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp"
+                  formControlName="start_date"
+                  ngbDatepicker
+                  #d="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <span class="text-danger" *ngIf="(siteForm.controls['start_date'].dirty || submitted) && siteForm.controls['start_date'].hasError('required')">Start date is required</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>End Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp2"
+                  formControlName="end_date"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <span class="text-danger" *ngIf="(siteForm.controls['end_date'].dirty || submitted) && siteForm.controls['end_date'].hasError('required')">End date is required</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-warning mg-top-26" (click)="getPositions()"> <i class="fa fa-get-pocket"></i> Fetch</button>
+          </div>
+        </div>
+      </form>
+      <hr>
+      <div class="showbox" *ngIf="loading">
+        <div class="loader">
+          <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+          </svg>
+        </div>
+      </div>
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination>
+        <p><strong>Total:</strong> {{ pagination.total }}<br /><strong>Records per page:</strong> {{ pagination.pageSize }}</p> -->
+      <table *ngFor="let sp of sitePositions" class="table table-hover table-striped table-bordered table-condensed tableFixHead mytable">
+        <thead>
+          <tr>
+            <th><strong>Plant Name</strong></th>
+            <th>{{sp.plantName}}</th>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <th>Sr No.</th>
+            <th>Truck No.</th>
+            <th>CC</th>
+            <th>Destination</th>
+            <th>Time In</th>
+            <th>Placed Time</th>
+            <th>Lr No.</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of sp.siteResult">
+            <td>{{data.date ? data.date : '--'}}</td>
+            <td>{{data.srno ? data.srno : '--'}}</td>
+            <td>{{data.truckno ? data.truckno : '--'}}</td>
+            <td>{{data.cc ? data.cc : '--'}}</td>
+            <td>{{data.destination ? data.destination : '--'}}</td>
+            <td>{{data.timein ? data.timein : '--'}}</td>
+            <td>{{data.placedtime ? data.placedtime : '--'}}</td>
+            <td>{{data.lrno ? data.lrno : '--'}}</td>
+            <td>{{data.billtytime ? data.billtytime : '--'}}</td>
+          </tr>
+          <tr *ngIf="loaded && sitePositions.length === 0">
+            <td align="center" colspan="10">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination> -->
+    </div>
+  </div>
+</div>

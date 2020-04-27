@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Users List</strong>
+  </div>
+
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg">
+        <div class="card">
+            <div class="card-body">
+                <table class="table tableFixHead mytable">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Site</th>
+                        <th>Role</th>
+                        <!-- <th>Permissions</th> -->
+                        <th>Edit</th>
+                        <th>Delete</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor= "let user of usersList; let i = index">
+                          <!-- <a [routerLink]="['/admin-privileges/plants-rate-multiple-destination', user.site]"> -->
+                        <td>{{user.name ? user.name : '--'}}</td>
+                        <td>{{user.site ? user.site : '--'}}</td>
+                        <td>{{user.role ? user.role : '--'}}</td>
+                        <!-- <td>{{user.permissions ? user.permissions : '--'}}</td> -->
+                        <td><button class="btn btn-primary" (click)="edit(user)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button>&nbsp;</td>
+                        <td>
+                          <button class="btn btn-danger" (click)="delete(user, i)"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

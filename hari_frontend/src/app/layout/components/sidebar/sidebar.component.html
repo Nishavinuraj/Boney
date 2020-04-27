@@ -1,0 +1,970 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive, collapsed: collapsed}">
+  <div class="list-group">
+    <a *ngIf="['dashboard'] | hasPermission" routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+      <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+      <span>{{ 'Dashboard' | translate }}</span>
+    </a>
+    <div class="nested-menu">
+      <a *ngIf="['site_management'] | hasPermission" class="list-group-item" (click)="addExpandClass('site-mgmt')">
+        <i class="fa fa-tasks"></i>&nbsp;
+        <span>{{ 'Site Management' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'site-mgmt'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['site_management_dashboard'] | hasPermission" routerLink="/site-management/dashboard" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Dashboard' | translate }}</span>
+            </a>
+          </li>
+          <li>
+						<a *ngIf="['truck_position'] | hasPermission" routerLink="/site-management/plant-truck-postion" [routerLinkActive]="['router-link-active']">
+							<i class="fa fa-truck"></i>&nbsp;
+							<span>{{ 'Truck Position' | translate }}</span>
+						</a>
+          </li>
+
+          <li>
+            <a *ngIf="['billty_dataentry'] | hasPermission" routerLink="/site-management/billty-dataentry" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Billty Entry' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['billty_entry'] | hasPermission" routerLink="/site-management/billty-entry" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Billty Print' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-truck"></i>&nbsp;
+              <span>{{ 'Truck Direct' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['extra_return_expences'] | hasPermission" routerLink="/site-management/extra-return-expences" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-undo"></i>&nbsp;
+              <span>{{ 'Extra Return Expenses' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['pod'] | hasPermission" routerLink="/site-management/pod" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-handshake-o"></i>&nbsp;
+              <span>{{ 'POD' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['principles_billings'] | hasPermission" routerLink="/site-management/principle-billing" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-alt"></i>&nbsp;
+              <span>{{ 'Principle Billing' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a routerLink="/site-management/principle-billing-repots" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-alt"></i>&nbsp;
+              <span>{{ 'Principle Billing Reports' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['billing'] | hasPermission" routerLink="/site-management/billing" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-alt"></i>&nbsp;
+              <span>{{ 'Billing' | translate }}</span>
+            </a>
+          </li>
+          <li>
+              <a *ngIf="['vehicle_master'] | hasPermission" routerLink="/site-management/vehicle-master" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-truck"></i>&nbsp;
+                <span>{{ 'Vehicle Master' | translate }}</span>
+              </a>
+            </li>
+					<li>
+						<a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+							<i class="fa fa-clock-o"></i>&nbsp;
+							<span>{{ 'Vehicle Reminder' | translate }}</span>
+						</a>
+					</li>
+					<!-- <li>
+						<a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+							<i class="fa fa-th"></i>&nbsp;
+							<span>{{ 'Item Master' | translate }}</span>
+						</a>
+					</li> -->
+					<li>
+						<a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+							<i class="fa fa-book"></i>&nbsp;
+							<span>{{ 'Accounts Master' | translate }}</span>
+						</a>
+					</li>
+					<li>
+						<a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+							<i class="fa fa-wrench"></i>&nbsp;
+							<span>{{ 'General Repairs Master' | translate }}</span>
+						</a>
+					</li>
+
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['site_data_analysis'] | hasPermission" class="list-group-item" (click)="addExpandClass('site-data-analysis')">
+        <i class="fa fa-tasks"></i>&nbsp;
+        <span>{{ 'Site Data Analysis' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'site-data-analysis'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['site_ega_report'] | hasPermission" routerLink="/site-data-analysis/site-ega-report" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Ega Report' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['site_under_performance_truck'] | hasPermission" routerLink="/site-data-analysis/site-under-performance-truck" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Under Performance Truck' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['site_dispatch_summary'] | hasPermission" routerLink="/site-data-analysis/site-dispatch-summary" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-pencil-square"></i>&nbsp;
+              <span>{{ 'Dispatch Summary' | translate }}</span>
+            </a>
+          </li>
+
+
+        </ul>
+    </div>
+
+    <div class="nested-menu">
+      <a *ngIf="['reports'] | hasPermission" class="list-group-item" (click)="addExpandClass('pages')">
+        <i class="fa fa-files-o"></i>&nbsp;
+        <span>{{ 'Reports' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'pages'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['dispatch_summary'] | hasPermission" routerLink="/reports/dispatch_summary" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-truck"></i>&nbsp;
+              <span>{{ 'Dispatch Summary' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['own_fleet_report'] | hasPermission" routerLink="/reports/own_fleet_performance" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-truck"></i>&nbsp;
+              <span>{{ 'Own Fleet Report' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" routerLink="/reports/traffic_agent_performance" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-truck"></i>&nbsp;
+              <span>{{ 'Traffic Agent Performance' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['accounts_ledger'] | hasPermission" routerLink="/reports/accounts_ledger_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Accounts Ledger' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['accounts_items_ledger'] | hasPermission" routerLink="/reports/accounts_items_ledger_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Accounts Items Ledger' | translate }}</span>
+            </a>
+          </li>
+
+
+
+          <li>
+            <a *ngIf="['plants_rate_list'] | hasPermission" routerLink="/reports/plant_rate_list" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Plant Rate List' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['item_ledger'] | hasPermission" routerLink="/reports/items_ledger_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Item Ledgers' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['orders_ledger'] | hasPermission" routerLink="/reports/order_ledger_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Order Ledger' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['scraps_ledger'] | hasPermission" routerLink="/reports/scrap_ledger_report" [routerLinkActive]="['router-link-active']"
+            href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Scrap Ledger' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['trucks_ledger'] | hasPermission" routerLink="/reports/truck_ledger_report" [routerLinkActive]="['router-link-active']"
+            href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Trucks Ledger' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['balance_stock'] | hasPermission" routerLink="/reports/balance_stock_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Balance Stock Reports' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['balance_scrap'] | hasPermission" routerLink="/reports/balance_scrap_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-book"></i>&nbsp;
+              <span>{{ 'Balance Scrap Reports' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['mileage_report'] | hasPermission "routerLink="/reports/mileage_report" [routerLinkActive]="['router-link-active']"
+            href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Mileage Report' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['tyre_removal_report'] | hasPermission "routerLink="/reports/tyre_removal_report" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Tyre Removal Report' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['dealer_wise_purchase'] | hasPermission "routerLink="/reports/dealer_wise_purchase" [routerLinkActive]="['router-link-active']"
+              href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Dealer Wise Purchase' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+          </li>
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['tyre_management'] | hasPermission" class="list-group-item" (click)="addExpandClass('tyre-mgmt')">
+        <i class="fa fa-life-ring"></i>&nbsp;
+        <span>{{ 'Tyre Management' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'tyre-mgmt'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['tyre_master'] | hasPermission" routerLink="/tyre-management/tyre-master" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-file-text"></i>&nbsp;
+              <span>{{ 'Tyre Master	' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['tyre_company_master'] | hasPermission" routerLink="/tyre-management/tyre-company-master" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-file-text"></i>&nbsp;
+              <span>{{ 'Tyre Company Master	' | translate }}</span>
+            </a>
+          </li>
+
+          <!-- <li>
+            <a *ngIf="['new_tyre_fitment'] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-wrench"></i>&nbsp;
+              <span>{{ 'New Tyre Fitment' | translate }}</span>
+            </a>
+          </li> -->
+          <li>
+            <a *ngIf="['truck_inspection'] | hasPermission" routerLink="/tyre-management/truck-inspection" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <i class="fa fa-search"></i>&nbsp;
+              <span>{{ 'Truck Inspection' | translate }}</span>
+            </a>
+          </li>
+
+          <!-- <li>
+            <a *ngIf="['company_master'] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Company Master' | translate }}</span>
+            </a>
+          </li> -->
+
+          <li>
+            <a *ngIf="['observation_and_recommendation'] | hasPermission"routerLink="/tyre-management/observation-and-recommendation" [routerLinkActive]="['router-link-active']" href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Observation and Recommendation Master' | translate }}</span>
+            </a>
+          </li>
+
+
+
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['traffic_agent'] | hasPermission" class="list-group-item" (click)="addExpandClass('traffic-agent')">
+        <i class="fa fa-user-secret"></i>&nbsp;
+        <span>{{ 'Traffic Agent' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'traffic-agent'">
+        <ul class="submenu">
+            <li>
+                <a *ngIf="['traffic_agent_dashboard'] | hasPermission" routerLink="/traffic-agent/dashboard" [routerLinkActive]="['router-link-active']">
+                  <i class="fa fa-map-marker"></i>&nbsp;
+                  <span>{{ 'Dashboard' | translate }}</span>
+                </a>
+              </li>
+          <li>
+            <a *ngIf="['vehicle_monitoring'] | hasPermission" routerLink="/traffic-agent/vehicle-monitoring" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-map-marker"></i>&nbsp;
+              <span>{{ 'Vehicle Monitoring' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Extra Diesel Expenses' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+
+    <div class="nested-menu">
+        <a *ngIf="['maintenance'] | hasPermission" class="list-group-item" (click)="addExpandClass('maintenance')">
+          <i class="fa fa-user-secret"></i>&nbsp;
+          <span>{{ 'Maintenance' | translate }}</span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'maintenance'">
+          <ul class="submenu">
+          <li>
+            <a *ngIf="['maintenance_dashboard'] | hasPermission" routerLink="/maintenance/dashboard" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-map-marker"></i>&nbsp;
+              <span>{{ 'Dashboard' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['job_workmaster'] | hasPermission" routerLink="/maintenance/job-workmaster" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-cog"></i>&nbsp;
+              <span>{{ 'Job Work Master' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['engine_typemaster'] | hasPermission" href="javascript:void(0)" routerLink="/maintenance/engine-typemaster">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Engine Type Master' | translate }}</span>
+            </a>
+          </li>
+
+
+            <li>
+              <a *ngIf="['job_work'] | hasPermission" routerLink="/maintenance/job-work" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>{{ 'Job Work' | translate }}</span>
+              </a>
+            </li>
+
+
+            <li>
+              <a *ngIf="['maintenance_master'] | hasPermission" routerLink="/maintenance/maintenance-master" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>{{ 'Maintenance Master' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a *ngIf="['vendor_master'] | hasPermission" routerLink="/maintenance/vendor-master" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>{{ 'Vendor Master' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a *ngIf="['job_card'] | hasPermission" routerLink="/maintenance/job-card" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-cog"></i>&nbsp;
+                <span>{{ 'Job Card' | translate }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div>
+
+    <div class="nested-menu">
+      <a *ngIf="['documents'] | hasPermission" class="list-group-item" (click)="addExpandClass('documents')">
+        <i class="fa fa-user-secret"></i>&nbsp;
+        <span>{{ 'Documents' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'documents'">
+        <ul class="submenu">
+
+          <li>
+                <a *ngIf="['documents_dashboard'] | hasPermission" routerLink="/documents/dashboard" [routerLinkActive]="['router-link-active']">
+                  <i class="fa fa-map-marker"></i>&nbsp;
+                  <span>{{ 'Dashboard' | translate }}</span>
+                </a>
+          </li>
+          <li>
+            <a *ngIf="['attach_documents'] | hasPermission" routerLink="/documents/attach-documents" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-map-marker"></i>&nbsp;
+              <span>{{ 'Attach Documents' | translate }}</span>
+            </a>
+          </li>
+
+        </ul>
+      </li>
+    </div>
+
+
+    <div class="nested-menu">
+      <a *ngIf="['inventory'] | hasPermission" class="list-group-item" (click)="addExpandClass('inventory-mgmt')">
+        <i class="fa fa-cubes"></i>&nbsp;
+        <span>{{ 'Inventory' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'inventory-mgmt'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['items_master'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/items-master">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Item Master' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['department_master'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/department-master">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Department Master' | translate }}</span>
+            </a>
+          </li>
+
+
+          <li>
+            <a *ngIf="['order'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/orders">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Order' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['material_receipts'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/material-receipt">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Material Receipt' | translate }}</span>
+            </a>
+          </li>
+
+
+          <li>
+            <a *ngIf="['material_issue'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/material-issue">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Material Issue' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['scrap_sale'] | hasPermission" href="javascript:void(0)" routerLink="/inventory/scrap-sale">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Scrap Sale' | translate }}</span>
+            </a>
+          </li>
+
+        <li>
+          <a   *ngIf="['create_estimates'] | hasPermission"  routerLink="/estimates/create-estimate" [routerLinkActive]="['router-link-active']">
+            <i class="fa fa-database"></i>&nbsp;
+            <span>{{ 'Create Estimates' | translate }}</span>
+          </a>
+        </li>
+
+        <li>
+          <a  *ngIf="['all_created_estimates'] | hasPermission"  routerLink="/estimates/all-created-estimates">
+            <i class="fa fa-compass"></i>&nbsp;
+            <span>{{ 'All Created Estimates' | translate }}</span>
+          </a>
+        </li>
+        <li>
+          <a  *ngIf="['received_estimates'] | hasPermission"  routerLink="/estimates/received-estimates" [routerLinkActive]="['router-link-active']">
+            <i class="fa fa-list-alt"></i>&nbsp;
+            <span>{{ 'Received Estimates' | translate }}</span>
+          </a>
+        </li>
+
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['accounts'] | hasPermission" class="list-group-item" (click)="addExpandClass('account-mgmt')">
+        <i class="fa fa-address-book"></i>&nbsp;
+        <span>{{ 'Accounts' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'account-mgmt'">
+        <ul class="submenu">
+          <!-- <li>
+            <a *ngIf="['account_transactions'] | hasPermission" routerLink="/accounts/account-transactions" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list"></i>&nbsp;
+              <span>{{ 'Account Transaction' | translate }}</span>
+            </a>
+          </li> -->
+          <li>
+            <a *ngIf="['accounts_dataentry'] | hasPermission" routerLink="/accounts/accounts-dataentry" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Accounts Data Entry' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['daily_cash_reports'] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-bars"></i>&nbsp;
+              <span>{{ 'Daily Cash Reports' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['monthly_outstanding'] | hasPermission" routerLink="/accounts/monthly-outstanding" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Monthly Outstanding' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['trial_balance'] | hasPermission" routerLink="/accounts/trial-balance" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Trial Balance' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['balance_sheet'] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-list-alt"></i>&nbsp;
+              <span>{{ 'Balance Sheets' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['Driver'] | hasPermission" class="list-group-item" (click)="addExpandClass('drivers-mgmt')">
+        <i class="fa fa-users"></i>&nbsp;
+        <span>{{ 'Drivers' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'drivers-mgmt'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-road"></i>&nbsp;
+              <span>{{ 'Start Trip' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-sliders"></i>&nbsp;
+              <span>{{ 'Advance' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Expenses' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-hourglass-start"></i>&nbsp;
+              <span>{{ 'Fuel Status' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-cubes"></i>&nbsp;
+              <span>{{ 'Freight Reports' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-monument"></i>&nbsp;
+              <span>{{ 'Trip Reports' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </div>
+    <div class="nested-menu">
+      <a *ngIf="['data_analysis'] | hasPermission" class="list-group-item" (click)="addExpandClass('analysis-report')">
+        <i class="fa fa-cubes"></i>&nbsp;
+        <span>{{ 'Data Analysis' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'analysis-report'">
+        <ul class="submenu">
+          <li>
+
+            <a  *ngIf="['ega_report'] | hasPermission"  routerLink="/analysis-report/ega-report" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'EGA Report' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a  *ngIf="['under_performance_trucks'] | hasPermission"  routerLink="/analysis-report/under-performance-truck-report" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'Under Performance Truck Report' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a  *ngIf="['monthly_balance_chart'] | hasPermission"  routerLink="/analysis-report/monthly-balance-chart" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'Monthly Balance Chart' | translate }}</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      </div>
+    <div class="nested-menu">
+      <a *ngIf="['admin_priviliges'] | hasPermission" class="list-group-item" (click)="addExpandClass('admin-mgmt')">
+        <i class="fa fa-lock"></i>&nbsp;
+        <span>{{ 'Admin Privileges' | translate }}</span>
+      </a>
+      <li class="nested" [class.expand]="showMenu === 'admin-mgmt'">
+        <ul class="submenu">
+          <li>
+            <a *ngIf="['user_creation'] | hasPermission" routerLink="/admin-privileges/user-create" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-users"></i>&nbsp;
+              <span>{{ 'User Creation' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['user_creation_list'] | hasPermission" routerLink="/admin-privileges/user-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-users"></i>&nbsp;
+              <span>{{ 'User Creation List' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['accounts_master'] | hasPermission" routerLink="/admin-privileges/accounts-master" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'Accounts Master' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['accounts_category'] | hasPermission" routerLink="/admin-privileges/accounts-category" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'Accounts Category' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['master_data'] | hasPermission" routerLink="/admin-privileges/master-data" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-database"></i>&nbsp;
+              <span>{{ 'Master Data' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['gps_rate_list'] | hasPermission" routerLink="/admin-privileges/gps-rate-list">
+              <i class="fa fa-compass"></i>&nbsp;
+              <span>{{ 'GPS Rate List' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['sync_plan_list'] | hasPermission" routerLink="/admin-privileges/sync-plan-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-alt"></i>&nbsp;
+              <span>{{ 'Sync Plan Rate List' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['tyre_rate_list'] | hasPermission" routerLink="/admin-privileges/tyre-ratelist" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Tyre Rate List' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['fleet_target'] | hasPermission" routerLink="/admin-privileges/fleet-targets" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-dot-circle-o"></i>&nbsp;
+              <span>{{ 'Fleet Targets' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['tyre_target_master'] | hasPermission" routerLink="/admin-privileges/tyre-target-master" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-users"></i>&nbsp;
+              <span>{{ 'Tyre Targets Master' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['plants_rate_list'] | hasPermission" routerLink="/admin-privileges/plants-rate-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list"></i>&nbsp;
+              <span>{{ 'Plants Rate List' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['site_profile'] | hasPermission" routerLink="/admin-privileges/site-profile" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Site Profile' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['site_petrolpump'] | hasPermission" routerLink="/admin-privileges/site-petrolpump" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Site Petrol Pump' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['site_destinationkms'] | hasPermission" routerLink="/admin-privileges/site-destinationkms" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Site Destination Kms' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['truck_average'] | hasPermission" routerLink="/admin-privileges/truck-average" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Truck Average' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['site_truck_expenses'] | hasPermission" routerLink="/admin-privileges/site-truck-expenses" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Site Truck Expenses' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-paperclip"></i>&nbsp;
+              <span>{{ 'Attach Documents' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="['import_plant_rate_list'] | hasPermission" routerLink="/admin-privileges/import-plant-rate-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Import Plant Ratelist' | translate }}</span>
+            </a>
+          </li>
+
+          <li>
+            <a *ngIf="['import_plant_rate_list'] | hasPermission" routerLink="/admin-privileges/update-plant-rate-list" [routerLinkActive]="['router-link-active']">
+              <i class="fa fa-list-ol"></i>&nbsp;
+              <span>{{ 'Update Plant Ratelist' | translate }}</span>
+            </a>
+          </li>
+
+            <li>
+              <a *ngIf="['import_site_expense'] | hasPermission" routerLink="/admin-privileges/import-site-truck-expenses" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-inr"></i>&nbsp;
+                <span>{{ 'Import Site Expenses' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a *ngIf="['consignee_master'] | hasPermission" routerLink="/admin-privileges/consignee-master" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-inr"></i>&nbsp;
+                <span>{{ 'Consignee Master' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a *ngIf="['broker_master'] | hasPermission" routerLink="/admin-privileges/broker-master" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-inr"></i>&nbsp;
+                <span>{{ 'Broker Master' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+              <a *ngIf="['diesal_ratemaster'] | hasPermission" routerLink="/admin-privileges/diesal-ratemaster" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-inr"></i>&nbsp;
+                <span>{{ 'Diesal Rates Master' | translate }}</span>
+              </a>
+            </li>
+
+            <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-inr"></i>&nbsp;
+              <span>{{ 'Unloading Expenses' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-road"></i>&nbsp;
+              <span>{{ 'Truck Average' | translate }}</span>
+            </a>
+          </li>
+          <li>
+            <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+              <i class="fa fa-globe"></i>&nbsp;
+              <span>{{ 'Site Destination KM' | translate }}</span>
+            </a>
+          </li>
+          <li>
+              <a *ngIf="['assigned_site_agents'] | hasPermission" routerLink="/admin-privileges/site-assign-to-agents" [routerLinkActive]="['router-link-active']">
+                <i class="fa fa-globe"></i>&nbsp;
+                <span>{{ 'Site Assign To Traffic Agents' | translate }}</span>
+              </a>
+            </li>
+        </ul>
+      </li>
+    </div>
+
+
+
+    <!-- <a *ngIf="[''] | hasPermission" routerLink="/reports" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>{{ 'Own Fleet Report' | translate }}</span>
+        </a>
+        <a *ngIf="[''] | hasPermission" href="javascript:void(0)" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;
+            <span>{{ 'Accounts Ledger' | translate }}</span>
+        </a>
+        <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;
+            <span>{{ 'Charts' | translate }}</span>
+        </a>
+        <a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-table"></i>&nbsp;
+            <span>{{ 'Tables' | translate }}</span>
+        </a>
+        <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-edit"></i>&nbsp;
+            <span>{{ 'Forms' | translate }}</span>
+        </a>
+        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-desktop"></i>&nbsp;
+            <span>{{ 'Bootstrap Element' | translate }}</span>
+        </a>
+        <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-wrench"></i>&nbsp;
+            <span>{{ 'Bootstrap Grid' | translate }}</span>
+        </a>
+        <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-th-list"></i>&nbsp;
+            <span>{{ 'Component' | translate }}</span>
+        </a> -->
+    <!-- <div class="nested-menu">
+            <a *ngIf="[''] | hasPermission" class="list-group-item" (click)="addExpandClass('pages')">
+                <i class="fa fa-plus"></i>&nbsp;
+                <span>{{ 'Menu' | translate }}</span>
+            </a>
+            <li class="nested" [class.expand]="showMenu === 'pages'">
+                <ul class="submenu">
+                    <li>
+                        <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Submenu' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Submenu' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a *ngIf="[''] | hasPermission" href="javascript:void(0)">
+                            <i class="fa fa-monument"></i>&nbsp;
+                            <span>{{ 'Submenu' | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+        <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;
+            <span>{{ 'Blank Page' | translate }}</span>
+        </a>
+        <a *ngIf="[''] | hasPermission" href="http://www.strapui.com/" class="list-group-item">
+            <i class="fa fa-caret-down"></i>&nbsp;
+            <span>{{ 'More Themes' | translate }}</span>
+        </a> -->
+
+    <div class="header-fields">
+      <hr>
+      <!-- <a (click)="rltAndLtr()" class="list-group-item">
+        <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
+      </a> -->
+      <!-- <div class="nested-menu">
+        <a *ngIf="[''] | hasPermission" class="list-group-item" (click)="addExpandClass('languages')">
+          <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'languages'">
+          <ul class="submenu">
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('en')">
+                {{ 'English' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('fr')">
+                {{ 'French' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('ur')">
+                {{ 'Urdu' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('es')">
+                {{ 'Spanish' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('it')">
+                {{ 'Italian' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('fa')">
+                {{ 'Farsi' | translate }}
+              </a>
+            </li>
+            <li>
+              <a *ngIf="[''] | hasPermission" href="javascript:void(0)" (click)="changeLang('de')">
+                {{ 'German' | translate }}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div> -->
+      <div class="nested-menu">
+        <a class="list-group-item" (click)="addExpandClass('profile')">
+          <span><i class="fa fa-user"></i>&nbsp; {{username}}</span>
+        </a>
+        <li class="nested" [class.expand]="showMenu === 'profile'">
+          <ul class="submenu">
+            <li>
+              <a href="javascript:void(0)">
+                <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <span><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</span>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </div>
+      <a class="list-group-item" [routerLink]="['/login']" (click)="onLoggedout()">
+        <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+      </a>
+    </div>
+  </div>
+  <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">
+    <i class="fa fa-fw fa-angle-double-left"></i>&nbsp;
+    <span>{{ 'Collapse Sidebar' | translate }}</span>
+  </div>
+</nav>

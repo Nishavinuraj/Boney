@@ -1,0 +1,212 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Job Work Reminders Dashboard</strong>
+  </div>
+  <div class="animated fadeIn">
+    <div class="row">
+      <div class="col-lg">
+        <div class="card">
+          <div class="card-body" *ngIf="activeTab === 'docOverview'">
+            <p>
+              <button [disabled]="loading" class="btn btn-success" (click)="showDetails()">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                Details
+              </button>
+            </p>
+            <table class="table tableFixHead mytable">
+              <thead>
+                <tr>
+                  <th>Job Work</th>
+                  <th>Expired</th>
+                  <th>500-kms</th>
+                  <th>1000-kms</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="loading">
+                  <td colspan="4">
+                    <div class="showbox">
+                      <div class="loader">
+                        <svg class="circular" viewBox="25 25 50 50">
+                          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                        </svg>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngFor="let d of data">
+                  <td>{{ d.Name }}</td>
+                  <td>{{ d.Expired }}</td>
+                  <td>{{ d['500_kms'] }}</td>
+                  <td>{{ d['1000_kms'] }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-body" *ngIf="activeTab === 'details'">
+            <p>
+              <button class="btn btn-danger" (click)="showOverview()">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                Back
+              </button>
+            </p>
+
+            <!-- Second Screen 0-20 Days -->
+            <form [formGroup]="editForm" novalidate> 
+              <table class="table tableFixHead mytable">
+                <thead>
+                    <tr>
+                      <th> Job Work Trucks ( 0 to 1000 Kms ) </th>
+                    </tr>
+                </thead>
+                <thead>
+                  <tr>
+                    <th>Truck No</th>
+                    <th>Job Work</th>
+                    <th>Due Km</th>
+                    <th>Current Km</th>
+                    <th>Km Left</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="4">
+                      <div class="showbox">
+                        <div class="loader">
+                          <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let detail of details; let i = index">
+                    <td>{{ detail.truck_no }}</td>
+                    <td>{{ detail.worktobedone }}</td>
+                    <td>{{ detail.duekm }}</td>
+                    <td>{{ detail.currkm }}</td>
+                    <td>{{ detail.kmleft }}</td>
+                    <td *ngIf="!detail.editing">{{ detail.status ? detail.status : '--' }}</td>
+                    <td *ngIf="detail.editing">
+                      <select class="form-control" formControlName="status">
+                        <option value="">Select</option>
+                        <option value="At RTO">At RTO</option>
+                        <option value="Transist">Transist</option>
+                        <option value="At Workshop">At Workshop</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Done">Done</option>
+                        <option value="Seen">Seen</option>
+                      </select>
+                    </td>
+
+                    <td *ngIf="!detail.editing">{{ detail.remarks ? detail.remarks : '--' }}</td>
+
+                    <td *ngIf="detail.editing">
+                      <input type="text" class="form-control" formControlName="remarks" />
+                    </td>
+
+                    <td>
+                      <button [disabled]="loading" *ngIf="!detail.editing" class="btn btn-primary" (click)="edit(detail, i)">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        Edit</button
+                      >&nbsp;
+                      <button [disabled]="loading" *ngIf="detail.editing" class="btn btn-warning" (click)="update(detail)">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        Update</button
+                      >&nbsp;
+                      <button [disabled]="loading" *ngIf="detail.editing" class="btn btn-danger" (click)="cancel(detail)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+
+            <!-- Second Screen Expired -->
+            <form [formGroup]="editForm" novalidate> 
+              <table class="table tableFixHead mytable">
+                <thead>
+                    <tr>
+                      <th> Expired Job Works</th>
+                    </tr>
+                </thead>
+                <thead>
+                  <tr>
+                    <th>Truck No</th>
+                    <th>Job Work</th>
+                    <th>Due Km</th>
+                    <th>Current Km</th>
+                    <th>Excess Km</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="4">
+                      <div class="showbox">
+                        <div class="loader">
+                          <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let edetail of expiredDetails; let i = index">
+                    <td>{{ edetail.truck_no }}</td>
+                    <td>{{ edetail.worktobedone }}</td>
+                    <td>{{ edetail.duekm }}</td>
+                    <td>{{ edetail.currkm }}</td>
+                    <td>{{ edetail.excesskm }}</td>
+                    <td *ngIf="!edetail.editing">{{ edetail.status ? edetail.status : '--' }}</td>
+    
+                    <td *ngIf="edetail.editing">
+                      <select class="form-control" formControlName="status">
+                        <option value="">Select</option>
+                        <option value="At Workshop">At Workshop</option>
+                        <option value="Transist">Transist</option>
+                        <option value="Expired">Expired</option>
+                        <option value="Done">Done</option>
+                        <option value="Seen">Seen</option>
+                      </select>
+                    </td>
+    
+                    <td *ngIf="!edetail.editing">{{ edetail.remarks ? edetail.remarks : '--' }}</td>
+    
+                    <td *ngIf="edetail.editing">
+                      <input type="text" class="form-control" formControlName="remarks" />
+                    </td>
+    
+                    <td>
+                      <button [disabled]="loading" *ngIf="!edetail.editing" class="btn btn-primary" (click)="edit(edetail, i)">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        Edit</button
+                      >&nbsp;
+                      <button [disabled]="loading" *ngIf="edetail.editing" class="btn btn-warning" (click)="update(edetail)">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        Update</button
+                      >&nbsp;
+                      <button [disabled]="loading" *ngIf="edetail.editing" class="btn btn-danger" (click)="cancel(edetail)">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                        Cancel
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

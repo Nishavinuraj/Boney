@@ -1,0 +1,102 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Create Estimate</strong>
+  </div>
+  <form [formGroup]="createEstimateForm">
+
+    <div class="modal-body">
+      <div class="row">
+
+        <div class="col-md-6">
+          <label class="required">Select Product</label>
+          <ng-select [multiple]="true" [items]="items_option" placeholder="Type and search items" bindLabel="itemname" bindValue="itemname"
+            formControlName="product">
+          </ng-select>
+        </div>
+        <div class="col-md-12" *ngIf="createEstimateForm.value.product?.length">
+          <br/>
+          <div class="form-group">
+            <table class="table table-bordered">
+              <tr>                   
+                <th>Product</th>                   
+                <th>Qty</th>                   
+           </tr>
+              
+              <tr *ngFor="let p of createEstimateForm.value.product;let i = index;"> 
+                <td>
+                  <input type="text"  value="{{p}}"  class="form-control price" disabled>
+
+                </td>
+                <td>
+                  <input type="number" min="0" [(ngModel)]="qtys[i]"  [ngModelOptions]="{standalone: true}"  class="form-control discount">
+                </td>
+               
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Estimate Creation Date</label>
+            <div  class="input-group datepicker-input">
+              <input disabled
+                class="form-control"
+                placeholder="dd/mm/yyyy"
+                name="dp1"
+                formControlName="creationDate"
+                ngbDatepicker
+                #d1="ngbDatepicker"
+                 required
+              />
+              <!-- <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Estimate Expiry Date</label>
+            <div class="input-group datepicker-input">
+              <input
+                class="form-control"
+                placeholder="dd/mm/yyyy"
+                name="dp2"
+                formControlName="expiryDate"
+                ngbDatepicker
+                #d2="ngbDatepicker" 
+                [minDate]="minDate" 
+                required
+              />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="required">Select Vendor</label>
+          <ng-select [multiple]="true" [items]="vendor_master_list" placeholder="Type and search items" bindLabel="vendorname" bindValue="vendorname"
+            formControlName="vendor">
+          </ng-select>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Remarks: (If Any)</label>
+            <textarea class="form-control" formControlName="remark" ></textarea>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" (click)="submit()" [disabled]="!createEstimateForm.valid" class="btn btn-success">Create</button>
+    </div>
+  </form>
+</div>

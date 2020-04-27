@@ -1,0 +1,7 @@
+<app-header *ngIf="meta.getSiteFromStorage()"></app-header>
+<app-sidebar (collapsedEvent)="receiveCollapsed($event)" *ngIf="meta.getSiteFromStorage()"></app-sidebar>
+<section class="main-container" [ngClass]="{collapsed: collapedSideBar}" *ngIf="meta.getSiteFromStorage()">
+    <router-outlet></router-outlet>
+</section>
+<router-outlet *ngIf="!meta.getSiteFromStorage()"></router-outlet>
+

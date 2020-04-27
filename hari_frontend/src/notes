@@ -1,0 +1,24 @@
+1.gst,sgst calculation should after apply the discount amount
+2. own fleet performance need to change date range query(last one month)
+3. inside fleet performance report KM value comes zero need to check that one
+
+
+ng g c site-dispsummary --skip-import
+
+inventory.module.ts
+import { NgSelectModule } from '@ng-select/ng-select';
+
+<app-smart-table
+import { SharedModule } from '../../shared/shared.module';
+sitemanagement.module.ts
+
+
+
+issue not saving 
+plant rate list update
+
+Plant rate list update according to  site + Product
+Reminders of jow work
+
+
+

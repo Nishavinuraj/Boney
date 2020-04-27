@@ -1,0 +1,26 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "types": [
+      "node"
+    ]
+  },
+  "exclude": [
+    "src/test.ts",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "**/*.ts",
+    "../node_modules/ng2-table/ng2-table.ts",
+    "../node_modules/ng2-table/components/ng-table-directives.ts",
+    "../node_modules/ng2-table/components/ng-table-module.ts",
+    "../node_modules/ng2-table/components/table/ng-table-filtering.directive.ts",
+    "../node_modules/ng2-table/components/table/ng-table-paging.directive.ts",
+    "../node_modules/ng2-table/components/table/ng-table-sorting.directive.ts",
+    "../node_modules/ng2-table/components/table/ng-table.component.ts"
+  ]
+}

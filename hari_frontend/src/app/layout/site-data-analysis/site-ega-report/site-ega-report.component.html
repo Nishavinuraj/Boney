@@ -1,0 +1,136 @@
+<div>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-book"></i> EGA Report</h4>
+            <hr />
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Month</label>
+              <select formControlName="month" class="form-control">
+                <option value="01">Jan</option>
+                <option value="02">Feb</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option> 
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Year</label>
+              <select formControlName="year" class="form-control">
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+
+            </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Select Sites</label>
+              <select formControlName="site_name" class="form-control">
+                  <!-- <option value="">All</option> -->
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 wrapper-right">
+            <button (click)="fetchEgaReport()" class="btn btn-primary" >
+              <i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch
+            </button>&nbsp;
+            <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+          </div>
+        </div>
+        <p>Notes :   Report set on balance. Excellent > 20 %.   Good 15 to 20%. Average less tha 15%</p>
+      </form>
+      <hr />
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination>
+        <p><strong>Total:</strong> {{ pagination.total }}<br /><strong>Records per page:</strong> {{ pagination.pageSize }}</p> -->
+        <div class="btn-group btn-group-toggle" style="float: right;margin-bottom: 10px;" ngbRadioGroup name="radioBasic">
+          <!-- <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('all')" [checked]="model.all" [value]="all"> All
+          </label> -->
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('exc')"  value="exc"> Excellent
+          </label>
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('good')"  value="good"> Good
+          </label>
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('avg')" value="avg"> Average
+          </label>
+        </div>
+        <br/>
+        <div style="width:100%;overflow-x: auto;" >
+        <table class="table table-hover table-striped table-bordered table-condensed zui-table">
+        <thead>
+          <tr>
+            <th>Sites</th>
+            <th>Destination</th>
+            <th>Trips</th>
+            <th>Kms Run.</th>
+            <th>Balance</th>
+            <th>Cost Per KM</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="7">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let report of dataFilter">
+            <td >{{ report._id.site }}</td>
+            <td>{{ report._id.to }}</td>
+            <td class="cell-align">{{ report.trips }}</td>
+            <td class="cell-align">{{ report.km }}</td>
+            <td class="cell-align">{{ report.balance}}</td>
+            <td class="cell-align">{{ report.costPerkM}}</td>
+            <td class="cell-align">{{ report.value}}</td>
+
+          </tr>
+          
+          <tr *ngIf="loaded && dataFilter?.length === 0">
+            <td align="center" colspan="7">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination> -->
+    </div>
+  </div>
+</div>

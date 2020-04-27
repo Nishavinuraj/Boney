@@ -1,0 +1,187 @@
+<div [@routerTransition]>
+  <div class="row">
+    <!-- <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12"> -->
+      <!-- <div class="card-body table-responsive"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="1000"
+      (scrolled)="fetchReport()"
+      > -->
+    <!-- </div> -->
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12" *ngIf="activeTab == 'main_report'">
+        <form [formGroup]="filterForm">
+            <div class="row">
+              <div class="col-md-12">
+                <h4><i class="fa fa-truck"></i> Own Fleet Performance Report</h4>
+                <hr />
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Year</label>
+                  <select formControlName="year" class="form-control">
+                    <option value="0">Select Year</option>
+                    <option *ngFor="let y of years" value="{{ y.year }}">
+                      {{ y.year }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Tyre</label>
+                  <select formControlName="tyre" class="form-control">
+                    <option value="0">Select Tyre</option>
+                    <option *ngFor="let t of tyres" value="{{ t.name }}">
+                      {{ t.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <fieldset class="form-group">
+                  <label>Truck No.</label>
+                  <input
+                    id="truck_no"
+                    formControlName="truck_no"
+                    placeholder="Type truck number..."
+                    type="text"
+                    class="form-control"
+                    [ngbTypeahead]="search"
+                  />
+                </fieldset>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Traffic Agent</label>
+                  <select formControlName="traffic_agent" class="form-control">
+                    <option value="0">Select Agent</option>
+                    <option *ngFor="let a of agents" value="{{ a.name }}">
+                      {{ a.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button (click)="fetchReport()" class="btn btn-primary"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch </button>&nbsp;
+                <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+              </div>
+            </div>
+          </form>
+      <hr />
+      <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination>
+      <p>
+        <strong>Total:</strong> {{ pagination.total }}, <strong>Records per page:</strong> {{ pagination.pageSize }},
+        <strong>Showing:</strong> {{ (pagination.currenPage - 1) * pagination.pageSize }} -
+        {{ (pagination.currenPage - 1) * pagination.pageSize + 50 }}
+      </p>
+      <table class="table table-hover table-striped table-bordered table-condensed tableFixHead">
+        <thead>
+          <tr>
+            <th>Truck No.</th>
+            <th>Trips</th>
+            <th>M.Ton</th>
+            <th>Amount</th>
+            <th>D.Qty</th>
+            <th>D.Amt</th>
+            <th>Expenses</th>
+            <th>Profit</th>
+            <th>Maintenance</th>
+            <th>Net Bal</th>
+            <th>Traffic Agent</th>
+            <th>Tyre</th>
+            <th>CC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="13">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let report of report_data">
+            <td (click)="onTruckSelect(report)" class="truck-selection"><i class="fa fa-truck" aria-hidden="true"></i> {{ report.truckno }}</td>
+            <td>{{ report.trips ? report.trips : 0 }}</td>
+            <td class="cell-align">{{ (report.mton ? report.mton : 0)  | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.finalamount ? report.finalamount : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.dqty ? report.dqty : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.damt ? report.damt : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.amount ? report.amount : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.profit ? report.profit : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.maintanence ? report.maintanence : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.net_bal ? report.net_bal : 0) | number : '1.2-2' }}</td>
+            <td>{{ report.taname ? report.taname : '--' }}</td>
+            <td>{{ report.tyre ? report.tyre : '--' }}</td>
+            <td>{{ report.tcc ? report.tcc : '--' }}</td>
+          </tr>
+          <tr *ngIf="report_data.length === 0">
+            <td align="center" colspan="10">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination>
+    </div>
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12" *ngIf="activeTab == 'secondary_report'">
+      <p><a class="btn btn-info" href="javascript:void(0)" (click)="activeTab = 'main_report'"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</a></p>
+        <h4>Own Fleet Performance Report <br><i class="fa fa-truck"></i> Truck: {{selected_truck_number}}</h4>
+      <table class="table table-hover table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Trips</th>
+            <th>Mtons</th>
+            <th>Target</th>
+            <th>Achieved</th>
+            <th>Income</th>
+            <th>Dqty</th>
+            <th>DAmount</th>
+            <th>Expenses</th>
+            <th>Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="10">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let report of secondary_report_data">
+            <td>{{ report.name ? report.name : '--' }}</td>
+            <td>{{ report.trips ? report.trips : 0 }}</td>
+            <td>{{ report.cweight ? report.cweight : 0 }}</td>
+            <td>{{ report.target ? report.target : '--'}}</td>
+            <td class="cell-align">{{ (report.achieved ? report.achieved : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.income ? report.income : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.dqty ? report.dqty : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.damount ? report.damount : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.expenses ? report.expenses : 0) | number : '1.2-2' }}</td>
+            <td class="cell-align">{{ (report.profit ? report.profit : 0) | number : '1.2-2' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

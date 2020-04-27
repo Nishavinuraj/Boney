@@ -1,0 +1,363 @@
+<div [@routerTransition]>
+
+  <button class="pull-right btn btn-primary btn-sm" (click)="refreshPage()"><i class="fa fa-refresh"
+      aria-hidden="true"></i> Refresh</button>
+  <div class="clearfix"></div>
+  <hr>
+
+  <div class="row">
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'primary'" [icon]="'fa-truck'" [count]="dispatchCount" [label]="'Dispatch'"></app-stat>
+    </div>
+    <!-- <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="advanceCount" [label]="'Advance'"></app-stat>
+    </div> -->
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'danger'" [icon]="'fa-list-ol'" [count]="billingCount" [label]="'Billing'"></app-stat>
+    </div>
+    <div class="col-xl-3 col-lg-6">
+      <app-stat [bgClass]="'primary'" [icon]="'fa-bars'" [count]="unBilledCount" [label]="'Unbilled'"></app-stat>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row">
+    <!-- <div class="col-xl-3 col-lg-6 mg-top-10">
+      <app-stat [bgClass]="'success'" [icon]="'fa-inr'" [count]="bankBalanceCount" [label]="'Bank Balance'"></app-stat>
+    </div> -->
+    <!-- <div class="col-xl-3 col-lg-6 mg-top-10">
+      <app-stat [bgClass]="'pink'" [icon]="'fa-money'" [count]="cashBalanceCount" [label]="'Cash Balance'"></app-stat>
+    </div> -->
+    <div class="col-xl-3 col-lg-6 mg-top-10">
+      <app-stat [bgClass]="'purple'" [icon]="'fa-product-hunt'" [count]="podCount" [label]="'POD'"></app-stat>
+    </div>
+  </div>
+  <hr>
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-title pull-left">DISPATCH</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onDispatchChange(form.value['dispatched'])"
+              ngbRadioGroup name="radioBasic" formControlName="dispatched">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.pieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+              (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-title pull-left">BILLING</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onBillingChange(form.value['billed'])"
+              ngbRadioGroup name="radioBasic" formControlName="billed">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.billingPieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="billingPieChartData" [labels]="billingPieChartLabels" [chartType]="pieChartType"
+              (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      
+      <!-- <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-title pull-left">ADVANCE</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onAdvanceChange(form.value['advanced'])"
+              ngbRadioGroup name="radioBasic" formControlName="advanced">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.advancePieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="advancePieChartData" [labels]="advancePieChartLabels" [chartType]="pieChartType"
+              (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="row">
+      <!-- <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-title pull-left">BANK BALANCE</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onBankBalanceChange(form.value['balanced'])"
+              ngbRadioGroup name="radioBasic" formControlName="balanced">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.bankBalancePieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="bankBalancePieChartData" [labels]="bankBalancePieChartLabels" [chartType]="pieChartType"
+              (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+    <div class="row">
+      <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-title pull-left">UNBILLED</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onUnbilledChange(form.value['unbilled'])"
+              ngbRadioGroup name="radioBasic" formControlName="unbilled">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.unBilledPieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="unBilledPieChartData" [labels]="unBilledPieChartLabels" [chartType]="pieChartType"
+              (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col col-sm-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h4 class="card-text-center pull-left">CASH BALANCE</h4>
+            <div class="btn-group btn-group-toggle pull-right" (change)="onCashBalanceChange(form.value['unbilled'])"
+              ngbRadioGroup name="radioBasic" formControlName="unbilled">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="today"> Today
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="month"> Month
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="year"> Year
+              </label>
+            </div>
+            <div class="clearfix"></div>
+            <canvas *ngIf="flags.cashBalancePieDataLoaded" baseChart height="150px" [options]="barChartOptions"
+              [data]="cashBalancePieChartData" [labels]="cashBalancePieChartLabels" [chartType]="pieChartType"
+              (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="row">
+      <div class="col col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title pull-left">
+              <span class="row">
+                <span class="col-md-12 col-xs-12 col-sm-12">
+                  <a routerLink="/reports/dispatch_summary" [routerLinkActive]="['router-link-active']">
+                    <i class="fa fa-truck"></i>&nbsp;Dispatch Summary
+                  </a>&nbsp;&nbsp;
+                  <br class="mobile-break">
+                  <a routerLink="/site-truck-position" [routerLinkActive]="['router-link-active']">
+                    <i class="fa fa-map-marker"></i>&nbsp;On Site Truck Position
+                  </a>
+                </span>
+                <br>
+                <span class="col-md-6 col-xs-12 col-sm-12">
+
+                </span>
+              </span>
+            </h4>
+            <!-- <div class="btn-group btn-group-toggle pull-right"
+              (change)="onDispatchParameterChange(form.value['dispatch'])" ngbRadioGroup name="radioBasic"
+              formControlName="dispatch">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="site"> Site Wise
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="agent"> Trafic Aggent Wise
+              </label>
+            </div> -->
+            <div class="clearfix"></div>
+            <!-- <form [formGroup]="filterForm"> -->
+            <div class=" row">
+
+
+            </div>
+            <!-- </form> -->
+
+            <div class="zui-scroller">
+              <table class="table mytable zui-table">
+                <thead>
+                  <tr>
+                    <th class="zui-sticky-col">Site</th>
+                    <th class="cell-align">Truck at site</th>
+                    <th class="cell-align">CC</th>
+                    <th class="cell-align">Placed</th>
+                    <th class="cell-align">Dispatch</th>
+                    <th class="cell-align">Tons</th>
+                    <th class="cell-align">O. Trips</th>
+                    <th class="cell-align">A. Trips</th>
+                    <th class="cell-align">O. Tons</th>
+                    <th class="cell-align">A. Ton</th>
+                    <th class="cell-align">O.Ratio</th>
+                    <th class="cell-align">A.Ratio</th>
+                    <th class="cell-align">O.Comm</th>
+                    <th class="cell-align">A.Comm</th>
+                    <th class="cell-align">Net Profit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="10">
+                      <div class="showbox">
+                        <div class="loader">
+                          <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let summary of dispatch_summary_data?.result">
+                    <td class="zui-sticky-col"><i class="fa fa-industry" aria-hidden="true"></i> {{ summary._id }}</td>
+                    <td class="cell-align">{{ summary.truck_at_site ? summary.truck_at_site : 0}}</td>
+                    <td class="cell-align">{{ summary.cc ? summary.cc : 0}}</td>
+                    <td class="cell-align">{{ summary.placed ? summary.placed : 0}}</td>
+                    <td class="cell-align">{{ summary.trip ? summary.trip : 0}}</td>
+                    <td class="cell-align">{{ (summary.ton ? summary.ton : 0) | number : '1.2-2'}}</td>
+                    <td class="cell-align">{{ summary.Co_Trips ? summary.Co_Trips : 0}}</td>
+                    <td class="cell-align">{{ summary.A_Trips ? summary.A_Trips : 0}}</td>
+                    <td class="cell-align">{{ (summary.Co_Tons ? summary.Co_Tons : 0) | number : '1.2-2'}}</td>
+                    <td class="cell-align">{{ (summary.A_Tons ? summary.A_Tons : 0) | number : '1.2-2'}}</td>
+                    <td class="cell-align">{{ (summary.o_ratio ? summary.o_ratio : 0) | number : '1.2-2' }}%</td>
+                    <td class="cell-align">{{ (summary.A_ratio ? summary.A_ratio : 0) | number : '1.2-2' }}%</td>
+                    <td class="cell-align">{{ (summary.Co_profit ? summary.Co_profit : 0) | number : '1.2-2'}}</td>
+                    <td class="cell-align">{{ (summary.A_profit ? summary.A_profit : 0) | number : '1.2-2' }}</td>
+                    <td class="cell-align">{{ (summary.net_profit ? summary.net_profit : 0) | number : '1.2-2' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- <canvas *ngIf="flags.unBilledPieDataLoaded" baseChart height="150px" [options]="barChartOptions" [data]="unBilledPieChartData" [labels]="unBilledPieChartLabels"  [chartType]="pieChartType" (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+                    </canvas> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title pull-left">
+              <!-- <a routerLink="/reports/own_fleet_performance_admin" [routerLinkActive]="['router-link-active']"> -->
+                <i class="fa fa-truck"></i>&nbsp;Own Fleet Performance
+              <!-- </a> -->
+
+            </h4>
+            <!-- <div class="btn-group btn-group-toggle pull-right"
+              (change)="onFleetPerformanceParameterChange(form.value['fleet_performance'])" ngbRadioGroup
+              name="radioBasic" formControlName="fleet_performance">
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="site"> Site Wise
+              </label>
+              <label ngbButtonLabel class="btn-primary btn-sm">
+                <input ngbButton type="radio" value="agent"> Trafic Aggent Wise
+              </label>
+            </div> -->
+            <div class="clearfix"></div>
+            <div class="zui-scroller">
+              <table class="table zui-table mytable">
+                <thead>
+                  <tr>
+                    <th class="zui-sticky-col">Site</th>
+                    <!-- <th class="cell-align">Date</th> -->
+                    <th class="cell-align">Trips</th>
+                    <th class="cell-align">Tons</th>
+                    <th class="cell-align">JSTC</th>
+                    <th class="cell-align">Other</th>
+                    <th class="cell-align">Party</th>
+                    <th class="cell-align">Dqty</th>
+                    <th class="cell-align">Damt</th>
+                    <th class="cell-align">Comm</th>
+  
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="loading">
+                    <td colspan="10">
+                      <div class="showbox">
+                        <div class="loader">
+                          <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                          </svg>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let report of report_data">
+                    <td (click)="onSiteSelect(report)" class="site-selection zui-sticky-col"><i class="fa fa-industry" aria-hidden="true"></i> {{ report._id }}</td>
+                    <!-- <td class="cell-align">{{ report._id.date | date: 'dd/MM/yyyy' }}</td> -->
+                    <td class="cell-align">{{ (report.trips ? report.trips : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.tons ? report.tons : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.jstc ? report.jstc : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.other ? report.other : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.party ? report.party : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.dqty ? report.dqty : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ (report.damt ? report.damt : 0) | number: '1.2-2' }}</td>
+                    <td class="cell-align">{{ report.profit ? report.profit : '--' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- <canvas *ngIf="flags.unBilledPieDataLoaded" baseChart height="150px" [options]="barChartOptions" [data]="unBilledPieChartData" [labels]="unBilledPieChartLabels"  [chartType]="pieChartType" (chartHover)="advanceChartHovered($event)" (chartClick)="advanceChartClicked($event)">
+                      </canvas> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <app-documents-dashboard></app-documents-dashboard>
+  </form>
+
+
+</div>

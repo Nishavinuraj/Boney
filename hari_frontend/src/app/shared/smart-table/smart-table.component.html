@@ -1,0 +1,79 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                {{ screenName }}
+                <button *ngIf="addButtonInfo && addButtonInfo.text" class="btn btn-primary float-right" type="button" (click)="navigateToAddScreen()">{{ addButtonInfo.text }}</button>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <fieldset class="filed_set">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12" *ngIf="displayCommonFilter">
+                                    <div class="input-group input-group-no-border">
+                                        <input [ngTableFiltering]="config.filtering" style="width: 300%" [(ngModel)]="searchText" (tableChanged)="onChangeTable(config, '', 'topSearch')" class="form-control" placeholder="{{ config.filtering.placeholder }}" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" *ngIf="!displayCommonFilter">
+                                    <div *ngIf="predic_reports" class="col-lg-2">
+                                        <button class="btn btn-primary btn-sm mb-xs add-user" [disabled]="!start_date || !end_date" type="button" (click)="DownloadExcel()">Download excel</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <ng-table [rows]="rows" [columns]="columns" (tableChanged)="onChangeTable(config, '', 'column')" (linkClicked)="linkClicked($event)" [config]="config" (selectedRecords)="updateSelectedRecords($event)" (valueChanges)="publishValueChanges($event)"></ng-table>
+                                    <div *ngIf="!rows.length && !isSearchEnabled && dataLoaded" class="no-results-wrap">
+                                        <div class="warning-icon-wrap ">
+                                            <i class="fa fa-info-circle with-info-icon"></i>
+                                            <span class="helper-arrow" *ngIf="addButtonInfo && addButtonInfo.text">&nbsp;</span>
+                                        </div>
+                                        <div class="no-records">No records found
+                                            <span *ngIf="addButtonInfo && addButtonInfo.text">, you can add one here</span>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="!rows.length && isSearchEnabled">No records found for this search</div>
+                                    <div class="loading-wrap" *ngIf="!dataLoaded">
+                                        <span class="circle1"></span>
+                                        <span class="circle2"></span>
+                                        <span class="circle3"></span>
+                                        <p class="loading-text">
+                                            Fetching records...
+                                        </p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" *ngIf="config.paging && rows.length">
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label class="col-sm-4 col-lg-4 col-md-4 control-label" style="word-wrap: initial !important">Limit</label>
+
+                                        <div class="col-sm-8 col-lg-8 col-md-8">
+                                            <select [(ngModel)]="limit" class="form-control" (change)="changeLimit()">
+                                                <option *ngFor="let limit of limitOptions" [value]="limit">{{limit}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 pull-right">
+                                    <div class="dataTables_paginate paging_bootstrap" style="float:right">
+                                        <pagination class="pagination no-margin" [(ngModel)]="page" [totalItems]="totalRecords" [itemsPerPage]="itemsPerPage" [maxSize]="maxSize" [boundaryLinks]="true" [rotate]="false" (pageChanged)="onChangeTable(config, $event, 'page')" (numPages)="numPages = $event">
+                                        </pagination>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

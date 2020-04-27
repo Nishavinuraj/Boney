@@ -1,0 +1,238 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 scroll-h-page">
+      <div class="row">
+        <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+          <h4><i class="fa fa-truck"></i> Site Multiple Destination -> {{siteName}}</h4>
+        </div>
+        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+          <a class="btn btn-primary" [routerLink]="['/admin-privileges/site-truck-expenses']" routerLinkActive="router-link-active">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a
+          >
+        </div>
+      </div>
+      <hr />
+      <form [formGroup]="searchForm">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 col-xs-12 col-xl-6 col-lg-6">
+              <ngb-pagination
+                [(page)]="pagination.currenPage"
+                [pageSize]="pagination.pageSize"
+                [collectionSize]="pagination.total"
+                [maxSize]="pagination.maxSize"
+                (pageChange)="getMultiDes()"
+              ></ngb-pagination>
+            </div>
+            <div class="col-md-3 col-sm-12 col-xs-12 col-xl-4 col-lg-4">
+                <div class="form-group input-group">
+                  <input style="width:100%" class="form-control" ng2-auto-complete
+                  formControlName="destination" placeholder="Search with destination"
+                  [source]="destSearch.bind(this)" list-formatter="name" />
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" (click)="search()"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-12 col-xs-12 col-xl-2 col-lg-2">
+              <button class="btn btn-primary pull-right" (click)="addModal(content)"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+              <button class="btn btn-warning pull-right" (click)="refershPage()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</button>
+            </div>
+        </div>
+      </form>
+      <form [formGroup]="multiDestForm">
+        <table class="table tableFixHead">
+          <thead>
+            <tr>
+              <th>Destination</th>
+              <th>Spi</th>
+              <th>Km</th>
+              <th>loading</th>
+              <th>Bhatta</th>
+              <th>Misc</th>
+              <th>Toll</th>
+              <th>Total</th>
+              <th style="width: 10%;">Status</th>
+              <th align="center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="loading">
+              <td colspan="14">
+                <div class="showbox">
+                  <div class="loader">
+                    <svg class="circular" viewBox="25 25 50 50">
+                      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                    </svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <tr *ngFor="let dest of rows; let i = index">
+
+              <td *ngIf="!dest.updated">{{ dest.destination ? dest.destination : '--' }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="text" formControlName="destination" placeholder="Enter destination name" />
+                </div>
+              </td>
+
+              <td *ngIf="!dest.updated">{{ dest.spi ? dest.spi : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="text" formControlName="spi" placeholder="Enter Spi" />
+                </div>
+              </td>
+              
+              <td *ngIf="!dest.updated">{{ dest.km ? dest.km : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="number" formControlName="km" placeholder="Enter km" />
+                </div>
+              </td>
+              
+              <td *ngIf="!dest.updated">{{ dest.loading ? dest.loading : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="number" formControlName="loading" placeholder="Enter loading" />
+                </div>
+              </td>
+              
+              <td *ngIf="!dest.updated">{{ dest.newbhatta ? dest.newbhatta : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="number" formControlName="newbhatta" placeholder="Enter bhatta" />
+                </div>
+              </td>
+
+              <td *ngIf="!dest.updated">{{ dest.newmisc ? dest.newmisc : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="number" formControlName="newmisc" placeholder="Enter misc" />
+                </div>
+              </td>
+
+              <td *ngIf="!dest.updated">{{ dest.newtoll ? dest.newtoll : 0 }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <input type="number" formControlName="newtoll" placeholder="Enter Toll" />
+                </div>
+              </td>
+
+              <td>{{ dest.newtotal ? dest.newtotal : 0 }}</td>
+
+              <td *ngIf="!dest.updated">{{ dest.status ? dest.status : '--' }}</td>
+              <td *ngIf="dest.updated">
+                <div>
+                  <select style="width: 100px;" formControlName="status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Non Active">Non Active</option>
+                  </select>
+                </div>
+              </td>
+
+              <td>
+                <button (click)="edit(dest)" class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</button>
+              </td>
+              <td>
+                <button *ngIf="dest.updated" (click)="updateValue(dest, i)" class="btn btn-danger">
+                  <i class="fa fa-pencil-square-o"></i> Update
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="rows.length === 0">
+              <td align="center" colspan="10">No data available.</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+      <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="getMultiDes()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
+
+
+<!-- Add Plant rate -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Site Expense List</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="addExpenseForm">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Site</label>
+                <select formControlName="site" class="form-control">
+                  <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                    {{ s.branch_name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Status</label>
+                <select formControlName="status" class="form-control">
+                  <option value="Active">Active</option>
+                  <option value="Non Active">Non Active</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Destination</label>
+                <input id="typeahead-http" type="text" class="form-control" (change)="onDestChange()" formControlName="destination" [ngbTypeahead]="searchDestination" placeholder="Search" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>SPI</label>
+                <input type="text" class="form-control" formControlName="spi" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>KM</label>
+                <input type="text" class="form-control" formControlName="km" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Toll Tax</label>
+                <input type="text" class="form-control" formControlName="newtoll" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Bhatta</label>
+                <input type="text" class="form-control" formControlName="newbhatta" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Loading</label>
+                <input type="text" class="form-control" formControlName="loading" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Misc</label>
+                <input type="text" class="form-control" formControlName="newmisc" />
+              </div>
+            </div>
+          </div>
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="saveSiteTruckExpense()">Save</button>
+  </div>
+</ng-template>

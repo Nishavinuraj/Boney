@@ -1,0 +1,221 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/bootstrap";
+@import "spinner";
+@import "utils";
+@import "rtl";
+@import "responsive";
+
+@media print {
+    .breadcrumb {
+        display: none !important;
+    }
+}
+
+// regular style toast 
+@import '~ngx-toastr/toastr.css';
+ 
+// bootstrap style toast 
+// or import a bootstrap 4 alert styled design (SASS ONLY) 
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions 
+@import '~ngx-toastr/toastr-bs4-alert';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+h4 {font-weight: 900}
+
+.table-condensed th , .table-condensed td {padding: 0.4rem; font-size: 0.8rem}
+
+.cell-align {
+  text-align: right;
+}
+
+.loader {position: relative;margin: 0 auto;width: 50px;}
+  .loader:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+  
+  .circular {
+    -webkit-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite;
+    height: 100%;
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+  
+  @-webkit-keyframes rotate {
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate {
+    100% {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+    }
+    100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+    }
+  }
+  @-webkit-keyframes color {
+    100%,
+    0% {
+      stroke: #d62d20;
+    }
+    40% {
+      stroke: #0057e7;
+    }
+    66% {
+      stroke: #008744;
+    }
+    80%,
+    90% {
+      stroke: #ffa700;
+    }
+  }
+  @keyframes color {
+    100%,
+    0% {
+      stroke: #d62d20;
+    }
+    40% {
+      stroke: #0057e7;
+    }
+    66% {
+      stroke: #008744;
+    }
+    80%,
+    90% {
+      stroke: #ffa700;
+    }
+  }
+  .showbox {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+.tableFixHead    { overflow-y: auto; height: 60vh; }
+.tableFixHead th { position: sticky; top: 0; }
+th { background:#eee; }
+
+.mytable {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+// Add new style
+.zui-table {
+  border: none;
+  border-right: solid 1px #DDEFEF;
+  border-collapse: separate;
+  border-spacing: 0;
+  font: normal 13px Arial, sans-serif;
+}
+.zui-table thead th {
+  
+  border: none;
+  color: black;
+  padding: 10px;
+  text-align: left;
+  text-shadow: 1px 1px 1px #fff;
+  white-space: nowrap;
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.zui-table tbody td {
+  border-bottom: solid 1px #DDEFEF;
+  color: #333;
+  padding: 10px;
+  text-shadow: 1px 1px 1px #fff;
+  white-space: nowrap;
+  font-family: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.zui-scroller {
+  overflow-y: visible;
+  padding-left: 190px;
+  padding-bottom: 5px;
+  width: 100%;
+  position: relative;
+}
+.zui-table .zui-sticky-col {
+  border-left: solid 1px #DDEFEF;
+  border-right: solid 1px #DDEFEF;
+  left: 0;
+  position: absolute;
+  top: auto;
+  width: 190px;
+}
+
+.zui-table .zui-sticky-col.zui-1{width: 60px;}
+.zui-table .zui-sticky-col.zui-2{width: 130px; left: 60px;}
+
+.table-scroll{overflow: auto; width: 100%;}
+.table-scroll-inner{min-width: 900px;}
+
+@media only screen and (max-width:767px){
+.zui-table tbody td {font-size: 0.8rem;}
+.zui-scroller {padding-left: 170px;}
+.zui-table .zui-sticky-col {width: 170px;}
+.zui-table .zui-sticky-col.zui-2{width: 110px;}
+}
+label.required:after,
+.required:after {
+    content: " *";
+    color: #dd5826;
+}
+
+app-smart-table{
+
+  th {background: #deccb9 !important}
+  .actions-button {
+    margin-left: 5px
+  }
+}

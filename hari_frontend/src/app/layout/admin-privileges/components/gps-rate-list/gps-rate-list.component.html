@@ -1,0 +1,110 @@
+<div class="card">
+  <div class="card-header">
+    <strong>
+      <i class="fa fa-compass"></i> ADD GPS RATE
+    </strong>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="addForm">
+      <div class=" form-group row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Destination</label>
+            <ng-select [items]="cities"
+                   bindLabel="name"
+                   placeholder="Type to select"
+                   [(ngModel)]="selectedCity"
+                   formControlName="destination"
+                   >
+        </ng-select>
+          </div>
+          <!-- <div class="form-group">
+            <label>Destination</label>
+
+            <div class="input-group">
+              <span class="input-group-prepend"><span class="input-group-text"><i
+                    class="fa fa-compass"></i></span></span>
+              <select name="destination" class="form-control" formControlName="destination">
+                  <option *ngFor="let obj of dropdown_data" [value]="obj.name">{{obj.name}}</option>
+              </select>
+            </div>
+          </div> -->
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>8Mt</label>
+            <input type="text" class="form-control" formControlName="eight_mt" name="eight_mt">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>21Mt</label>
+            <input type="text" class="form-control" formControlName="twentyone_mt" name="twentyone_mt">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>25Mt</label>
+            <input type="text" class="form-control" formControlName="twentyfive_mt" name="twentyfive_mt">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>33Mt</label>
+            <input type="text" class="form-control" formControlName="thirtythree_mt" name="thirtythree_mt">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <button type="submit" style="margin-right: 10px" class="btn btn-sm btn-success" (click)="addData()">
+      <i class="fa fa-floppy-o"></i> Save</button>
+    <button type="reset" style="margin-right: 10px" class="btn btn-sm btn-warning" (click)="resetFilters()">
+      <i class="fa fa-refresh"></i> Refresh</button>
+  </div>
+</div>
+
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-compass"></i> GPS RATE LIST
+        </div>
+        <div class="card-body">
+
+          <div class="clearfix"></div>
+          <br>
+          <table id="table_one" class="table mytable">
+            <thead>
+              <tr>
+                <th>Destination</th>
+                <th class="cell-align">8 mt</th>
+                <th class="cell-align">21 mt</th>
+                <th class="cell-align">25 mt</th>
+                <th class="cell-align">33 mt</th>
+                <!-- <th>Edit</th> -->
+                <th class="cell-align">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let report of table_data">
+                <td>{{ report.destination }}</td>
+                <td class="cell-align">{{ report.eight_mt ? report.eight_mt : '-' }}</td>
+                <td class="cell-align">{{ report.twentyone_mt}}</td>
+                <td class="cell-align">{{ report.twentyfive_mt}}</td>
+                <td class="cell-align">{{ report.thirtythree_mt}}</td>
+
+                <!-- <td><a class="badge badge-success" (click)="editData(report)"><i class="fa fa-pencil" ></i></a></td> -->
+                <td class="cell-align"><a class="badge badge-danger" (click)="deleteData(report)"><i class="fa fa-trash"></i></a></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+  </div>

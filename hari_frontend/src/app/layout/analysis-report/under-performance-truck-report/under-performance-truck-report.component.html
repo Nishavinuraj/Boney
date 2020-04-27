@@ -1,0 +1,147 @@
+<div>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-book"></i> Under Performance Truck Report</h4>
+            <hr />
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Month</label>
+              <select formControlName="month" class="form-control">
+                <option value="01">Jan</option>
+                <option value="02">Feb</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option> 
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Year</label>
+              <select formControlName="year" class="form-control">
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option value="2020">2020</option>
+
+            </select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Select Tyres</label>
+              <select formControlName="tyre" class="form-control">
+                  <option value="6">6</option>
+                  <option value="10">10</option>
+                  <option value="12">12</option>
+                  <option value="14">14</option>
+                  <option value="16">16</option>
+                  <option value="18">18</option>
+
+              </select>
+            </div>
+          </div>
+          
+
+          <div class="col-md-4 wrapper-right">
+            <button (click)="fetchReport()" class="btn btn-primary" >
+              <i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch
+            </button>&nbsp;
+            <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+          </div>
+        </div>
+      </form>
+      <hr />
+      {{dataFilter?.length}}
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination>
+        <p><strong>Total:</strong> {{ pagination.total }}<br /><strong>Records per page:</strong> {{ pagination.pageSize }}</p> -->
+        <div class="btn-group btn-group-toggle" style="float: right;margin-bottom: 10px;" ngbRadioGroup name="radioBasic">
+         <!--  <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('all')" [checked]="model.all" [value]="all"> All
+          </label> -->
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('up')"  value="up"> Under Performance
+          </label>
+          <label class="btn-primary" ngbButtonLabel>
+            <input type="radio" ngbButton  (click)="doFilter('exc')" value="exc"> Excellent
+          </label>
+        </div>
+        <div style="width:100%;overflow-x: auto;" >
+
+        <table class="table table-hover table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>Truck No</th>
+            <th>Trips</th>
+            <th>Tyres</th>
+            <th>Kms Run.</th>
+            <th>Freight</th>
+            <th>Road Expense</th>
+            <th>Diesel Expense</th>
+            <th>Balance</th>
+            <th>Target</th>
+            <th>Maintenance</th>
+            <th>Value</th>
+
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="9">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let report of dataFilter">
+            <td>{{ report._id.truckno }}</td>
+            <td class="cell-align">{{ report.trips }}</td>
+            <td>{{ report._id.tyre }}</td>
+            <td class="cell-align">{{ report.km }}</td>
+            <td class="cell-align">{{ report.earning }}</td>
+            <td class="cell-align">{{ report.expenses}}</td>
+            <td class="cell-align">{{ report.dieselamount}}</td>
+            <td class="cell-align">{{ report.balance}}</td>
+            <td class="cell-align">{{ report.target}}</td>
+            <td class="cell-align">{{ report.maintenance}}</td>
+            <td class="cell-align">{{ report.value}}</td>
+
+          </tr>
+          
+          <tr *ngIf="loaded && dataFilter?.length === 0">
+            <td align="center" colspan="6">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <!-- <ngb-pagination
+          [(page)]="pagination.currenPage"
+          [pageSize]="pagination.pageSize"
+          [collectionSize]="pagination.total"
+          [maxSize]="pagination.maxSize"
+          (pageChange)="fetchReport()"
+        ></ngb-pagination> -->
+    </div>
+  </div>
+</div>

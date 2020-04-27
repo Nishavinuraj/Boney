@@ -1,0 +1,87 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-book"></i> Mileage Report</h4>
+            <hr />
+          </div>
+          
+          <div class="col-md-3">
+            <div class="form-group">
+              <label class="required">Truck No</label>
+              <ng-select [items]="truck_option" placeholder="Type and search Truck No" bindLabel="truckno" bindValue="truckno"
+                formControlName="truck_no">
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="col-md-4 wrapper-right">
+            <button (click)="fetchReport()" class="btn btn-primary">
+              <i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch
+            </button>&nbsp;
+            <button (click)="resetFilters()" class="btn btn-warning"><i class="fa fa-refresh" aria-hidden="true"></i> Reset </button>
+          </div>
+        </div>
+      </form>
+      <hr />
+
+        <p><b></b><br><b></b></p>
+      <!-- <table class="table table-hover table-striped table-bordered table-condensed"> -->
+        <table class="table mytable tableFixHead">
+        <thead>
+          <tr>
+            <th>SNo</th>
+            <th>TyreNo</th>
+            <th>Type</th>
+            <th>Company Name</th>
+            <th>Brand</th>
+            <th>Tyre Position</th>
+            <th>NSD</th>
+            <th>RTD</th>
+            <th>Used NSD</th>
+            <th>Distance covered</th>
+            <th>Per mm Wear</th>
+            <th>Used %</th>
+            <th>Cost Per Km</th>
+            <th>Estimate Projection</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="5">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngFor="let m of monthlyData">
+            <td>{{ m.pno ? m.pno : '--' }}</td>
+            <td>{{ m.tyreno ? m.tyreno : '--' }}</td>
+            <td>{{ m.tyretype ? m.tyretype : '--' }}</td>
+            <td>{{ m.coname ? m.coname : '--' }}</td>
+            <td>{{ m.brand ? m.brand : '--' }}</td>
+            <td>{{ m.tp ? m.tp : '--' }}</td>
+            <td>{{ m.nsd ? m.nsd : '--' }}</td>
+            <td>{{ m.rtd ? m.rtd : '--' }}</td>
+            <td>{{ m.usednsd ? m.usednsd : '--' }}</td>
+            <td>{{ m.dc ? m.dc : '--' }}</td>
+            <td>{{ m.pmmw ? m.pmmw : '--' }}</td>
+            <td>{{ m.usedperc ? m.usedperc : '--' }}</td>
+            <td>{{ m.cpkm ? m.cpkm : '--' }}</td>
+            <td>{{ m.ep ? m.ep : '--' }}</td>
+          </tr>
+          <tr *ngIf=" loaded && monthlyData.length === 0">
+            <td align="center" colspan="4">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

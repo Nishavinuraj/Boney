@@ -1,0 +1,85 @@
+<div class="container">
+  <form [formGroup]="cmForm">
+    <div class="card">
+      <div class="card-header">Edit Consignee Master</div>
+      <div class="card-body">
+
+        <div class="form-group row">
+
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Site</label>
+            <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+              formControlName="site">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Consignee Name</label>
+            <input type="text" formControlName="name" class="form-control" placeholder="Consignee Name">
+          </div>
+  
+          <div class="col-lg-3 col-md-3">
+            <label>Mobile No.</label>
+            <input type="text" formControlName="mobile" class="form-control" placeholder="Mobile No">
+          </div>
+  
+          <div class="col-lg-3 col-md-3">
+            <label>Gst No</label>
+            <input type="text" formControlName="gst" class="form-control" placeholder="Gst No">
+          </div>
+            
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Sub Dealer Details
+                <button class="btn btn-primary float-right" (click)="addCmItems()" [disabled]="!cmForm.valid"
+                  type="button">
+                  Add Sub Dealer
+                </button>
+              </div>
+              <!-- /.box-header -->
+              <div class="card-body" *ngIf="cmForm.controls.multidest.controls.length > 0">
+                <table class="table table-bordered" formArrayName="multidest">
+                  <tr>
+                    <th>Sub Dealer Name and Unloading Address</th>
+                    <th>Contact Person</th>
+                    <th>Phone No</th>
+                    <th>Action</th>
+                  </tr>
+                  
+                  <tr *ngFor="let school of cmForm.controls.multidest.controls; let i=index" formGroupName="{{i}}">
+                    <td>
+                      <input type="text" formControlName="unloadingaddress" class="form-control">
+                    </td>
+                    <td>
+                      <input type="text" formControlName="contactperson" class="form-control">
+                    </td>
+                    <td>
+                      <input type="text" formControlName="phoneno" class="form-control">
+                    </td>
+                    <td>
+                      <button class="btn btn-danger float-right" [disabled]="cmForm.controls?.multidest.controls.length == 1" (click)="removeItems(i)" type="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body" *ngIf="cmForm.controls?.multidest.controls.length == 0">
+                <p>Please select vendor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveCm()" [disabled]="!cmForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  
+  </form>
+</div>

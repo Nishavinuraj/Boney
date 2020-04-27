@@ -1,0 +1,9 @@
+.scroll-h-page {
+    overflow: scroll;
+}
+
+
+::ng-deep .my-class .modal-dialog { 
+    max-width: 80%;
+    width: 80%;
+}

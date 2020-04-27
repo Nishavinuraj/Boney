@@ -1,0 +1,195 @@
+<div class="container">
+  <form [formGroup]="amForm">
+    <div class="card">
+      <div class="card-header">
+        <div class="col-md-12">
+          <h4><i></i> Edit Accounts Master</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3">
+            <label>Account Name</label>
+            <input type="text" formControlName="accountname" class="form-control" placeholder="Account Name">
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Category</label>
+            <ng-select [items]="category_options" placeholder="Type and search Category" bindLabel="catname" bindValue="catname"
+              formControlName="category">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Group</label>
+            <ng-select [items]="group_options" placeholder="Type and search Group" bindLabel="catname" bindValue="catname"
+              formControlName="group">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Account Type</label>
+            <ng-select [items]="accounttype_options" placeholder="Type and search Type" bindLabel="name" bindValue="name"
+              formControlName="accounttype">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Under Ledger</label>
+            <ng-select [items]="underledger_options" placeholder="Type and search Under Ledger" bindLabel="accountname" bindValue="accountname"
+              formControlName="underledger">
+            </ng-select>
+          </div>
+          <div class="col-md-3">
+            <label >Site</label>
+            <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+              formControlName="site" class="auto-entry">
+            </ng-select>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <label>Gst No.</label>
+            <input type="text" formControlName="gstnumber" class="form-control" placeholder="Gst No">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Pan No.</label>
+            <input type="text" formControlName="panno" class="form-control" placeholder="Pan No.">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Vendor Code</label>
+            <input type="text" formControlName="vcode" class="form-control" placeholder="Vendor Code">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Contact Person Name</label>
+            <input type="text" formControlName="contactpersonname" class="form-control" placeholder="Name">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Email</label>
+            <input type="text" formControlName="email" class="form-control" placeholder="Email">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Mobile 1</label>
+            <input type="number" formControlName="mobile1" class="form-control" placeholder="Mobile No.">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Mobile 2</label>
+            <input type="number" formControlName="mobile2" class="form-control" placeholder="Mobile No.">
+          </div>
+
+          <div class="col-md-12">
+            <h4><i></i> Balances</h4>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <label>Opening Balance</label>
+            <input type="text" formControlName="opbal" class="form-control" placeholder="Opening Balance">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>O.DrCr</label>
+            <select class="form-control" formControlName="ocrdr">
+              <option value="">Select Account Mode</option>
+              <option value="Debit">Debit</option>
+              <option value="Credit">Credit</option>
+            </select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Closing Balance</label>
+            <input type="text" formControlName="clbal" class="form-control" placeholder="Closing Balance">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>C.DrCr</label>
+            <select class="form-control" formControlName="cdrcr">
+              <option value="">Select Account Mode</option>
+              <option value="Debit">Debit</option>
+              <option value="Credit">Credit</option>
+            </select>
+          </div>
+
+          <div class="col-md-12">
+            <h4><i class="fa fa-truck"></i> Shipping Address</h4>
+            <hr />
+          </div>
+
+            <div class="col-lg-3 col-md-3">
+              <label>Street 1</label>
+              <input type="text" formControlName="bstreet1" class="form-control" placeholder="Steet 1">
+            </div>
+            <div class="col-lg-3 col-md-3">
+              <label>Street 2</label>
+              <input type="text" formControlName="bstreet2" class="form-control" placeholder="Steet 2">
+            </div>
+            <div class="col-lg-3 col-md-3">
+              <label>City</label>
+              <ng-select [items]="bcity_options" placeholder="Type and search City" bindLabel="name" bindValue="name"
+                formControlName="bcity">
+              </ng-select>
+            </div>
+            <div class="col-lg-3 col-md-3">
+              <label>State</label>
+              <ng-select [items]="bstate_options" placeholder="Type and search State" bindLabel="name" bindValue="name"
+                formControlName="bstate">
+              </ng-select>
+            </div>
+            <div class="col-lg-3 col-md-3">
+              <label>PinCode</label>
+              <input type="number" formControlName="bzip" class="form-control" placeholder="Pin No">
+            </div>
+            <div class="col-lg-3 col-md-3">
+              <label>Country</label>
+              <ng-select [items]="bcountry_options" placeholder="Type and search country" bindLabel="name" bindValue="name"
+                formControlName="bcountry">
+              </ng-select>
+            </div>
+
+            <div class="col-lg-3 col-md-3">
+              <label>Phone No</label>
+              <input type="number" formControlName="bphone" class="form-control" placeholder="Phone No">
+            </div>
+
+          <div class="col-md-12">
+            <h4><i class="fa fa-truck"></i> Shipping Details</h4>
+            <hr />
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <label>Street 1</label>
+            <input type="text" formControlName="sstreet1" class="form-control" placeholder="Steet 1">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Street 2</label>
+            <input type="text" formControlName="sstreet2" class="form-control" placeholder="Steet 2">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>City</label>
+            <ng-select [items]="scity_options" placeholder="Type and search City" bindLabel="name" bindValue="name"
+              formControlName="scity">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>State</label>
+            <ng-select [items]="sstate_options" placeholder="Type and search State" bindLabel="name" bindValue="name"
+              formControlName="sstate">
+            </ng-select>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>PinCode</label>
+            <input type="number" formControlName="bzip" class="form-control" placeholder="Pin No">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label>Country</label>
+            <ng-select [items]="scountry_options" placeholder="Type and search country" bindLabel="name" bindValue="name"
+              formControlName="scountry">
+            </ng-select>
+          </div>
+        <div class="col-lg-3 col-md-3">
+            <label>Phone No</label>
+            <input type="number" formControlName="sphone" class="form-control" placeholder="Phone No">
+          </div>
+      </div>
+
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveAm()" [disabled]="!amForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

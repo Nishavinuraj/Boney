@@ -1,0 +1,172 @@
+<div class="card" *ngIf="estimate && !estimate.isDeleted">
+  <div class="card-header">
+    <strong>Submit Estimate Response</strong>
+  </div>
+  <form [formGroup]="submitEstimateForm">
+
+    <div class="modal-body">
+      <div class="row">
+          <div class="col-md-6">
+              <label class="required"> Estimate ID</label>
+              <input type="text" class="form-control" formControlName="estimateId" disabled />
+    
+            </div>
+        <!-- <div class="col-md-6">
+          <label class="required"> Product</label>
+          <input type="text" class="form-control" formControlName="product" disabled />
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Product Qty</label>
+            <input type="text" class="form-control" formControlName="productQty" disabled/>
+          </div>
+        </div> -->
+
+        <div class="col-md-6">
+          <label class="required"> Vendor</label>
+          <input type="text" class="form-control" [value]="vendor" disabled/>
+
+        </div>
+          <!-- <div class="col-md-6">
+              <label class="required">Stock Status</label>
+              <ng-select [items]="stockOptions" placeholder="Type and search items" bindLabel="vendorname" bindValue="vendorname"
+                formControlName="stockStatus">
+              </ng-select>
+              
+            </div> -->
+       
+        
+            <div class="col-md-12">
+              <br/>
+              <div class="form-group">
+                <table class="table table-bordered">
+                  <tr>   
+                      <th>Product</th>                   
+                      <th>Qty</th>  
+                      <th>Availability</th>                                  
+                    <th>Unit</th>                   
+                    <th>Price(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                    <th>Dis(%)</th>
+                    <th>CGST(%)</th>
+                    <th>SGST(%)</th>
+                    <th>IGST(%)</th>
+                    <th>Amount(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+               </tr>
+                  
+                  <tr *ngFor="let p of submitEstimateForm.value.product;let i = index;">
+                      <td>
+                          <input type="text" disabled [(ngModel)]="estimateInstances[i].product"
+                           [ngModelOptions]="{standalone: true}"
+                            class="form-control price">
+    
+                        </td>
+                        <td>
+                            <input type="number" min="0" disabled style="width:80px;" 
+                            [(ngModel)]="estimateInstances[i].productQty"
+                            [ngModelOptions]="{standalone: true}"
+                            class="form-control price">
+      
+                          </td>
+                          <td>
+                              <ng-select [items]="stockOptions" style="width:120px;"
+                              placeholder="Type and search items"
+                              [ngModelOptions]="{standalone: true}"
+                              [(ngModel)]="estimateInstances[i].stockStatus"
+                               bindLabel="vendorname" bindValue="vendorname"
+                              >
+                            </ng-select>
+
+                          </td>
+                    <td>
+                      <div class="input-group">
+                          <ng-select [items]="unit_option"
+                          placeholder="Please select Unit"
+                          [ngModelOptions]="{standalone: true}"
+                          [disabled]="estimateInstances[i].stockStatus!='Available'"
+                          [(ngModel)]="estimateInstances[i].unit"
+                          >
+                        </ng-select>
+                        <!-- <select class="form-control"
+                         [attr.disabled]="estimateInstances[i].stockStatus!='Available' ? '' : null"
+                         [(ngModel)]="estimateInstances[i].unit"
+                         style="width:80px;">
+                          <option *ngFor="let option of unit_option" [value]="option"> {{option}}</option>
+                        </select> -->
+                      </div>
+                    </td>
+                    
+                    <td>
+                      <input type="number" min="0" style="width:80px;" 
+                      (change)="evaluate(i)"
+                      [(ngModel)]="estimateInstances[i].unitRate"
+                      [disabled]="estimateInstances[i].stockStatus!='Available'"
+                      [ngModelOptions]="{standalone: true}" class="form-control price">
+
+                    </td>
+                    <td> 
+                      <input type="number" min="0" style="width:50px;"
+                      (change)="evaluate(i)"
+                      [(ngModel)]="estimateInstances[i].discount"
+                      [disabled]="estimateInstances[i].stockStatus!='Available'"
+                      [ngModelOptions]="{standalone: true}"   class="form-control discount">
+                    </td>
+                    <td>
+                      <input type="number" min="0" style="width:50px;"
+                      (change)="evaluate(i)"
+                      [disabled]="estimateInstances[i].stockStatus!='Available'"
+                      [(ngModel)]="estimateInstances[i].cgst"
+                      [ngModelOptions]="{standalone: true}" 
+                      class="form-control discount">
+                    </td>
+                    <td>
+                      <input type="number" min="0" style="width:50px;" 
+                      (change)="evaluate(i)"
+                      [disabled]="estimateInstances[i].stockStatus!='Available'"
+                      [(ngModel)]="estimateInstances[i].sgst"
+                      [ngModelOptions]="{standalone: true}" 
+                        class="form-control discount">
+                    </td>
+                    <td>
+                      <input type="number" min="0" 
+                      (change)="evaluate(i)"
+                      style="width:50px;" 
+                      [disabled]="estimateInstances[i].stockStatus!='Available'"
+                      [(ngModel)]="estimateInstances[i].igst"
+                      [ngModelOptions]="{standalone: true}"
+                      class="form-control discount">
+                    </td>
+                    <td>
+                      <input type="number" min="0"
+                      [(ngModel)]="estimateInstances[i].total"
+                      [ngModelOptions]="{standalone: true}"
+                      style="width:80px;" class="form-control total" disabled>
+
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Remarks: (If Any)</label>
+            <textarea class="form-control" formControlName="remark" ></textarea>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+              <label>Other Details</label>
+              <textarea class="form-control" formControlName="otherDetails" ></textarea>
+            </div>
+          </div>
+
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" (click)="submit()" [disabled]="!submitEstimateForm.valid || !isEstimationValid()" class="btn btn-success">Save</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="!estimate || estimate.isDeleted">Estimate Response is no longer Required, Please close the window</div>

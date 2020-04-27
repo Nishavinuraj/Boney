@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h4 class="modal-title">User Creation Edit</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.close('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="editForm">
+    
+    <ul class="list-group"><label>Permissions List</label>
+      <li *ngFor="let p of permissions" class="list-group-item" (click)="onPermissionClick(p)">{{p.name}} 
+        <i *ngIf="p.checked" class="fa fa-check-square-o pull-right" aria-hidden="true"></i> 
+        <i *ngIf="!p.checked" class="fa fa-square-o pull-right" aria-hidden="true"></i>
+      </li>
+    </ul>
+
+    <div class="form-group">
+      <label>Site</label>
+      <select formControlName="site" class="form-control" required>
+        <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+          {{ s.branch_name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Role</label>
+      <select formControlName="role" class="form-control" required>
+        <option value="">Select Role</option>
+        <option *ngFor="let r of roles" value="{{ r.role_name }}">
+          {{ r.role_name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name" />
+    </div>
+    <button class="btn btn-primary" (click)="update()">Update</button>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>

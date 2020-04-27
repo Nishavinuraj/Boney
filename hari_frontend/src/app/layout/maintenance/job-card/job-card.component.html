@@ -1,0 +1,134 @@
+<div class="card">
+  <div class="card-header">
+    <strong>Job Card</strong>
+  </div>
+  <form [formGroup]="addForm">
+
+    <div class="modal-body">
+      <div class="row">
+
+        <div class="col-md-3">
+          <label>Date</label>
+          <div class="form-inline">
+            <div class="form-group">
+              
+              <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  name="dp"
+                  formControlName="date"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Job No</label>
+            <input type="number" class="form-control" formControlName="jobno" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Sr No</label>
+            <input type="number" class="form-control" formControlName="srno" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Truck No</label>
+            <input type="text" class="form-control" formControlName="truckno" />
+          </div>
+        </div>
+
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>KM Reading</label>
+            <input type="text" class="form-control" formControlName="km_reading" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Vendor Name</label>
+            <input type="text" class="form-control" formControlName="vendor_name" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Bill Amount</label>
+            <input type="number" class="form-control" formControlName="bill_amount" />
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>App Amount</label>
+            <input type="number" class="form-control" formControlName="app_amount" />
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <label>Work To Be Done</label>
+            <!-- <input type="number" class="form-control" formControlName="work_be_done"> -->
+            <div class="input-group datepicker-input">
+              <input class="form-control" type="text" formControlName="work_be_done"/>
+            </div>
+          </td>
+
+          <td>
+            <label>Last Done on</label>
+            <!-- <input type="number" class="form-control" formControlName="last_done_on"> -->
+            <div class="input-group datepicker-input">
+              <input class="form-control" placeholder="dd/mm/yyyy" name="dp" formControlName="last_done_on" ngbDatepicker #d3="ngbDatepicker" />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()" type="button">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <label>Remarks</label>
+            <input type="text" class="form-control" formControlName="remarks">
+          </td>
+
+          <td>
+            <label>Qty</label>
+            <input type="text" class="form-control" formControlName="qty">
+          </td>
+
+          <td>
+            <label>Scrap Qty</label>
+            <input type="text" class="form-control" formControlName="scrap_qty">
+          </td>
+
+          <td>
+            <label>Next Due KM</label>
+            <input type="text" class="form-control" formControlName="next_due_km">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="modal-footer">
+      <button type="button" (click)="submit()" class="btn btn-success">Save</button>
+    </div>
+  </form>
+</div>

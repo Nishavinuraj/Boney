@@ -1,0 +1,113 @@
+<div class="container">
+  <form [formGroup]="trlForm">
+    <div class="card">
+      <div class="card-header">Edit Material Receipt</div>
+      <div class="card-body">
+
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Date</label>
+            <div class="input-group">
+              <input type="text" #mr="bsDatepicker" [bsConfig]="{ containerClass: 'theme-blue', 'dateInputFormat': 'DD-MM-YYYY', 'showWeekNumbers': false, 'minDate': currentDate }" bsDatepicker formControlName="trl_date"
+                class="form-control">
+              <div class="input-group-prepend" (click)="mr.toggle()">
+                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Company Name</label>
+            <ng-select [items]="company_option" placeholder="Type and search Company" bindLabel="name" bindValue="name"
+              formControlName="company_name">
+            </ng-select>
+          </div>
+          
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Brand</label>
+            <ng-select [items]="brand_option" placeholder="Type and search Brand" bindLabel="name" bindValue="name"
+              formControlName="brand">
+            </ng-select>
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            <div class="form-group">
+              <label class="required">Tyre Type</label>
+              <select formControlName="tyre_type" class="form-control">
+                <option value="">Select Tyre Type</option>
+                <option *ngFor="let r of tyre_types" value="{{ r.tyre_type }}">
+                  {{ r.tyre_type }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label class="required">Tyre Size</label>
+            <input type="text" formControlName="tyre_size" class="form-control" placeholder="Tyre Size">
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <label class="required">NSD</label>
+            <input type="text" formControlName="nsd" class="form-control" placeholder="nsd">
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Vendor Details
+                <button class="btn btn-primary float-right" (click)="addTrlItems()" [disabled]="!trlForm.valid"
+                  type="button">
+                  Add Vendor
+                </button>
+              </div>
+              <!-- /.box-header -->
+              <div class="card-body" *ngIf="trlForm.controls.trl_items.controls.length > 0">
+                <table class="table table-bordered" formArrayName="trl_items">
+                  <tr>
+                    <th>Vendor</th>
+                    <th>Location</th>
+                    <th>Price(<i class="fa fa-inr" aria-hidden="true"></i>)</th>
+                    <th>Action</th>
+                  </tr>
+                  
+                  <tr *ngFor="let school of trlForm.controls.trl_items.controls; let i=index" formGroupName="{{i}}">
+                    <td>
+                      <div class="input-group">
+                        <select class="form-control" formControlName="item_id">
+                          <option value="">Please select Vendor</option>
+                          <option *ngFor="let option of trl_items" [value]="option._id"> {{option.name}}</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="text" formControlName="location" class="form-control">
+                    </td>
+
+                    <td>
+                      <input type="number" min="0" formControlName="price" class="form-control price">
+                    </td>
+                    <td>
+                      <button class="btn btn-danger float-right" [disabled]="trlForm.controls?.trl_items.controls.length == 1" (click)="removeItems(i)" type="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body" *ngIf="trlForm.controls?.trl_items.controls.length == 0">
+                <p>Please select vendor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="saveTrl()" [disabled]="!trlForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  
+  </form>
+</div>

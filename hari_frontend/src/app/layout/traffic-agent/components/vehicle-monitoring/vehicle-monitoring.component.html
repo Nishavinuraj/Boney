@@ -1,0 +1,140 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+        <form [formGroup]="filterForm" novalidate>
+          <div class="row">
+            <div class="col-md-12">
+              <h4><i class="fa fa-truck"></i> Vehicle Monitoring</h4>
+              <hr />
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3">
+              <div class="form-group">
+                <label>Traffic Agent*</label>
+                <select formControlName="traffic_agent" class="form-control" (change)="onChangeTrafficAgent($event.target.value)">
+                  <option value="">--Select All--</option>
+                  <option *ngFor="let a of agents" value="{{ a.name }}">
+                    {{ a.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-12 col-lg-3">
+              <button (click)="fetch()" class="btn btn-warning mg-top-26"><i class="fa fa-get-pocket" aria-hidden="true"></i> Fetch </button>&nbsp;&nbsp;
+              <a routerLink="/traffic-agent/vehicle-monitoring/reports" class="btn btn-primary mg-top-26"><i class="fa fa-file" aria-hidden="true"></i> Report 22</a>
+            </div>
+          </div>
+        </form>
+
+      <hr />
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination> -->
+      <!-- <p>
+        <strong>Total:</strong> {{ pagination.total }}, <strong>Records per page:</strong> {{ pagination.pageSize }},
+        <strong>Showing:</strong> {{ (pagination.currenPage - 1) * pagination.pageSize }} -
+        {{ (pagination.currenPage - 1) * pagination.pageSize + 50 }}
+      </p> -->
+      
+      <form [formGroup]="editForm" class="table-overflow">
+        <div class="zui-scroller">
+          <table class="table mytable zui-table">
+            <thead>
+              <tr>
+                <th class="zui-sticky-col zui-1">Sr.No</th>
+                <th class="zui-sticky-col zui-2">Vehicle No.</th>
+                <th>Lrno</th>
+                <th>Date</th>
+                <th>From</th>
+                <th>Destination</th>
+                <th>M.Ton</th>
+                <th>Customer Name</th>
+                <th>Map</th>
+                <th>Km Run</th>
+                <th>Current Location</th>
+                <th>Trips Status</th>
+                <th>Remark</th>
+                <th>Completed</th>
+                <th align="center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="loading">
+                <td colspan="14">
+                  <div class="showbox">
+                    <div class="loader">
+                      <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let report of report_data">
+                <td class="zui-sticky-col zui-1">{{report.srno ? report.srno : '--'}}</td>
+                <td class="zui-sticky-col zui-2"><a [routerLink]="['/traffic-agent/vehicle-monitoring/reports', {truck_no: report.truckno}]">{{report.truckno ? report.truckno : '--'}}</a></td>
+                <td>{{report.lrno ? report.lrno : '--'}}</td>
+                <td>{{report.date ? report.date : '--'}}</td>
+                <td>{{report.from ? report.from : '--'}}</td>
+                <td>{{report.to ? report.to : '--'}}</td>
+                <td>{{report.m_ton ? report.m_ton : '--'}}</td>
+                <td>{{report.customer_name ? report.customer_name : '--'}}</td>
+                <td>{{report.map ? report.map : '--'}}</td>
+
+                <td *ngIf="!report.editing">
+                    {{report.km ? report.km : '--'}}
+                </td>
+                <td *ngIf="report.editing">
+                  <input class="form-control" formControlName="km_run" type="number" >
+                </td>
+
+                <td *ngIf="!report.editing">{{report.currentlocation ? report.currentlocation : '--'}}</td>
+                <td *ngIf="report.editing">
+                  <input class="form-control" formControlName="current_location" type="text" >
+                </td>
+
+                <td *ngIf="!report.editing">{{report.tripsstatus ? report.tripsstatus : '--'}}</td>
+                <td *ngIf="report.editing">
+                  <select class="form-control" formControlName="trip_status">
+                    <option *ngFor="let t of tripStatus" value="{{ t.name }}">{{t.name}}</option>
+                  </select>    
+                </td>
+
+                <td *ngIf="!report.editing">{{report.remark ? report.remark : '--'}}</td>
+                <td *ngIf="report.editing">
+                  <input class="form-control" formControlName="remark" type="text" >
+                </td>
+                
+                <td *ngIf="!report.editing">{{report.completed ? report.completed : '--'}}</td>
+                <td *ngIf="report.editing">
+                  <select class="form-control" formControlName="completed">
+                    <option *ngFor="let c of completed" value="{{ c.name }}">{{c.name}}</option>
+                  </select>
+                </td>
+                
+                <td>
+                  <button class="btn btn-primary" (click)="edit(report)">Edit</button>&nbsp;&nbsp;
+                  <button *ngIf="report.editing" class="btn btn-danger" (click)="cancel(report)">Cancel</button>&nbsp;&nbsp;
+                  <button *ngIf="report.editing" class="btn btn-success" (click)="update(report)">Update</button>
+                </td>
+              </tr>
+              <tr *ngIf="loaded && report_data.length === 0 ">
+                <td align="center" colspan="14">No data available</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+      <!-- <ngb-pagination
+        [(page)]="pagination.currenPage"
+        [pageSize]="pagination.pageSize"
+        [collectionSize]="pagination.total"
+        [maxSize]="pagination.maxSize"
+        (pageChange)="fetchReport()"
+      ></ngb-pagination> -->
+    </div>
+  </div>
+</div>

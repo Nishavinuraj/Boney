@@ -1,0 +1,265 @@
+<div class="row">
+  <div class="col-md-12">
+    <ngb-tabset>
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>Truck Maintenance</b></ng-template>
+        <ng-template ngbTabContent>
+          <p></p>
+          <h4>Pending Records</h4>
+          <table class="table mytable tableFixHead">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>TA Name</th>
+                <th>Truck No</th>
+                <th>Particulars</th>
+                <th>TA Time</th>
+                <th>Assign To</th>
+                <th>Km Reading</th>
+                <th>Remarks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="flags.loadingTruckRecords">
+                <td colspan="14">
+                  <div class="showbox">
+                    <div class="loader">
+                      <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr *ngFor="let td of truckData">
+                <td>{{ td.srno }}</td>
+                <td>{{ td.taname }}</td>
+                <td>{{ td.truckno }}</td>
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="td.particulars" name="particular{{ td.srno }}">
+                </td>
+                <td>{{ td.ta_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.assign_to" name="assignTo{{ td.srno }}"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.km_reading" name="km_reading{{ td.srno }}"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.remarks" name="remarks{{ td.srno }}"></td>
+                <td>
+                  <button class="btn btn-success" (click)="acceptTruckRecord(td)">Accept</button>
+                </td>
+              </tr>
+              <tr *ngIf="flags.loadedTruckRecords && truckData.length === 0">
+                <td align="center" colspan="14">No data available</td>
+              </tr>
+            </tbody>
+          </table>
+          <p></p>
+          <hr>
+          <h4>Accepted Records</h4>
+          <table class="table mytable tableFixHead">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Truck No</th>
+                <th>Particulars </th>
+                <th>TA Time</th>
+                <th>Job Time</th>
+                <th>Hrs</th>
+                <th style="width: 15%;">Status</th>
+                <th>Remarks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="flags.loadingAcceptedTruckRecords">
+                <td colspan="14">
+                  <div class="showbox">
+                    <div class="loader">
+                      <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let td of truckAcceptedData">
+                <td>{{ td.srno }}</td>
+                <td>{{ td.truckno }}</td>
+                <td>{{ td.particulars }}</td>
+                <td>{{ td.ta_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td>{{ td.job_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td>{{ td.countHrs.toFixed(2) }}</td>
+                <td>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="td.status" name="status{{td.srno}}"> -->
+
+                  <select [(ngModel)]="td.status" class="form-control">
+                    <option value="">Select Status</option>
+                    <option *ngFor="let s of statuses"  value="{{ s.status }}"> 
+                      {{ s.status }}
+                    </option>
+                  </select>
+                </td>
+                <!-- <td>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Up">Up</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Down">Down</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="No driver">No</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Maintenance">Maintenance</label>
+                  </div>
+                </td> -->
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="td.remarks" name="status{{ td.remarks }}">
+                </td>
+                <td>
+                  <button class="btn btn-success" (click)="updateTruckRecord(td)">Update</button>&nbsp;&nbsp;
+                  <a [routerLink]="['/maintenance/job-list/', {srno: td.srno, truckno: td.truckno}]">
+                  <button type="button" class="btn btn-warning">Job Card</button></a><br><br>
+
+                  <a [routerLink]="['/maintenance/truck-history/', { truckno: td.truckno }]">
+                    <button type="button" class="btn btn-warning">Truck History</button></a>
+                </td>
+              </tr>
+              <tr *ngIf="flags.loadedAcceptedTruckRecords && truckAcceptedData.length === 0">
+                <td align="center" colspan="14">No data available</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>Tyre Maintenance</b></ng-template>
+        <ng-template ngbTabContent>
+          <p></p>
+          <h4>Pending Records</h4>
+          <table class="table mytable tableFixHead">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>TA Name</th>
+                <th>Truck No</th>
+                <th>Particulars </th>
+                <th>TA Time</th>
+                <th>Assign To</th>
+                <th>Km Reading</th>
+                <th>Remarks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="flags.loadingTyreRecords">
+                <td colspan="14">
+                  <div class="showbox">
+                    <div class="loader">
+                      <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let td of tyreData">
+                <td>{{ td.srno }}</td>
+                <td>{{ td.taname }}</td>
+                <td>{{ td.truckno }}</td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.particulars" name="particular{{ td.srno }}"></td>
+                <td>{{ td.ta_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.assign_to" name="assignTo{{ td.srno }}"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.km_reading" name="km_reading{{ td.srno }}"></td>
+                <td><input type="text" class="form-control" [(ngModel)]="td.remarks" name="remarks{{ td.srno }}"></td>
+                <td>
+                  <button class="btn btn-success" (click)="acceptTyreRecord(td)">Accept</button>
+                </td>
+              </tr>
+              <tr *ngIf="flags.loadedTyreRecords && tyreData.length === 0">
+                <td align="center" colspan="14">No data available</td>
+              </tr>
+            </tbody>
+          </table>
+          <p></p>
+          <hr>
+          <h4>Accepted Records</h4>
+          <table class="table mytable tableFixHead">
+            <thead>
+              <tr>
+                <th>Sr No.</th>
+                <th>Truck No</th>
+                <th>Particulars </th>
+                <th>TA Time</th>
+                <th>Job Time</th>
+                <th>Hrs</th>
+                <th style="width: 15%;">Status</th>
+                <th>Remarks</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="flags.loadingAcceptedTyreRecords">
+                <td colspan="14">
+                  <div class="showbox">
+                    <div class="loader">
+                      <svg class="circular" viewBox="25 25 50 50">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                      </svg>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngFor="let td of tyreAcceptedData">
+                <td>{{ td.srno }}</td>
+                <td>{{ td.truckno }}</td>
+                <td>{{ td.particulars }}</td>
+                <td>{{ td.ta_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td>{{ td.job_time | date: "dd/MM/yyyy HH:mm:ss" }}</td>
+                <td>{{ td.countHrs.toFixed(2) }}</td>
+                <td>
+                  <!-- <input type="text" class="form-control" [(ngModel)]="td.status" name="status{{td.srno}}"> -->
+
+                  <select [(ngModel)]="td.status" class="form-control">
+                    <option value="">Select Status</option>
+                    <option *ngFor="let s of statuses"  value="{{ s.status }}"> 
+                      {{ s.status }}
+                    </option>
+                  </select>
+                </td>
+                <!-- <td>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Up">Up</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Down">Down</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="No driver">No</label>
+                  </div>
+                  <div class="radio">
+                    <label><input type="radio" [(ngModel)]="td.status" name="status{{td.srno}}" value="Maintenance">Maintenance</label>
+                  </div>
+                </td> -->
+                <td>
+                  <input type="text" class="form-control" [(ngModel)]="td.remarks" name="status{{ td.remarks }}">
+                </td>
+                <td>
+                  <button class="btn btn-success" (click)="updateTyreRecord(td)">Update</button>&nbsp;&nbsp;
+                  <a [routerLink]="['/maintenance/job-list/', {srno: td.srno, truckno: td.truckno}]">
+                    <button type="button" class="btn btn-warning">Job Card</button></a><br><br>
+
+                    <a [routerLink]="['/maintenance/truck-history/', { truckno: td.truckno }]">
+                      <button type="button" class="btn btn-warning">Truck History</button></a>
+                </td>                
+              </tr>
+              <tr *ngIf="flags.loadedAcceptedTyreRecords && tyreAcceptedData.length === 0">
+                <td align="center" colspan="14">No data available</td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

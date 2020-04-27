@@ -1,0 +1,73 @@
+<div class="container">
+  <form [formGroup]="taForm">
+    <div class="card">
+      <div class="card-header">Add Truck Average</div>
+      <div class="card-body">
+        <div class="form-group row">
+        <div class="col-lg-3 col-md-3">
+          <label class="required">Site</label>
+          <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+            formControlName="site">
+          </ng-select>
+        </div>
+      </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                Truck Average Details
+                <button class="btn btn-primary float-right" (click)="addTaItems()" [disabled]="!taForm.valid"
+                  type="button">
+                  Add Average Details
+                </button>
+              </div>
+              <!-- /.box-header -->
+              <div class="card-body" *ngIf="taForm.controls.multidest.controls.length > 0">
+                <table class="table table-bordered" formArrayName="multidest">
+                  <tr>
+                    <th>Tyre</th>
+                    <th>CC</th>
+                    <th>Average</th>
+                    <th>Action</th>
+                  </tr>
+                  
+                  <tr *ngFor="let school of taForm.controls.multidest.controls; let i=index" formGroupName="{{i}}">
+                    <td>
+                      <div class="input-group">
+                        <select class="form-control" formControlName="tyre">
+                          <option value="">Select Tyre</option>
+                          <option *ngFor="let t of tyre_option" [value]="t.name"> {{t.name}}</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <input type="Number" formControlName="tcc" class="form-control">
+                    </td>
+                    <td>
+                      <input type="Number" formControlName="tavg" class="form-control">
+                    </td>
+
+                    <td>
+                      <button class="btn btn-danger float-right" [disabled]="taForm.controls?.multidest.controls.length == 1" (click)="removeItems(i)" type="button">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-body" *ngIf="taForm.controls?.multidest.controls.length == 0">
+                <p>Please select vendor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-success float-right" (click)="save()" [disabled]="!taForm.valid || process == 'saving'" type="button">
+          Save <i *ngIf="process == 'saving'" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

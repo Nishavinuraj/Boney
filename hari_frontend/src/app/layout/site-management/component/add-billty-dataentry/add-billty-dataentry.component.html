@@ -1,0 +1,943 @@
+<div class="container">
+  <form [formGroup]="bdeForm">
+    <div class="card">
+      <div class="card-header">Add Billty Entry</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+              <ngb-tabset>
+                <ngb-tab title="Data Entry">
+                  <ng-template ngbTabContent>
+                    <br>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h4><i class="fa fa-truck"></i> Billty Data Entry</h4>
+                          <hr />
+                        </div>
+                        <div class="col-md-3">
+                          <label class="required">Site</label>
+                          <ng-select [items]="siteOptions" placeholder="Type and search site" bindLabel="branch_name" bindValue="branch_name"
+                            formControlName="site" class="auto-entry">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Lr Date</label>
+                            <div class="input-group datepicker-input">
+                              <input
+                                class="form-control auto-entry"
+                                placeholder="dd/mm/yyyy"
+                                formControlName="lrdate" 
+                                name="dp"
+                                ngbDatepicker
+                                #d="ngbDatepicker"
+                              />
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Invoice No</label>
+                            <input type="text" formControlName="newinvoiceno"  class="form-control manual-entry" placeholder="Invoice No">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Invoice Date</label>
+                            <div class="input-group datepicker-input">
+                              <input
+                                class="form-control manual-entry"
+                                placeholder="dd/mm/yyyy"
+                                formControlName="newinvoicedate"
+                                name="dp"
+                                ngbDatepicker
+                                #id="ngbDatepicker"
+                              />
+                              <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="id.toggle()" type="button">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Gate Pass / Di Number</label>
+                            <input type="text" formControlName="newgatepass" class="form-control manual-entry" placeholder="Gate Pass / Di Number">
+                          </div>
+                        </div>
+                        <div class="col-md-5">
+                          <label class="required">Consignee</label>
+                          <ng-select [items]="consignee_options" placeholder="Type and search Consignee" bindLabel="name" bindValue="name"
+                            formControlName="consignne" class="manual-entry">
+                          </ng-select>
+                        </div>
+                        <div class="col-md-5">
+                          <div class="form-group">
+                            <label>Unloading Address</label>
+<!--                             <input type="text" formControlName="unloadingaddress" class="form-control" placeholder="Unloading Address">
+ -->                            <ng-select [items]="unloading_addresses" placeholder="Type and search Address"
+                            formControlName="unloadingaddress" class="manual-entry">
+                          </ng-select>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required">To Destination</label>
+                          <ng-select [items]="tos" placeholder="Type and search Destination" bindLabel="name" bindValue="name"
+                            formControlName="to" class="manual-entry">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannualtodest" >
+                                    Display All Destination?
+                                </label>
+                            </div>
+                              </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label class="required">Km</label>
+                            <input type="text" disabled formControlName="newkm" class="form-control auto-entry" placeholder="KM">
+                          </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                          <label>Petrol Pump Name</label>
+                          <ng-select [items]="diesalaccountname_options" placeholder="Type and search" bindLabel="accountname" bindValue="accountname"
+                            formControlName="diesalaccountname" class="manual-entry">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual Petrol Pump </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannualpetrolpump" >
+                                    Change Petrol Pump .?
+                                  </label>
+                            </div>
+                              </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Diesal Rate</label>
+                            <input type="number" formControlName="drate" class="form-control auto-entry" placeholder="Diesal Rate">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <label>Grade</label>
+                          <select class="form-control auto-entry" formControlName="grade">
+                            <option value="">Select Grade</option>
+                            <option value="Trade">Trade</option>
+                            <option value="Non Trade">Non Trade</option>
+                            <option value="Bulker">Bulker</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Party Rate</label>
+                            <input type="number" formControlName="newrate" class="form-control auto-entry" placeholder="Rate">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Transporter Rate</label>
+                            <input type="text" formControlName="rate" class="form-control auto-entry" placeholder="Rate">
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <br>
+                      <div class="row">
+  
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Select Lr. No</label>
+                              <ng-select [items]="lrNos" placeholder="Type and search lrNos"
+                                  formControlName="tplrno" class="manual-entry">
+                              </ng-select>
+                           </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannual" >
+                                    Change Lr No.?
+
+                                </label>
+                            </div>
+                              </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Lr. No</label>
+                            <input type="text" *ngIf="!lrField" disabled formControlName="lrno" class="form-control auto-entry" placeholder="Lr.No">
+                            <input type="text" *ngIf="lrField" formControlName="lrno" class="form-control auto-entry" placeholder="Lr.No"> 
+                          </div>
+                        </div>
+
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Truck Expences</label>
+                            <input type="text" *ngIf="!teField" disabled formControlName="truckexpences" class="form-control auto-entry" placeholder="Truck Expences">
+                            <input type="text" *ngIf="teField" formControlName="truckexpences" class="form-control auto-entry" placeholder="Truck Expences">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual Truck Expences </label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannualroadexp" >
+                                    Change Truck Expences .?
+                                  </label>
+                            </div>
+                              </div>
+                        </div>
+
+                      </div>
+
+                      <br>
+                      <div class="row">
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Diesal Qty</label>
+                            <input type="number" *ngIf="!dqField" disabled formControlName="dqty" class="form-control auto-entry" placeholder="Diesal Qty">
+                            <input type="number" *ngIf="dqField" formControlName="dqty" class="form-control auto-entry" placeholder="Diesal Qty">
+                          </div>
+                        </div>
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual Diesal Qty</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannualdqty" >
+                                    Change Diesal Qty.?
+                                </label>
+                            </div>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label class="required">Actual Wt.</label>
+                            <input type="text" formControlName="actualweight"  class="form-control manual-entry" placeholder="Actual Weight">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Manual Actual Weight</label>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" formControlName="mannualaweight" >
+                                    Change Actual Weight ?
+                                </label>
+                            </div>
+                              </div>
+                        </div>
+
+
+                        <div class="col-md-2">
+                          <div class="form-group">
+                            <label>Trans. Charged Wt.</label>
+                            <input type="text" formControlName="cweight" class="form-control auto-entry" placeholder="Charged Weight">
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-12">
+                        <h4><i class="fa fa-truck"></i> Billty Details</h4>
+                        <hr />
+                      </div>
+                      <div class="row">
+                
+                
+                        <div class="col-md-3">
+                          <label class="required">Consignor</label>
+                          <ng-select [items]="consignor_options" class="auto-entry" placeholder="Type and search Consignor" bindLabel="accountname" bindValue="accountname"
+                            formControlName="consigner">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Contact Person</label>
+                            <input type="text" formControlName="contactperson" class="form-control auto-entry" placeholder="Contack Person">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Phone No</label>
+                            <input type="text" formControlName="phoneno" class="form-control auto-entry" placeholder="Phone No">
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required">From Destination</label>
+                          <ng-select [items]="froms" class="auto-entry" placeholder="Type and search Destination" bindLabel="name" bindValue="name"
+                            formControlName="from">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required">Contains</label>
+                          <ng-select [items]="contains" placeholder="Type and seach Contains" bindLabel="name" bindValue="name"
+                            formControlName="contains" class="auto-entry">
+                          </ng-select>
+                        </div>
+                        <div class="col-md-3">
+                          <label class="required">Unit</label>
+                          <ng-select [items]="units" placeholder="Type and search Destination" bindLabel="name" bindValue="name"
+                            formControlName="unit" class="auto-entry">
+                          </ng-select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <label class="required">Product</label>
+                          <select class="form-control auto-entry" formControlName="product">
+                            <option value="">Select Product</option>
+                            <option value="Bag">Bag</option>
+                            <option value="Bulk">Bulk</option>
+                            <option value="Clinker">Clinker</option>
+                            <option value="Gypsum">Gypsum</option>
+                          </select>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>Packages</label>
+                            <input type="text" formControlName="packages" class="form-control auto-entry" placeholder="Packages">
+                          </div>
+                        </div>
+
+                      </div>
+
+                  </ng-template>
+                </ngb-tab>
+                  
+                  <ngb-tab title="Party Details">
+                    <ng-template ngbTabContent>
+                      <br>
+
+                      <div class="col-md-12">
+                        <h4><i class="fa fa-truck"></i> Party Details</h4>
+                        <hr />
+                      </div>
+
+                      <div class="row">
+                        <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <div class="row">
+                              <div class="col-md-3">               
+                                <label class="required">Payment Mode</label>
+                                <select class="form-control manual-entry" formControlName="ppaymentmode">
+                                  <option value="">Select Payment Mode</option>
+                                  <option value="To Be Billed">To Be Billed</option>
+                                  <option value="To Pay">To Pay</option>
+                                  <option value="Paid">Paid</option>
+                                </select>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Unloading Date</label>
+                                  <div class="input-group datepicker-input">
+                                    <input
+                                      class="form-control manual-entry"
+                                      placeholder="dd/mm/yyyy"
+                                      formControlName="unloadingdate"
+                                      name="dp"
+                                      ngbDatepicker
+                                      #uld="ngbDatepicker"
+                                    />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary calendar" (click)="uld.toggle()" type="button">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+
+                              <div class="col-md-3">
+                                <label class="required">Calculated By</label>  
+                                <select class="form-control manual-entry" formControlName="calculatedweight">
+                                  <option value="">Select Calculated By</option>
+                                  <option value="Weight">Weight</option>
+                                  <option value="Quantity">Quantity</option>
+                                </select>
+                              </div>
+
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Amount</label>
+                                  <input type="number" formControlName="newamount" class="form-control auto-entry" placeholder="Amount">
+                                </div>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Fm No.</label>
+                                  <input type="text" formControlName="fmno" class="form-control manual-entry" placeholder="FM No">
+                                </div>
+                              </div>
+
+
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Order No</label>
+                                    <input type="text" formControlName="ordername" class="form-control manual-entry" placeholder="Order no">
+                                  </div>
+                                </div>
+  
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Loading Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control manual-entry"
+                                        placeholder="dd/mm/yyyy"
+                                        formControlName="loadingdate"
+                                        name="dp"
+                                        ngbDatepicker
+                                        #ld="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="ld.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div> 
+                            </div>
+                          <hr>
+                        </div>
+                        <div class="col-md-12">
+                          <h4><i class="fa fa-truck"></i> Party Advance</h4>
+                          <hr />
+                        </div>
+                        <div class="row">
+                          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Advance Date</label>
+                                    <div class="input-group datepicker-input">
+                                      <input
+                                        class="form-control manual-entry"
+                                        placeholder="dd/mm/yyyy"
+                                        formControlName="padate"
+                                        name="dp"
+                                        ngbDatepicker
+                                        #ad="ngbDatepicker"
+                                      />
+                                      <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary calendar" (click)="ad.toggle()" type="button">
+                                          <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+  
+                                <div class="col-md-3">
+                                  <label>Receipt Type</label>
+                                  <ng-select [items]="receipttype_options" placeholder="Type and search" bindLabel="name" bindValue="name"
+                                    formControlName="papaymenttype" class="manual-entry">
+                                  </ng-select>
+                                </div>
+  
+                                <div class="col-md-3">
+                                  <label>Receipt Mode</label>
+                                  <ng-select [items]="receiptmode_options" placeholder="Type and search" bindLabel="accountname" bindValue="accountname"
+                                    formControlName="papaymentmode" class="manual-entry">
+                                  </ng-select>
+                                </div>
+  
+  
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Advance Amount</label>
+                                    <input type="text" formControlName="padvance" class="form-control manual-entry" placeholder="Advance Amount">
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Remarks</label>
+                                    <input type="text" formControlName="paremarks" class="form-control manual-entry" placeholder="Remarks">
+                                  </div>
+                                </div>
+                              </div>
+                            <hr>
+                          </div>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                          <h4><i class="fa fa-truck"></i> Bill Details</h4>
+                          <hr />
+                        </div>
+                        <div class="row">
+                          <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <div class="row">
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Bill No</label>
+                                  <input type="text" formControlName="billno" class="form-control auto-entry" placeholder="Bill No">
+                                </div>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Bill Date</label>
+                                  <div class="input-group datepicker-input">
+                                    <input
+                                      class="form-control auto-entry"
+                                      placeholder="dd/mm/yyyy"
+                                      formControlName="billdate"
+                                      name="dp"
+                                      ngbDatepicker
+                                      #bd="ngbDatepicker"
+                                    />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary calendar" (click)="bd.toggle()" type="button">
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Bill Remarks</label>
+                                  <input type="text" formControlName="billremarks" class="form-control auto-entry" placeholder="Bill Remarks">
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+
+                    </ng-template>
+                  </ngb-tab>
+                  <ngb-tab title="Transporter Details">
+                    <ng-template ngbTabContent>
+                      <br>
+                      <div class="row">
+                        <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Transporter Details</h4>
+                              <hr />
+                            </div>
+    
+                            <div class="row">
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Sr.No</label>
+                                  <input type="text" formControlName="srno" class="form-control auto-entry" placeholder="Sr.No">
+                                </div>
+                              </div>
+        
+                              <div class="col-md-3">
+                                <label class="required">Vehicle type</label>
+                                <select class="form-control auto-entry" formControlName="vehicletype">
+                                  <option value="">Select Vehicle type</option>
+                                  <option value="Company">Company</option>
+                                  <option value="Attached">Attached</option>
+                                </select>
+                              </div>
+                    
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Truck No</label>
+                                  <input type="text" formControlName="truckno" class="form-control auto-entry" placeholder="Truck No">
+                                </div>
+                              </div>
+        
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Broker Name</label>
+                                  <input type="text" formControlName="brokername" class="form-control manual-entry" placeholder="Broker Name">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Driver Name</label>
+                                  <input type="text" formControlName="drivername" class="form-control auto-entry" placeholder="Driver Name">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Id No</label>
+                                  <input type="text" formControlName="idno" class="form-control manual-entry" placeholder="Id No">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Owner Name</label>
+                                  <input type="text" formControlName="ownername" class="form-control auto-entry" placeholder="Owner Name">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Pan Number</label>
+                                  <input type="text" formControlName="panno" class="form-control auto-entry" placeholder="Pan Number">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>SPI</label>
+                                  <input type="text" formControlName="spi" class="form-control auto-entry" placeholder="SPI">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Tyre</label>
+                                  <input type="text" formControlName="tyre" class="form-control auto-entry" placeholder="Tyre">
+                                </div>
+                              </div>
+
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Amount</label>
+                                  <input type="text" formControlName="vamount" class="form-control auto-entry" placeholder="Amount">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Payment Charge</label>
+                                  <input type="text" formControlName="paymentcharge" class="form-control auto-entry" placeholder="Payment Charge">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Final Amount</label>
+                                  <input type="text" formControlName="finalamount" class="form-control auto-entry" placeholder="Type">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Truck Km Reading</label>
+                                  <input type="text" formControlName="tkmr" class="form-control auto-entry" placeholder="Truck Km Reading">
+                                </div>
+                              </div>
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label>Truck Carring Capacity</label>
+                                  <input type="text" formControlName="tcc" class="form-control auto-entry" placeholder="Truck Carring Capacity">
+                                </div>
+                              </div>
+        
+                            </div>
+
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Diesal Expences Details</h4>
+                              <hr />
+                            </div>
+                            <div class="row">
+                              <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Date</label>
+                                        <div class="input-group datepicker-input">
+                                          <input
+                                            class="form-control manual-entry"
+                                            placeholder="dd/mm/yyyy"
+                                            formControlName="diesaldate"
+                                            name="dp"
+                                            ngbDatepicker
+                                            #dd="ngbDatepicker"
+                                          />
+                                          <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary calendar" (click)="dd.toggle()" type="button">
+                                              <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+      
+                                    <div class="col-md-3">
+                                      <label >Payment Type</label>
+                                      <select class="form-control manual-entry" formControlName="dtransactiontype">
+                                        <option value="">Select Payment Type</option>
+                                        <option value="Cash">Cash</option>
+                                        <option value="Credit">Credit</option>
+                                        <option value="Card">Card</option>
+                                      </select>
+                                    </div>
+      
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Amount</label>
+                                        <input type="number" formControlName="damount" class="form-control auto-entry" placeholder="Diesal Amount">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Slip No</label>
+                                        <input type="number" formControlName="dslipno" class="form-control manual-entry" placeholder="Slip No">
+                                      </div>
+                                    </div>
+                                  </div>
+                                <hr>
+                              </div>
+                            </div>
+      
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Road Expences Details</h4>
+                              <hr />
+                            </div>
+                            
+                            <div class="row">
+                              <!-- <div class="col-md-12"> -->
+                              <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                                <div class="card">
+                                  <div class="card-header">
+                                    Road Expences Details
+                                    <button class="btn btn-primary float-right" (click)="addTcmitems()" [disabled]="!bdeForm.valid"
+                                      type="button">
+                                      Add Expences
+                                    </button>
+                                  </div>
+                                  <!-- /.box-header -->
+                                  <div class="card-body" *ngIf="bdeForm.controls.transactiondetails.controls.length > 0" style="width:100% !important;overflow: auto !important;">
+                                    <table class="table table-bordered" formArrayName="transactiondetails">
+                                      <tr>
+                                        <th>Date</th>
+                                        <th>Transaction Type</th>
+                                        <th>Account Name</th>
+                                        <th>Amount</th>
+                                        <th>Payment Type</th>
+                                        <th>Payment Mode</th>
+                                        <th>Remarks</th>
+                                        <th>Action</th>
+                                      </tr>
+                                      <tr *ngFor="let school of bdeForm.controls.transactiondetails.controls; let i=index" formGroupName="{{i}}">
+                                        <td>
+                                          <input type="date" formControlName="date" value="{{getCurrentDate()}}" style="width:170px !important;"
+                                            class="form-control auto-entry">
+                                        </td>
+                                        <td>
+                                          <div class="input-group">
+                                            <select class="form-control auto-entry" formControlName="accounttype" style="width:150px !important;">
+                                              <!-- <option value="Advance">Advance</option> -->
+                                              <option *ngFor="let tt of tran_type" value="{{ tt.name }}">
+                                                {{ tt.name }}
+                                              </option>
+                                            </select>
+                                            </div>
+                                          </td>                    
+      
+                                        <td>
+                                          <div class="input-group">
+                                            <select class="form-control auto-entry" formControlName="accountname" style="width:150px !important;">
+                                              <option *ngFor="let an of roadexpaccountname_options" [value]="an.accountname"> {{an.accountname}}</option>
+                                            </select>
+                                          </div>
+                                        </td>
+      
+      
+                                        <td style="width:100px !important;">
+                                          <input type="number" min="0" formControlName="amount"
+                                            class="form-control auto-entry" style="width:90px !important;">
+                                        </td>
+                                        <td>
+                                          <div class="input-group">
+                                            <select class="form-control manual-entry" formControlName="paymenttype" style="width:150px !important;">
+                                              <option value="">Select type</option>
+                                              <option value="Bank to Bank">Bank to Bank</option>
+                                              <option value="Cash">Cash</option>
+                                              <option value="Cheque">Cheque</option>
+                                              <option value="Credit">Credit</option>
+                                              <option value="Imps">Imps</option>
+                                              <option value="Internal Transfer">Internal Transfer</option>
+                                              <option value="Neft">Neft</option>
+                                              <option value="Rtgs">Rtgs</option>
+                                            </select>
+                                          </div>
+                                        </td>
+                                        <td>
+                                          <!-- <input type="text" formControlName="paymentmode"
+                                            class="form-control"> -->
+                                              <ng-select [items]="paymentmode_options" placeholder="Type and search" style="width:250px !important;" bindLabel="accountname" bindValue="accountname"
+                                                formControlName="paymentmode" class="manual-entry">
+                                              </ng-select>
+              
+              
+                                          </td>
+                                        <td>
+                                          <input type="text" formControlName="remark"
+                                            class="form-control manual-entry">
+                                        </td>
+      
+                                        <td>
+                                          <button class="btn btn-danger float-right" [disabled]="bdeForm.controls?.transactiondetails.controls.length == 1" (click)="removeItems(i)" type="button">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </div>
+                                  <div class="card-body" *ngIf="bdeForm.controls?.transactiondetails.controls.length == 0">
+                                    <p>Please select vendor</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <br>
+                            
+                            <br>
+
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Truck Expences</h4>
+                              <hr />
+                            </div>
+                            <div class="row">
+                              <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Unloading Expences</label>
+                                        <input type="text" formControlName="unloadingexpences" class="form-control manual-entry" placeholder="Unloading Expences">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <label class="required">Unloading Type</label>
+                                      <select class="form-control manual-entry" formControlName="unloadingtype">
+                                        <option value="">Select Unloading Type</option>
+                                        <option value="Per MT">Per MT</option>
+                                        <option value="Fix">Fix</option>
+                                      </select>
+                                    </div>
+      
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Actual Unloading Expences</label>
+                                        <input type="number" formControlName="actualexpences" class="form-control manual-entry" placeholder="Actual Unloading Expences">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>Total Truck Expences</label>
+                                        <input type="number" formControlName="totaltruckexpences" class="form-control auto-entry" placeholder="Total Truck Expences">
+                                      </div>
+                                    </div>
+                                  </div>
+                                <!-- </form> -->
+                                <hr>
+                              </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-md-12">
+                              <h4><i class="fa fa-truck"></i> Pod / Bill / Unloading Details</h4>
+                              <hr />
+                            </div>
+      
+                            <div class="row">
+                              <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12 min-height">
+                                  <div class="row">
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                      <label>POD Date</label>
+                                      <div class="input-group datepicker-input">
+                                        <input
+                                          class="form-control auto-entry"
+                                          placeholder="dd/mm/yyyy"
+                                          formControlName="poddate"
+                                          name="dp"
+                                          ngbDatepicker
+                                          #pod="ngbDatepicker"
+                                        />
+                                        <div class="input-group-append">
+                                          <button class="btn btn-outline-secondary calendar" (click)="pod.toggle()" type="button">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+      
+      
+      
+                                    <div class="col-md-3">
+                                      <label>POD Pending</label>
+                                      <select class="form-control auto-entry" formControlName="podpendings">
+                                        <option value="YES">YES</option>
+                                        <option value="NO">NO</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <label>POD Ok</label>
+                                      <select class="form-control auto-entry" formControlName="podok">
+                                        <option value="YES">OK</option>
+                                        <option value="NO">NOT OK</option>
+                                      </select>
+                                    </div>
+      
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label>POD Remarks</label>
+                                        <input type="text" formControlName="podremarks" class="form-control auto-entry" placeholder="POD Remarks">
+                                      </div>
+                                    </div>
+      
+                                  </div>
+                                <hr>
+                              </div>
+                            </div>                            
+                          <hr>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-tab>
+        
+                </ngb-tabset>
+          </div>
+        </div>
+ 
+        </div>
+      </div>
+      <div class="card-footer">
+<!--         [disabled]="!bdeForm.valid || process == 'saving'"
+ -->        <button class="btn btn-success float-right" [disabled]="!bdeForm.valid || process == 'saving'" (click)="save()"  type="button">
+          Save <i *ngIf="process == 'saving'"  class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+  </form>
+</div>

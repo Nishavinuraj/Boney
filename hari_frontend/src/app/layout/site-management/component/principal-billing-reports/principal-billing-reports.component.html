@@ -1,0 +1,132 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+      <form [formGroup]="filterForm">
+        <div class="row">
+          <div class="col-md-12">
+            <h4><i class="fa fa-truck"></i> Principle Billing Reports</h4>
+            <hr />
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Site</label>
+              <!-- <select formControlName="site" class="form-control">
+                <option *ngFor="let s of sites" value="{{ s.branch_name }}">
+                  {{ s.branch_name }}
+                </option>
+              </select> -->
+
+              <input
+                class="form-control"
+                ng2-auto-complete
+                formControlName="site"
+                [source]="searchSite.bind(this)"
+                list-formatter="name"
+              />
+
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Party Name</label>
+              <!-- <select formControlName="consigner" class="form-control">
+                <option value="">Select Party Name</option>
+                <option *ngFor="let p of parties" value="{{ p.accountname }}">
+                  {{ p.accountname }}
+                </option>
+              </select> -->
+
+              <input
+                class="form-control"
+                ng2-auto-complete
+                formControlName="consigner"
+                [source]="searchPartyName.bind(this)"
+                list-formatter="accountname"
+              />
+            </div>
+          </div>
+          <!-- <div class="col-md-2">
+            <div class="form-group">
+              <label>From Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  formControlName="from_date"
+                  name="dp1"
+                  ngbDatepicker
+                  #d1="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- <div class="col-md-2">
+            <div class="form-group">
+              <label>To Date</label>
+              <div class="input-group datepicker-input">
+                <input
+                  class="form-control"
+                  placeholder="dd/mm/yyyy"
+                  formControlName="to_date"
+                  name="dp2"
+                  ngbDatepicker
+                  #d2="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()" type="button">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="col-md-2">
+            <div class="form-group">
+                <label>Select Bill No</label>
+                <input type="text" formControlName="bill_no" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+  
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>Invoice No.</label>
+              <input type="text" formControlName="mcu_invoice_number" class="form-control">
+            </div>
+            <div class="form-group">
+              <button (click)="printManikghar()" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Print Manikghar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>Invoice No.</label>
+              <input type="text" formControlName="acc_invoice_number" class="form-control">
+            </div>
+            <div class="form-group">
+              <button (click)="printACC()" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Print ACC</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>Invoice No.</label>
+              <input type="text" formControlName="utcl_invoice_number" class="form-control">
+            </div>
+            <div class="form-group">
+              <button (click)="printUTCL()" class="btn btn-success"><i class="fa fa-print" aria-hidden="true"></i> Print UTCL</button>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

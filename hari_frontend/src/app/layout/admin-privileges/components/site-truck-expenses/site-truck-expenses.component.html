@@ -1,0 +1,70 @@
+<div [@routerTransition]>
+  <div class="row">
+    <div class="col col-md-12 col-sm-12 col-xl-12 col-lg-12">
+      <div class="row">
+        <div class="col-md-12">
+          <h4><i class="fa fa-truck"></i> Site Truck Expenses</h4>
+          <hr />
+        </div>
+      </div>
+
+      <ngb-pagination
+      [(page)]="pagination.currenPage"
+      [pageSize]="pagination.pageSize"
+      [collectionSize]="pagination.total"
+      [maxSize]="pagination.maxSize"
+      (pageChange)="getExpenseList()"
+      ></ngb-pagination>
+      <p>
+        <strong>Total:</strong> {{ pagination.total }}, <strong>Records per page:</strong> {{ pagination.pageSize }},
+        <strong>Showing:</strong> {{ (pagination.currenPage - 1) * pagination.pageSize }} -
+        {{ (pagination.currenPage - 1) * pagination.pageSize + 50 }}
+      </p>
+      <table class="table table-hover table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>Site</th>
+            <th>Status</th>
+            <!-- <th>Actions</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="loading">
+            <td colspan="14">
+              <div class="showbox">
+                <div class="loader">
+                  <svg class="circular" viewBox="25 25 50 50">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+                  </svg>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let expense of expenses; let i = index">
+            <td>
+              <a (click)="multiDest(expense)" [routerLink]="['/admin-privileges/site-multiple-destination', expense.site]">{{ expense.site ? expense.site : '--' }}</a>
+            </td>
+            <td>{{ expense.status ? expense.status : '--' }}</td>
+            <!-- <td>
+              <button class="btn btn-primary" (click)="edit(expense.site)"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</button
+              >&nbsp;
+              <button class="btn btn-danger" (click)="delete()"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+            </td> -->
+          </tr>
+          <tr *ngIf="expenses.length === 0">
+            <td align="center" colspan="8">No data available</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <ngb-pagination
+      [(page)]="pagination.currenPage"
+      [pageSize]="pagination.pageSize"
+      [collectionSize]="pagination.total"
+      [maxSize]="pagination.maxSize"
+      (pageChange)="getExpenseList()"
+      ></ngb-pagination> -->
+
+    </div>
+  </div>
+</div>
